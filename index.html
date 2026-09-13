@@ -100,6 +100,11 @@ button:hover {
   opacity: 0.92;
 }
 
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 .secondary {
   background: #e5e7eb;
   color: #111827;
@@ -334,7 +339,6 @@ footer {
 }
 
 @media (max-width: 600px) {
-
   .hero h1 {
     font-size: 30px;
   }
@@ -377,14 +381,9 @@ footer {
 
 </section>
 
-
-<!-- AUTH -->
-
 <section id="authSection" class="card">
 
-  <h2 id="authTitle">
-    Create your account
-  </h2>
+  <h2 id="authTitle">Create your account</h2>
 
   <input
     type="email"
@@ -400,9 +399,7 @@ footer {
     autocomplete="new-password"
   >
 
-  <button id="authBtn">
-    Create Account
-  </button>
+  <button id="authBtn">Create Account</button>
 
   <div id="authMessage" class="message"></div>
 
@@ -420,9 +417,6 @@ footer {
 
 </section>
 
-
-<!-- DASHBOARD -->
-
 <section id="dashboardSection" class="hidden">
 
   <div class="card">
@@ -436,18 +430,13 @@ footer {
 
   </div>
 
-
-  <!-- KYC STATUS -->
-
   <div class="card">
 
     <h3>Identity Verification</h3>
 
     <div class="kyc-status-box">
 
-      <div
-        style="font-size:13px;color:#667085;margin-bottom:5px;"
-      >
+      <div style="font-size:13px;color:#667085;margin-bottom:5px;">
         Verification Status
       </div>
 
@@ -470,26 +459,17 @@ footer {
 
   </div>
 
-
-  <!-- WALLET -->
-
   <div class="card balance-card">
 
     <div class="balance-label">
       Wallet Balance
     </div>
 
-    <div
-      class="balance"
-      id="balanceDisplay"
-    >
+    <div class="balance" id="balanceDisplay">
       ₦0.00
     </div>
 
-    <div
-      class="balance-label"
-      id="currencyDisplay"
-    >
+    <div class="balance-label" id="currencyDisplay">
       Nigerian Naira
     </div>
 
@@ -499,17 +479,11 @@ footer {
         NexaWallet Account Number
       </div>
 
-      <div
-        class="account-number"
-        id="accountNumberDisplay"
-      >
+      <div class="account-number" id="accountNumberDisplay">
         Loading...
       </div>
 
-      <button
-        id="copyAccountBtn"
-        class="secondary"
-      >
+      <button id="copyAccountBtn" class="secondary">
         Copy Account Number
       </button>
 
@@ -517,19 +491,13 @@ footer {
 
   </div>
 
-
-  <!-- WALLET ACTIONS -->
-
   <div class="card">
 
     <h3>Wallet Actions</h3>
 
     <div class="action-grid">
 
-      <button
-        id="addMoneyBtn"
-        class="success"
-      >
+      <button id="addMoneyBtn" class="success">
         + Add Money
       </button>
 
@@ -541,10 +509,7 @@ footer {
         Send Money
       </button>
 
-      <button
-        id="receiveMoneyBtn"
-        class="secondary"
-      >
+      <button id="receiveMoneyBtn" class="secondary">
         Receive Money
       </button>
 
@@ -552,13 +517,7 @@ footer {
 
   </div>
 
-
-  <!-- ADD MONEY -->
-
-  <div
-    id="addMoneyPanel"
-    class="card hidden"
-  >
+  <div id="addMoneyPanel" class="card hidden">
 
     <h3>Add Money</h3>
 
@@ -570,10 +529,7 @@ footer {
       step="0.01"
     >
 
-    <button
-      id="confirmAddBtn"
-      class="success"
-    >
+    <button id="confirmAddBtn" class="success">
       Add Money
     </button>
 
@@ -585,20 +541,11 @@ footer {
       Cancel
     </button>
 
-    <div
-      id="addMessage"
-      class="message"
-    ></div>
+    <div id="addMessage" class="message"></div>
 
   </div>
 
-
-  <!-- WITHDRAW -->
-
-  <div
-    id="withdrawPanel"
-    class="card hidden"
-  >
+  <div id="withdrawPanel" class="card hidden">
 
     <h3>Withdraw Money</h3>
 
@@ -622,20 +569,11 @@ footer {
       Cancel
     </button>
 
-    <div
-      id="withdrawMessage"
-      class="message"
-    ></div>
+    <div id="withdrawMessage" class="message"></div>
 
   </div>
 
-
-  <!-- SEND MONEY -->
-
-  <div
-    id="sendMoneyPanel"
-    class="card hidden"
-  >
+  <div id="sendMoneyPanel" class="card hidden">
 
     <h3>Send Money</h3>
 
@@ -666,20 +604,11 @@ footer {
       Cancel
     </button>
 
-    <div
-      id="sendMessage"
-      class="message"
-    ></div>
+    <div id="sendMessage" class="message"></div>
 
   </div>
 
-
-  <!-- RECEIVE MONEY -->
-
-  <div
-    id="receiveMoneyPanel"
-    class="card hidden"
-  >
+  <div id="receiveMoneyPanel" class="card hidden">
 
     <h3>↓ Receive Money</h3>
 
@@ -698,9 +627,7 @@ footer {
       "
     >
 
-      <div
-        style="font-size:13px;color:#667085;"
-      >
+      <div style="font-size:13px;color:#667085;">
         Your Account Number
       </div>
 
@@ -730,15 +657,9 @@ footer {
       Close
     </button>
 
-    <div
-      id="receiveMessage"
-      class="message"
-    ></div>
+    <div id="receiveMessage" class="message"></div>
 
   </div>
-
-
-  <!-- TRANSACTIONS -->
 
   <div class="card">
 
@@ -758,13 +679,7 @@ footer {
 
 </main>
 
-
-<!-- KYC MODAL -->
-
-<div
-  id="kycModal"
-  class="modal"
->
+<div id="kycModal" class="modal">
 
   <div class="modal-card">
 
@@ -793,72 +708,29 @@ footer {
       Date of birth
     </label>
 
-    <input
-      type="date"
-      id="kycDateOfBirth"
-    >
+    <input type="date" id="kycDateOfBirth">
 
     <select id="kycCountry">
 
-      <option value="">
-        Select country
-      </option>
-
-      <option value="Algeria">
-        Algeria
-      </option>
-
-      <option value="Nigeria">
-        Nigeria
-      </option>
-
-      <option value="United Kingdom">
-        United Kingdom
-      </option>
-
-      <option value="United States">
-        United States
-      </option>
-
-      <option value="Ghana">
-        Ghana
-      </option>
-
-      <option value="Kenya">
-        Kenya
-      </option>
-
-      <option value="South Africa">
-        South Africa
-      </option>
-
-      <option value="Other">
-        Other
-      </option>
+      <option value="">Select country</option>
+      <option value="Algeria">Algeria</option>
+      <option value="Nigeria">Nigeria</option>
+      <option value="United Kingdom">United Kingdom</option>
+      <option value="United States">United States</option>
+      <option value="Ghana">Ghana</option>
+      <option value="Kenya">Kenya</option>
+      <option value="South Africa">South Africa</option>
+      <option value="Other">Other</option>
 
     </select>
 
     <select id="kycIdType">
 
-      <option value="">
-        Select ID type
-      </option>
-
-      <option value="National ID">
-        National ID
-      </option>
-
-      <option value="Passport">
-        Passport
-      </option>
-
-      <option value="Driver's License">
-        Driver's License
-      </option>
-
-      <option value="Residence Permit">
-        Residence Permit
-      </option>
+      <option value="">Select ID type</option>
+      <option value="National ID">National ID</option>
+      <option value="Passport">Passport</option>
+      <option value="Driver's License">Driver's License</option>
+      <option value="Residence Permit">Residence Permit</option>
 
     </select>
 
@@ -916,10 +788,7 @@ footer {
 
     </label>
 
-    <button
-      id="submitKycBtn"
-      class="success"
-    >
+    <button id="submitKycBtn" class="success">
       Submit Verification
     </button>
 
@@ -931,22 +800,13 @@ footer {
       Close
     </button>
 
-    <div
-      id="kycMessage"
-      class="message"
-    ></div>
+    <div id="kycMessage" class="message"></div>
 
   </div>
 
 </div>
 
-
-<!-- TRANSACTION DETAILS MODAL -->
-
-<div
-  id="transactionModal"
-  class="modal"
->
+<div id="transactionModal" class="modal">
 
   <div class="modal-card">
 
@@ -966,7 +826,6 @@ footer {
 
 </div>
 
-
 <footer>
 
   NexaWallet © 2026<br>
@@ -975,7 +834,6 @@ footer {
   a licensed financial institution.
 
 </footer>
-
 
 <script>
 
@@ -992,7 +850,6 @@ const supabaseClient =
     SUPABASE_URL,
     SUPABASE_KEY
   );
-
 
 let currentUser = null;
 let authMode = "signup";
@@ -1513,30 +1370,18 @@ async function loadWallet() {
 
 /* =========================
    ACCOUNT NUMBER
+   FIXED VERSION
 ========================= */
 
 async function loadAccountNumber() {
 
+  accountNumberDisplay.textContent =
+    "Loading...";
+
+  receiveAccountNumber.textContent =
+    "Loading...";
+
   if (!currentUser) {
-    return;
-  }
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("user_profiles")
-      .select("phone_number")
-      .eq(
-        "id",
-        currentUser.id
-      )
-      .maybeSingle();
-
-  if (error) {
-
-    console.error(error);
 
     accountNumberDisplay.textContent =
       "Not available";
@@ -1547,15 +1392,113 @@ async function loadAccountNumber() {
     return;
   }
 
-  const accountNumber =
-    data?.phone_number ||
-    "Not set";
+  try {
 
-  accountNumberDisplay.textContent =
-    accountNumber;
+    const {
+      data: {
+        user
+      },
+      error: userError
+    } =
+      await supabaseClient.auth.getUser();
 
-  receiveAccountNumber.textContent =
-    accountNumber;
+    if (userError) {
+      throw userError;
+    }
+
+    if (!user) {
+      throw new Error(
+        "No authenticated user found."
+      );
+    }
+
+    currentUser = user;
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("user_profiles")
+        .select(
+          "id, phone_number"
+        )
+        .eq(
+          "id",
+          user.id
+        )
+        .limit(1)
+        .maybeSingle();
+
+    if (error) {
+
+      console.error(
+        "Account number profile error:",
+        error
+      );
+
+      accountNumberDisplay.textContent =
+        "Not available";
+
+      receiveAccountNumber.textContent =
+        "Not available";
+
+      return;
+    }
+
+    if (!data) {
+
+      console.warn(
+        "No user profile found for:",
+        user.id
+      );
+
+      accountNumberDisplay.textContent =
+        "Not set";
+
+      receiveAccountNumber.textContent =
+        "Not set";
+
+      return;
+    }
+
+    const accountNumber =
+      String(
+        data.phone_number || ""
+      ).trim();
+
+    if (!accountNumber) {
+
+      accountNumberDisplay.textContent =
+        "Not set";
+
+      receiveAccountNumber.textContent =
+        "Not set";
+
+      return;
+    }
+
+    accountNumberDisplay.textContent =
+      accountNumber;
+
+    receiveAccountNumber.textContent =
+      accountNumber;
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "Unable to load account number:",
+      error
+    );
+
+    accountNumberDisplay.textContent =
+      "Not available";
+
+    receiveAccountNumber.textContent =
+      "Not available";
+  }
 }
 
 
@@ -2258,7 +2201,7 @@ async function loadKyc() {
   if (error) {
 
     console.warn(
-      "KYC table is not available yet:",
+      "KYC table error:",
       error.message
     );
 
@@ -2295,6 +2238,11 @@ function updateKycStatus(status) {
       status || "unverified"
     ).toLowerCase();
 
+  const button =
+    document.getElementById(
+      "openKycBtn"
+    );
+
   if (normalized === "verified") {
 
     kycStatusBadge.innerHTML =
@@ -2304,18 +2252,10 @@ function updateKycStatus(status) {
         </span>
       `;
 
-    document
-      .getElementById(
-        "openKycBtn"
-      )
-      .textContent =
+    button.textContent =
       "Identity Verified";
 
-    document
-      .getElementById(
-        "openKycBtn"
-      )
-      .disabled = true;
+    button.disabled = true;
 
     return;
   }
@@ -2329,18 +2269,10 @@ function updateKycStatus(status) {
         </span>
       `;
 
-    document
-      .getElementById(
-        "openKycBtn"
-      )
-      .textContent =
+    button.textContent =
       "View Verification";
 
-    document
-      .getElementById(
-        "openKycBtn"
-      )
-      .disabled = false;
+    button.disabled = false;
 
     return;
   }
@@ -2354,18 +2286,10 @@ function updateKycStatus(status) {
         </span>
       `;
 
-    document
-      .getElementById(
-        "openKycBtn"
-      )
-      .textContent =
+    button.textContent =
       "Resubmit Verification";
 
-    document
-      .getElementById(
-        "openKycBtn"
-      )
-      .disabled = false;
+    button.disabled = false;
 
     return;
   }
@@ -2377,18 +2301,10 @@ function updateKycStatus(status) {
       </span>
     `;
 
-  document
-    .getElementById(
-      "openKycBtn"
-    )
-    .textContent =
+  button.textContent =
     "Verify Identity";
 
-  document
-    .getElementById(
-      "openKycBtn"
-    )
-    .disabled = false;
+  button.disabled = false;
 }
 
 
@@ -2497,6 +2413,7 @@ kycModal.addEventListener(
         "show"
       );
     }
+
   }
 );
 
@@ -2630,14 +2547,6 @@ document
 
       try {
 
-        /*
-         * The selected ID file is intentionally NOT
-         * uploaded to a public bucket here.
-         *
-         * A production KYC system should use a
-         * secure KYC provider or private storage.
-         */
-
         const payload = {
 
           user_id:
@@ -2673,7 +2582,6 @@ document
           updated_at:
             new Date().toISOString()
         };
-
 
         const {
           error
@@ -2727,7 +2635,7 @@ document
         showMessage(
           message,
           error.message ||
-          "Unable to submit identity verification. The KYC database table may not be ready yet.",
+          "Unable to submit identity verification.",
           "error"
         );
 
@@ -2790,9 +2698,7 @@ async function loadTransactions() {
   currentTransactions =
     data || [];
 
-  if (
-    !currentTransactions.length
-  ) {
+  if (!currentTransactions.length) {
 
     transactionsList.innerHTML =
       `
@@ -2877,9 +2783,7 @@ async function loadTransactions() {
 
             </div>
 
-            <div
-              class="${amountClass}"
-            >
+            <div class="${amountClass}">
               ${amountPrefix}${formatMoney(
                 amount,
                 transaction.currency
@@ -2912,9 +2816,7 @@ async function loadTransactions() {
    TRANSACTION DETAILS
 ========================= */
 
-function openTransactionDetails(
-  index
-) {
+function openTransactionDetails(index) {
 
   const transaction =
     currentTransactions[index];
@@ -2994,7 +2896,6 @@ function openTransactionDetails(
 
       </div>
 
-
       <div class="detail-row">
 
         <div class="detail-label">
@@ -3009,7 +2910,6 @@ function openTransactionDetails(
         </div>
 
       </div>
-
 
       <div class="detail-row">
 
@@ -3026,7 +2926,6 @@ function openTransactionDetails(
 
       </div>
 
-
       <div class="detail-row">
 
         <div class="detail-label">
@@ -3041,7 +2940,6 @@ function openTransactionDetails(
         </div>
 
       </div>
-
 
       <div class="detail-row">
 
@@ -3058,7 +2956,6 @@ function openTransactionDetails(
 
       </div>
 
-
       <div class="detail-row">
 
         <div class="detail-label">
@@ -3073,7 +2970,6 @@ function openTransactionDetails(
         </div>
 
       </div>
-
 
       <div class="detail-row">
 
@@ -3090,7 +2986,6 @@ function openTransactionDetails(
         </div>
 
       </div>
-
 
       <div class="detail-row">
 
@@ -3129,6 +3024,7 @@ document
       transactionModal.classList.remove(
         "show"
       );
+
     }
   );
 
@@ -3145,7 +3041,9 @@ transactionModal.addEventListener(
       transactionModal.classList.remove(
         "show"
       );
+
     }
+
   }
 );
 
