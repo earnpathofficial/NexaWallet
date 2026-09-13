@@ -6,420 +6,281 @@
 
 <title>NexaWallet — Your Money. Simplified.</title>
 
-<meta name="description" content="NexaWallet — digital wallet, money transfers and transaction history.">
+<meta name="description" content="NexaWallet — a digital wallet prototype for managing balances, transfers and transaction history.">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-  box-sizing:border-box;
+* {
+  box-sizing: border-box;
 }
 
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#f4f7fb;
-  color:#172033;
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f7fb;
+  color: #172033;
 }
 
-header{
-  background:#fff;
-  border-bottom:1px solid #e7ebf2;
-  padding:16px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  position:sticky;
-  top:0;
-  z-index:20;
+header {
+  background: #111827;
+  color: white;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.logo{
-  font-size:22px;
-  font-weight:800;
+.logo {
+  font-size: 22px;
+  font-weight: 700;
 }
 
-.header-user{
-  font-size:13px;
-  color:#667085;
-  max-width:190px;
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
+.container {
+  width: 100%;
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
 }
 
-.container{
-  width:100%;
-  max-width:760px;
-  margin:0 auto;
-  padding:22px 16px 50px;
+.card {
+  background: white;
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 18px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.06);
 }
 
-.hero{
-  background:#111827;
-  color:white;
-  border-radius:24px;
-  padding:28px 22px;
-  margin-bottom:18px;
+h1, h2, h3 {
+  margin-top: 0;
 }
 
-.hero h1{
-  margin:0 0 8px;
-  font-size:30px;
+.hero {
+  text-align: center;
+  padding: 35px 20px;
 }
 
-.hero p{
-  margin:0;
-  color:#d1d5db;
-  line-height:1.5;
+.hero h1 {
+  font-size: 38px;
+  margin-bottom: 10px;
 }
 
-.card{
-  background:white;
-  border-radius:20px;
-  padding:20px;
-  margin-bottom:16px;
-  box-shadow:0 6px 20px rgba(16,24,40,.06);
-  border:1px solid #edf0f5;
+.hero p {
+  color: #667085;
+  font-size: 17px;
 }
 
-.card h2{
-  margin:0 0 15px;
-  font-size:18px;
+input,
+button {
+  width: 100%;
+  padding: 13px 14px;
+  border-radius: 10px;
+  font-size: 15px;
 }
 
-.balance-card{
-  background:linear-gradient(135deg,#111827,#273449);
-  color:white;
-  border:none;
+input {
+  border: 1px solid #d0d5dd;
+  margin-bottom: 12px;
 }
 
-.balance-label{
-  color:#cbd5e1;
-  font-size:13px;
-  margin-bottom:8px;
+button {
+  border: none;
+  background: #111827;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
 }
 
-.balance{
-  font-size:36px;
-  font-weight:800;
-  letter-spacing:-1px;
+button:hover {
+  opacity: 0.92;
 }
 
-.currency-label{
-  color:#cbd5e1;
-  font-size:13px;
-  margin-top:7px;
+.secondary {
+  background: #e5e7eb;
+  color: #111827;
 }
 
-.account-card{
-  background:white;
+.danger {
+  background: #dc2626;
 }
 
-.account-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
+.success {
+  background: #16a34a;
 }
 
-.account-title h2{
-  margin:0;
+.auth-switch {
+  text-align: center;
+  margin-top: 14px;
+  color: #667085;
 }
 
-.account-badge{
-  background:#eef6ff;
-  color:#2563eb;
-  padding:6px 9px;
-  border-radius:999px;
-  font-size:11px;
-  font-weight:700;
+.auth-switch button {
+  width: auto;
+  background: none;
+  color: #111827;
+  padding: 0;
 }
 
-.account-number-box{
-  margin-top:14px;
-  background:#f7f9fc;
-  border:1px solid #e6eaf0;
-  border-radius:16px;
-  padding:16px;
+.message {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 10px;
+  display: none;
 }
 
-.account-label{
-  font-size:12px;
-  color:#667085;
-  margin-bottom:7px;
+.message.show {
+  display: block;
 }
 
-.account-number{
-  font-size:23px;
-  font-weight:800;
-  letter-spacing:.5px;
-  word-break:break-word;
+.message.error {
+  background: #fee2e2;
+  color: #991b1b;
 }
 
-.account-help{
-  margin-top:9px;
-  font-size:12px;
-  color:#667085;
-  line-height:1.45;
+.message.success {
+  background: #dcfce7;
+  color: #166534;
 }
 
-button{
-  width:100%;
-  border:none;
-  border-radius:13px;
-  padding:14px 16px;
-  font-size:15px;
-  font-weight:700;
-  cursor:pointer;
+.balance-card {
+  background: #111827;
+  color: white;
 }
 
-button:active{
-  transform:scale(.99);
+.balance-label {
+  color: #cbd5e1;
+  font-size: 14px;
 }
 
-.primary{
-  background:#111827;
-  color:white;
+.balance {
+  font-size: 38px;
+  font-weight: 700;
+  margin: 8px 0;
 }
 
-.secondary{
-  background:#eef2f7;
-  color:#172033;
+.account-box {
+  margin-top: 18px;
+  padding: 15px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 12px;
 }
 
-.copy-btn{
-  margin-top:12px;
-  background:#eaf2ff;
-  color:#175cd3;
+.account-number {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin: 7px 0 12px;
 }
 
-.receive-btn{
-  background:#eaf7ef;
-  color:#087443;
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
 }
 
-.danger{
-  background:#fff0f0;
-  color:#c62828;
+.transaction {
+  padding: 15px 0;
+  border-bottom: 1px solid #eaecf0;
+  cursor: pointer;
 }
 
-.actions{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
+.transaction:last-child {
+  border-bottom: none;
 }
 
-.actions button{
-  min-height:54px;
+.transaction:hover {
+  background: #f9fafb;
 }
 
-.receive-panel{
-  background:#f7f9fc;
-  border:1px solid #e6eaf0;
-  border-radius:18px;
-  padding:18px;
+.transaction-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 }
 
-.receive-icon{
-  width:52px;
-  height:52px;
-  border-radius:50%;
-  background:#eaf7ef;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:25px;
-  margin-bottom:12px;
+.transaction-type {
+  font-weight: 700;
 }
 
-.receive-panel h3{
-  margin:0 0 7px;
-  font-size:20px;
+.transaction-date {
+  color: #667085;
+  font-size: 12px;
+  margin-top: 5px;
 }
 
-.receive-panel p{
-  margin:0 0 15px;
-  color:#667085;
-  font-size:13px;
-  line-height:1.5;
+.amount-positive {
+  color: #16a34a;
+  font-weight: 700;
 }
 
-.receive-number{
-  background:white;
-  border:1px solid #e2e7ee;
-  border-radius:14px;
-  padding:15px;
+.amount-negative {
+  color: #dc2626;
+  font-weight: 700;
 }
 
-.receive-number-label{
-  font-size:11px;
-  color:#667085;
-  margin-bottom:6px;
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
 }
 
-.receive-number-value{
-  font-size:22px;
-  font-weight:800;
-  word-break:break-word;
+.modal.show {
+  display: flex;
 }
 
-.close-btn{
-  margin-top:10px;
-  background:#eef2f7;
-  color:#172033;
+.modal-card {
+  background: white;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 20px;
+  padding: 22px;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
-.auth-section{
-  max-width:480px;
-  margin:35px auto;
+.detail-row {
+  padding: 13px 0;
+  border-bottom: 1px solid #eaecf0;
 }
 
-.auth-section h1{
-  text-align:center;
-  margin-bottom:8px;
+.detail-label {
+  font-size: 12px;
+  color: #667085;
+  margin-bottom: 4px;
 }
 
-.auth-subtitle{
-  text-align:center;
-  color:#667085;
-  margin-bottom:24px;
+.detail-value {
+  font-weight: 600;
+  word-break: break-word;
 }
 
-input,select{
-  width:100%;
-  padding:14px;
-  border:1px solid #d9dee8;
-  border-radius:12px;
-  font-size:15px;
-  outline:none;
-  background:#fff;
+.hidden {
+  display: none !important;
 }
 
-input:focus,select:focus{
-  border-color:#111827;
+footer {
+  text-align: center;
+  color: #667085;
+  padding: 30px 20px;
+  font-size: 13px;
 }
 
-.field{
-  margin-bottom:13px;
-}
-
-.field label{
-  display:block;
-  font-size:13px;
-  font-weight:700;
-  margin-bottom:7px;
-}
-
-.auth-buttons{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:8px;
-}
-
-.switch-auth{
-  margin-top:16px;
-  text-align:center;
-  font-size:13px;
-  color:#667085;
-}
-
-.hidden{
-  display:none !important;
-}
-
-.transaction{
-  border-bottom:1px solid #edf0f5;
-  padding:13px 0;
-}
-
-.transaction:last-child{
-  border-bottom:none;
-}
-
-.transaction-top{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-}
-
-.transaction-title{
-  font-weight:700;
-  font-size:14px;
-}
-
-.transaction-amount{
-  font-weight:800;
-  font-size:14px;
-}
-
-.transaction-meta{
-  margin-top:5px;
-  color:#667085;
-  font-size:12px;
-  line-height:1.45;
-}
-
-.positive{
-  color:#087443;
-}
-
-.negative{
-  color:#c62828;
-}
-
-.empty{
-  color:#667085;
-  font-size:14px;
-  padding:10px 0;
-}
-
-.status{
-  margin-top:12px;
-  padding:12px;
-  border-radius:12px;
-  font-size:13px;
-  line-height:1.4;
-}
-
-.status.success{
-  background:#ecfdf3;
-  color:#067647;
-}
-
-.status.error{
-  background:#fef3f2;
-  color:#b42318;
-}
-
-footer{
-  text-align:center;
-  color:#98a2b3;
-  font-size:12px;
-  padding:25px 15px;
-  line-height:1.5;
-}
-
-@media(max-width:520px){
-  .hero h1{
-    font-size:27px;
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: 30px;
   }
 
-  .balance{
-    font-size:32px;
+  .action-grid {
+    grid-template-columns: 1fr 1fr;
   }
 
-  .account-number{
-    font-size:20px;
-  }
-
-  .receive-number-value{
-    font-size:20px;
-  }
-
-  .actions{
-    grid-template-columns:1fr;
+  .balance {
+    font-size: 32px;
   }
 }
 </style>
@@ -429,1259 +290,537 @@ footer{
 
 <header>
   <div class="logo">NexaWallet</div>
-  <div id="headerUser" class="header-user"></div>
+  <button id="logoutBtn" class="secondary hidden" style="width:auto;padding:9px 14px;">
+    Log Out
+  </button>
 </header>
 
 <main class="container">
 
-  <!-- AUTH -->
-  <section id="authSection" class="auth-section">
-
-    <div class="card">
-
-      <h1 id="authTitle">Welcome to NexaWallet</h1>
-
-      <p id="authSubtitle" class="auth-subtitle">
-        Your money. Simplified.
-      </p>
-
-      <div class="field">
-        <label>Email</label>
-        <input id="emailInput" type="email" placeholder="you@example.com">
-      </div>
-
-      <div class="field">
-        <label>Password</label>
-        <input id="passwordInput" type="password" placeholder="Enter your password">
-      </div>
-
-      <div class="auth-buttons">
-        <button class="primary" id="loginBtn">Log In</button>
-        <button class="secondary" id="signupBtn">Create Account</button>
-      </div>
-
-      <div id="authStatus"></div>
-
-      <div class="switch-auth">
-        Prototype wallet account — use a valid email and password.
-      </div>
-
-    </div>
-
+  <section id="landingSection" class="hero">
+    <h1>Your Money. Simplified.</h1>
+    <p>
+      Manage your wallet, send money and keep track of your transactions
+      from one place.
+    </p>
   </section>
 
+  <!-- AUTH -->
+  <section id="authSection" class="card">
+    <h2 id="authTitle">Create your account</h2>
+
+    <input
+      type="email"
+      id="emailInput"
+      placeholder="Email address"
+      autocomplete="email"
+    >
+
+    <input
+      type="password"
+      id="passwordInput"
+      placeholder="Password"
+      autocomplete="new-password"
+    >
+
+    <button id="authBtn">Create Account</button>
+
+    <div id="authMessage" class="message"></div>
+
+    <div class="auth-switch">
+      <span id="authSwitchText">Already have an account?</span>
+      <button id="authSwitchBtn">Log In</button>
+    </div>
+  </section>
 
   <!-- DASHBOARD -->
   <section id="dashboardSection" class="hidden">
 
-    <div class="hero">
-      <h1>Your Money. Simplified.</h1>
-      <p>
-        Manage your NexaWallet balance, send money and view your transaction history.
+    <div class="card">
+      <h2>Your Money Dashboard</h2>
+      <p style="color:#667085;">
+        Manage your wallet, transfers and transaction history from one place.
       </p>
     </div>
 
-
-    <!-- BALANCE -->
+    <!-- WALLET -->
     <div class="card balance-card">
+      <div class="balance-label">Wallet Balance</div>
 
-      <div class="balance-label">Available Balance</div>
-
-      <div id="balanceAmount" class="balance">
+      <div class="balance" id="balanceDisplay">
         ₦0.00
       </div>
 
-      <div id="balanceCurrency" class="currency-label">
-        NGN wallet
+      <div class="balance-label" id="currencyDisplay">
+        Nigerian Naira
       </div>
 
-    </div>
+      <div class="account-box">
+        <div class="balance-label">NexaWallet Account Number</div>
 
-
-    <!-- ACCOUNT NUMBER -->
-    <div class="card account-card">
-
-      <div class="account-title">
-        <h2>Account Number</h2>
-        <span class="account-badge">NexaWallet</span>
-      </div>
-
-      <div class="account-number-box">
-
-        <div class="account-label">
-          Your NexaWallet account number
-        </div>
-
-        <div id="accountNumber" class="account-number">
+        <div class="account-number" id="accountNumberDisplay">
           Loading...
         </div>
 
-        <div class="account-help">
-          Share this phone number with another NexaWallet user to receive money.
-        </div>
-
-        <button id="copyAccountBtn" class="copy-btn">
+        <button id="copyAccountBtn" class="secondary">
           Copy Account Number
         </button>
-
       </div>
-
-      <div id="accountStatus"></div>
-
     </div>
-
 
     <!-- WALLET ACTIONS -->
     <div class="card">
+      <h3>Wallet Actions</h3>
 
-      <h2>Wallet</h2>
+      <div class="action-grid">
 
-      <div class="actions">
-
-        <button id="addMoneyBtn" class="primary">
+        <button id="addMoneyBtn" class="success">
           + Add Money
         </button>
 
-        <button id="withdrawBtn" class="secondary">
+        <button id="withdrawBtn">
           Withdraw
         </button>
 
-        <button id="sendMoneyBtn" class="primary">
+        <button id="sendMoneyBtn">
           Send Money
         </button>
 
-        <button id="receiveMoneyBtn" class="receive-btn">
+        <button id="receiveMoneyBtn" class="secondary">
           Receive Money
         </button>
 
-        <button id="refreshBtn" class="secondary">
-          Refresh
-        </button>
-
       </div>
-
-      <div id="walletStatus"></div>
-
     </div>
 
+    <!-- ADD MONEY -->
+    <div id="addMoneyPanel" class="card hidden">
+      <h3>Add Money</h3>
+
+      <input
+        type="number"
+        id="addAmountInput"
+        placeholder="Amount"
+        min="0.01"
+        step="0.01"
+      >
+
+      <button id="confirmAddBtn" class="success">
+        Add Money
+      </button>
+
+      <button id="cancelAddBtn" class="secondary" style="margin-top:8px;">
+        Cancel
+      </button>
+
+      <div id="addMessage" class="message"></div>
+    </div>
+
+    <!-- WITHDRAW -->
+    <div id="withdrawPanel" class="card hidden">
+      <h3>Withdraw Money</h3>
+
+      <input
+        type="number"
+        id="withdrawAmountInput"
+        placeholder="Amount"
+        min="0.01"
+        step="0.01"
+      >
+
+      <button id="confirmWithdrawBtn">
+        Withdraw Money
+      </button>
+
+      <button id="cancelWithdrawBtn" class="secondary" style="margin-top:8px;">
+        Cancel
+      </button>
+
+      <div id="withdrawMessage" class="message"></div>
+    </div>
+
+    <!-- SEND MONEY -->
+    <div id="sendMoneyPanel" class="card hidden">
+      <h3>Send Money</h3>
+
+      <input
+        type="text"
+        id="recipientInput"
+        placeholder="Recipient email or account number"
+        autocomplete="off"
+      >
+
+      <input
+        type="number"
+        id="sendAmountInput"
+        placeholder="Amount"
+        min="0.01"
+        step="0.01"
+      >
+
+      <button id="confirmSendBtn">
+        Send Money
+      </button>
+
+      <button id="cancelSendBtn" class="secondary" style="margin-top:8px;">
+        Cancel
+      </button>
+
+      <div id="sendMessage" class="message"></div>
+    </div>
 
     <!-- RECEIVE MONEY -->
-    <div id="receiveMoneyCard" class="card hidden">
+    <div id="receiveMoneyPanel" class="card hidden">
+      <h3>↓ Receive Money</h3>
 
-      <div class="receive-panel">
+      <p style="color:#667085;">
+        Share your NexaWallet account number with another NexaWallet user
+        so they can send money to you.
+      </p>
 
-        <div class="receive-icon">
-          ↓
+      <div style="
+        background:#f3f4f6;
+        padding:18px;
+        border-radius:12px;
+        text-align:center;
+        margin:15px 0;
+      ">
+        <div style="font-size:13px;color:#667085;">
+          Your Account Number
         </div>
 
-        <h3>Receive Money</h3>
-
-        <p>
-          Share your NexaWallet account number with another NexaWallet user.
-          They can use this number to send money directly to your wallet.
-        </p>
-
-        <div class="receive-number">
-
-          <div class="receive-number-label">
-            YOUR NEXAWALLET ACCOUNT NUMBER
-          </div>
-
-          <div id="receiveAccountNumber" class="receive-number-value">
-            Loading...
-          </div>
-
-          <button id="copyReceiveBtn" class="copy-btn">
-            Copy Account Number
-          </button>
-
+        <div
+          id="receiveAccountNumber"
+          style="
+            font-size:24px;
+            font-weight:700;
+            margin:8px 0;
+            letter-spacing:1px;
+          "
+        >
+          Loading...
         </div>
-
-        <button id="closeReceiveBtn" class="close-btn">
-          Close
-        </button>
-
-        <div id="receiveStatus"></div>
-
       </div>
 
-    </div>
+      <button id="copyReceiveAccountBtn">
+        Copy Account Number
+      </button>
 
+      <button id="closeReceiveBtn" class="secondary" style="margin-top:8px;">
+        Close
+      </button>
+
+      <div id="receiveMessage" class="message"></div>
+    </div>
 
     <!-- TRANSACTIONS -->
     <div class="card">
-
-      <h2>Transaction History</h2>
+      <h3>Transaction History</h3>
 
       <div id="transactionsList">
-        <div class="empty">Loading transactions...</div>
+        <p style="color:#667085;">Loading transactions...</p>
       </div>
-
-    </div>
-
-
-    <!-- LOGOUT -->
-    <div class="card">
-
-      <button id="logoutBtn" class="danger">
-        Log Out
-      </button>
-
     </div>
 
   </section>
 
 </main>
 
+<!-- TRANSACTION DETAILS MODAL -->
+<div id="transactionModal" class="modal">
+
+  <div class="modal-card">
+
+    <h2>Transaction Details</h2>
+
+    <div id="transactionDetails"></div>
+
+    <button id="closeTransactionBtn" class="secondary" style="margin-top:18px;">
+      Close
+    </button>
+
+  </div>
+
+</div>
 
 <footer>
-  NexaWallet<br>
+  NexaWallet © 2026<br>
   Prototype only — not a bank and not currently a licensed financial institution.
 </footer>
 
-
 <script>
-
-const SUPABASE_URL =
-  "https://sukhdbkokkyvrduryakz.supabase.co";
+const SUPABASE_URL = "https://sukhdbkokkyvrduryakz.supabase.co";
 
 const SUPABASE_KEY =
   "sb_publishable_OA3jvEJfstZrEhBqMSFUzw_wXcAoEVl";
 
-const supabaseClient =
-  supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+const { createClient } = supabase;
+
+const supabaseClient = createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
 let currentUser = null;
+let authMode = "signup";
 let currentWallet = null;
+let currentTransactions = [];
 
 
-/* ------------------------------
+/* =========================
+   ELEMENTS
+========================= */
+
+const authSection = document.getElementById("authSection");
+const dashboardSection = document.getElementById("dashboardSection");
+const landingSection = document.getElementById("landingSection");
+
+const authTitle = document.getElementById("authTitle");
+const authBtn = document.getElementById("authBtn");
+const authSwitchBtn = document.getElementById("authSwitchBtn");
+const authSwitchText = document.getElementById("authSwitchText");
+const authMessage = document.getElementById("authMessage");
+
+const emailInput = document.getElementById("emailInput");
+const passwordInput = document.getElementById("passwordInput");
+
+const logoutBtn = document.getElementById("logoutBtn");
+
+const balanceDisplay = document.getElementById("balanceDisplay");
+const currencyDisplay = document.getElementById("currencyDisplay");
+
+const accountNumberDisplay =
+  document.getElementById("accountNumberDisplay");
+
+const receiveAccountNumber =
+  document.getElementById("receiveAccountNumber");
+
+const transactionsList =
+  document.getElementById("transactionsList");
+
+const transactionModal =
+  document.getElementById("transactionModal");
+
+const transactionDetails =
+  document.getElementById("transactionDetails");
+
+
+/* =========================
    HELPERS
------------------------------- */
+========================= */
 
-function showStatus(elementId, message, type = "success") {
-
-  const element =
-    document.getElementById(elementId);
-
-  if (!element) return;
-
-  element.innerHTML =
-    '<div class="status ' +
-    type +
-    '">' +
-    message +
-    '</div>';
+function showMessage(element, text, type) {
+  element.textContent = text;
+  element.className = "message show " + type;
 }
 
-
-function clearStatus(elementId) {
-
-  const element =
-    document.getElementById(elementId);
-
-  if (element) {
-    element.innerHTML = "";
-  }
+function hideMessage(element) {
+  element.textContent = "";
+  element.className = "message";
 }
-
 
 function formatMoney(amount, currency) {
+  const value = Number(amount || 0);
 
-  const number =
-    Number(amount || 0);
+  let symbol = "₦";
 
-  let symbol =
-    currency === "NGN"
-      ? "₦"
-      : currency + " ";
+  if (currency === "USD") {
+    symbol = "$";
+  } else if (currency === "GBP") {
+    symbol = "£";
+  } else if (currency === "EUR") {
+    symbol = "€";
+  } else if (currency === "DZD") {
+    symbol = "دج ";
+  }
 
-  return symbol +
-    number.toLocaleString(
-      undefined,
-      {
-        minimumFractionDigits:2,
-        maximumFractionDigits:2
-      }
-    );
+  return symbol + value.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
 }
 
+function formatDate(dateValue) {
+  if (!dateValue) {
+    return "N/A";
+  }
 
-function createReference(prefix) {
+  const date = new Date(dateValue);
 
+  return date.toLocaleString();
+}
+
+function generateReference(prefix) {
   return (
     prefix +
     "-" +
     Date.now() +
     "-" +
-    Math.random()
-      .toString(36)
-      .substring(2,8)
-      .toUpperCase()
+    Math.random().toString(36).substring(2, 8).toUpperCase()
   );
 }
 
 
-/* ------------------------------
-   AUTH
------------------------------- */
+/* =========================
+   AUTH MODE
+========================= */
 
-async function login() {
+authSwitchBtn.addEventListener("click", () => {
 
-  clearStatus("authStatus");
+  if (authMode === "signup") {
 
-  const email =
-    document
-      .getElementById("emailInput")
-      .value
-      .trim();
+    authMode = "login";
 
-  const password =
-    document
-      .getElementById("passwordInput")
-      .value;
+    authTitle.textContent = "Log in to NexaWallet";
+    authBtn.textContent = "Log In";
 
-  if (!email || !password) {
+    authSwitchText.textContent =
+      "Don't have an account?";
 
-    showStatus(
-      "authStatus",
-      "Please enter your email and password.",
-      "error"
-    );
-
-    return;
-  }
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient.auth.signInWithPassword({
-      email: email,
-      password: password
-    });
-
-  if (error) {
-
-    showStatus(
-      "authStatus",
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-  currentUser =
-    data.user;
-
-  await showDashboard();
-}
-
-
-async function signup() {
-
-  clearStatus("authStatus");
-
-  const email =
-    document
-      .getElementById("emailInput")
-      .value
-      .trim();
-
-  const password =
-    document
-      .getElementById("passwordInput")
-      .value;
-
-  if (!email || !password) {
-
-    showStatus(
-      "authStatus",
-      "Please enter an email and password.",
-      "error"
-    );
-
-    return;
-  }
-
-  if (password.length < 6) {
-
-    showStatus(
-      "authStatus",
-      "Password must be at least 6 characters.",
-      "error"
-    );
-
-    return;
-  }
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient.auth.signUp({
-      email: email,
-      password: password
-    });
-
-  if (error) {
-
-    showStatus(
-      "authStatus",
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-  if (data.user) {
-
-    currentUser =
-      data.user;
-
-    if (data.session) {
-
-      await showDashboard();
-
-    } else {
-
-      showStatus(
-        "authStatus",
-        "Account created. Please check your email if confirmation is required.",
-        "success"
-      );
-    }
-
-  }
-}
-
-
-async function logout() {
-
-  await supabaseClient.auth.signOut();
-
-  currentUser = null;
-  currentWallet = null;
-
-  document
-    .getElementById("dashboardSection")
-    .classList.add("hidden");
-
-  document
-    .getElementById("authSection")
-    .classList.remove("hidden");
-
-  document
-    .getElementById("headerUser")
-    .textContent = "";
-
-  document
-    .getElementById("receiveMoneyCard")
-    .classList.add("hidden");
-
-  document
-    .getElementById("emailInput")
-    .value = "";
-
-  document
-    .getElementById("passwordInput")
-    .value = "";
-}
-
-
-/* ------------------------------
-   DASHBOARD
------------------------------- */
-
-async function showDashboard() {
-
-  document
-    .getElementById("authSection")
-    .classList.add("hidden");
-
-  document
-    .getElementById("dashboardSection")
-    .classList.remove("hidden");
-
-  document
-    .getElementById("receiveMoneyCard")
-    .classList.add("hidden");
-
-  if (currentUser) {
-
-    document
-      .getElementById("headerUser")
-      .textContent =
-      currentUser.email || "";
-  }
-
-  await loadAccountNumber();
-
-  await loadWallet();
-
-  await loadTransactions();
-}
-
-
-/* ------------------------------
-   ACCOUNT NUMBER
------------------------------- */
-
-async function loadAccountNumber() {
-
-  if (!currentUser) return;
-
-  const accountElement =
-    document.getElementById("accountNumber");
-
-  const receiveElement =
-    document.getElementById("receiveAccountNumber");
-
-  accountElement.textContent =
-    "Loading...";
-
-  receiveElement.textContent =
-    "Loading...";
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("user_profiles")
-      .select("phone_number")
-      .eq("id", currentUser.id)
-      .maybeSingle();
-
-  if (error) {
-
-    accountElement.textContent =
-      "Unable to load";
-
-    receiveElement.textContent =
-      "Unable to load";
-
-    showStatus(
-      "accountStatus",
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-  if (!data || !data.phone_number) {
-
-    accountElement.textContent =
-      "No account number yet";
-
-    receiveElement.textContent =
-      "No account number yet";
-
-    showStatus(
-      "accountStatus",
-      "Your phone number has not been added to your NexaWallet profile yet.",
-      "error"
-    );
-
-    return;
-  }
-
-  accountElement.textContent =
-    data.phone_number;
-
-  receiveElement.textContent =
-    data.phone_number;
-
-  clearStatus("accountStatus");
-}
-
-
-/* ------------------------------
-   COPY ACCOUNT NUMBER
------------------------------- */
-
-async function copyAccountNumber(statusElement) {
-
-  const accountNumber =
-    document
-      .getElementById("accountNumber")
-      .textContent
-      .trim();
-
-  if (
-    !accountNumber ||
-    accountNumber === "Loading..." ||
-    accountNumber === "No account number yet"
-  ) {
-
-    showStatus(
-      statusElement,
-      "There is no account number available to copy.",
-      "error"
-    );
-
-    return;
-  }
-
-  try {
-
-    await navigator.clipboard.writeText(
-      accountNumber
-    );
-
-    showStatus(
-      statusElement,
-      "Account number copied successfully.",
-      "success"
-    );
-
-  } catch (error) {
-
-    showStatus(
-      statusElement,
-      "Unable to copy automatically. Please press and hold the account number to copy it.",
-      "error"
-    );
-  }
-}
-
-
-document
-  .getElementById("copyAccountBtn")
-  .addEventListener(
-    "click",
-    function() {
-      copyAccountNumber("accountStatus");
-    }
-  );
-
-
-document
-  .getElementById("copyReceiveBtn")
-  .addEventListener(
-    "click",
-    function() {
-      copyAccountNumber("receiveStatus");
-    }
-  );
-
-
-/* ------------------------------
-   RECEIVE MONEY
------------------------------- */
-
-document
-  .getElementById("receiveMoneyBtn")
-  .addEventListener(
-    "click",
-    async function() {
-
-      await loadAccountNumber();
-
-      document
-        .getElementById("receiveMoneyCard")
-        .classList.remove("hidden");
-
-      document
-        .getElementById("receiveMoneyCard")
-        .scrollIntoView({
-          behavior:"smooth",
-          block:"start"
-        });
-    }
-  );
-
-
-document
-  .getElementById("closeReceiveBtn")
-  .addEventListener(
-    "click",
-    function() {
-
-      document
-        .getElementById("receiveMoneyCard")
-        .classList.add("hidden");
-
-      clearStatus("receiveStatus");
-    }
-  );
-
-
-/* ------------------------------
-   WALLET
------------------------------- */
-
-async function loadWallet() {
-
-  if (!currentUser) return;
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("wallets")
-      .select("*")
-      .eq("user_id", currentUser.id)
-      .eq("status", "active")
-      .eq("currency", "NGN")
-      .limit(1)
-      .maybeSingle();
-
-  if (error) {
-
-    showStatus(
-      "walletStatus",
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-  if (!data) {
-
-    const {
-      data: createdWallet,
-      error: createError
-    } =
-      await supabaseClient
-        .from("wallets")
-        .insert({
-          user_id: currentUser.id,
-          balance:0,
-          currency:"NGN",
-          status:"active"
-        })
-        .select()
-        .single();
-
-    if (createError) {
-
-      showStatus(
-        "walletStatus",
-        createError.message,
-        "error"
-      );
-
-      return;
-    }
-
-    currentWallet =
-      createdWallet;
+    authSwitchBtn.textContent =
+      "Create Account";
 
   } else {
 
-    currentWallet =
-      data;
+    authMode = "signup";
+
+    authTitle.textContent =
+      "Create your account";
+
+    authBtn.textContent =
+      "Create Account";
+
+    authSwitchText.textContent =
+      "Already have an account?";
+
+    authSwitchBtn.textContent =
+      "Log In";
   }
 
-  document
-    .getElementById("balanceAmount")
-    .textContent =
-    formatMoney(
-      currentWallet.balance,
-      currentWallet.currency
+  hideMessage(authMessage);
+});
+
+
+/* =========================
+   AUTH
+========================= */
+
+authBtn.addEventListener("click", async () => {
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value;
+
+  hideMessage(authMessage);
+
+  if (!email || !password) {
+    showMessage(
+      authMessage,
+      "Please enter your email and password.",
+      "error"
+    );
+    return;
+  }
+
+  authBtn.disabled = true;
+
+  try {
+
+    if (authMode === "signup") {
+
+      const { data, error } =
+        await supabaseClient.auth.signUp({
+          email,
+          password
+        });
+
+      if (error) {
+        throw error;
+      }
+
+      if (data.session) {
+
+        showMessage(
+          authMessage,
+          "Account created successfully.",
+          "success"
+        );
+
+      } else {
+
+        showMessage(
+          authMessage,
+          "Account created. Check your email if confirmation is required, then log in.",
+          "success"
+        );
+
+        return;
+      }
+
+    } else {
+
+      const { error } =
+        await supabaseClient.auth.signInWithPassword({
+          email,
+          password
+        });
+
+      if (error) {
+        throw error;
+      }
+
+      showMessage(
+        authMessage,
+        "Logged in successfully.",
+        "success"
+      );
+    }
+
+  } catch (error) {
+
+    showMessage(
+      authMessage,
+      error.message || "Authentication failed.",
+      "error"
     );
 
-  document
-    .getElementById("balanceCurrency")
-    .textContent =
-    currentWallet.currency +
-    " wallet";
-}
+  } finally {
 
+    authBtn.disabled = false;
+  }
+});
 
-/* ------------------------------
-   REFRESH
------------------------------- */
 
-document
-  .getElementById("refreshBtn")
-  .addEventListener(
-    "click",
-    async function() {
+/* =========================
+   SESSION
+========================= */
 
-      clearStatus("walletStatus");
-
-      await loadAccountNumber();
-
-      await loadWallet();
-
-      await loadTransactions();
-
-      showStatus(
-        "walletStatus",
-        "Wallet updated.",
-        "success"
-      );
-    }
-  );
-
-
-/* ------------------------------
-   ADD MONEY
------------------------------- */
-
-document
-  .getElementById("addMoneyBtn")
-  .addEventListener(
-    "click",
-    async function() {
-
-      if (!currentUser || !currentWallet) {
-        return;
-      }
-
-      const amountText =
-        prompt(
-          "Enter amount to add in NGN:"
-        );
-
-      if (amountText === null) return;
-
-      const amount =
-        Number(amountText);
-
-      if (
-        !Number.isFinite(amount) ||
-        amount <= 0
-      ) {
-
-        showStatus(
-          "walletStatus",
-          "Enter a valid amount greater than zero.",
-          "error"
-        );
-
-        return;
-      }
-
-      const reference =
-        createReference("ADD");
-
-      const {
-        data,
-        error
-      } =
-        await supabaseClient.rpc(
-          "process_wallet_transaction",
-          {
-            p_user_id:currentUser.id,
-            p_type:"deposit",
-            p_amount:amount,
-            p_currency:"NGN",
-            p_reference:reference,
-            p_description:"NexaWallet deposit"
-          }
-        );
-
-      if (error) {
-
-        showStatus(
-          "walletStatus",
-          error.message,
-          "error"
-        );
-
-        return;
-      }
-
-      showStatus(
-        "walletStatus",
-        "Money added successfully.",
-        "success"
-      );
-
-      await loadWallet();
-
-      await loadTransactions();
-    }
-  );
-
-
-/* ------------------------------
-   WITHDRAW
------------------------------- */
-
-document
-  .getElementById("withdrawBtn")
-  .addEventListener(
-    "click",
-    async function() {
-
-      if (!currentUser || !currentWallet) {
-        return;
-      }
-
-      const amountText =
-        prompt(
-          "Enter amount to withdraw in NGN:"
-        );
-
-      if (amountText === null) return;
-
-      const amount =
-        Number(amountText);
-
-      if (
-        !Number.isFinite(amount) ||
-        amount <= 0
-      ) {
-
-        showStatus(
-          "walletStatus",
-          "Enter a valid amount greater than zero.",
-          "error"
-        );
-
-        return;
-      }
-
-      const reference =
-        createReference("WITHDRAW");
-
-      const {
-        data,
-        error
-      } =
-        await supabaseClient.rpc(
-          "process_wallet_transaction",
-          {
-            p_user_id:currentUser.id,
-            p_type:"withdrawal",
-            p_amount:amount,
-            p_currency:"NGN",
-            p_reference:reference,
-            p_description:"NexaWallet withdrawal"
-          }
-        );
-
-      if (error) {
-
-        showStatus(
-          "walletStatus",
-          error.message,
-          "error"
-        );
-
-        return;
-      }
-
-      showStatus(
-        "walletStatus",
-        "Withdrawal recorded successfully.",
-        "success"
-      );
-
-      await loadWallet();
-
-      await loadTransactions();
-    }
-  );
-
-
-/* ------------------------------
-   SEND MONEY
------------------------------- */
-
-document
-  .getElementById("sendMoneyBtn")
-  .addEventListener(
-    "click",
-    async function() {
-
-      if (!currentUser || !currentWallet) {
-        return;
-      }
-
-      const recipientValue =
-        prompt(
-          "Enter the recipient's NexaWallet email or phone number:"
-        );
-
-      if (recipientValue === null) {
-        return;
-      }
-
-      const recipient =
-        recipientValue.trim();
-
-      if (!recipient) {
-
-        showStatus(
-          "walletStatus",
-          "Please enter the recipient's email or phone number.",
-          "error"
-        );
-
-        return;
-      }
-
-      const amountText =
-        prompt(
-          "Enter amount to send in NGN:"
-        );
-
-      if (amountText === null) {
-        return;
-      }
-
-      const amount =
-        Number(amountText);
-
-      if (
-        !Number.isFinite(amount) ||
-        amount <= 0
-      ) {
-
-        showStatus(
-          "walletStatus",
-          "Enter a valid amount greater than zero.",
-          "error"
-        );
-
-        return;
-      }
-
-      const reference =
-        createReference("TRANSFER");
-
-      const {
-        data,
-        error
-      } =
-        await supabaseClient.rpc(
-          "send_wallet_money",
-          {
-            p_sender_id:currentUser.id,
-            p_recipient_email:recipient,
-            p_amount:amount,
-            p_currency:"NGN",
-            p_reference:reference
-          }
-        );
-
-      if (error) {
-
-        showStatus(
-          "walletStatus",
-          error.message,
-          "error"
-        );
-
-        return;
-      }
-
-      showStatus(
-        "walletStatus",
-        "Money sent successfully.<br>Recipient: " +
-        recipient,
-        "success"
-      );
-
-      await loadWallet();
-
-      await loadTransactions();
-    }
-  );
-
-
-/* ------------------------------
-   TRANSACTIONS
------------------------------- */
-
-async function loadTransactions() {
-
-  if (!currentUser) return;
-
-  const list =
-    document.getElementById("transactionsList");
-
-  list.innerHTML =
-    '<div class="empty">Loading transactions...</div>';
+async function loadSession() {
 
   const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("transactions")
-      .select("*")
-      .eq("user_id", currentUser.id)
-      .order(
-        "created_at",
-        {
-          ascending:false
-        }
-      )
-      .limit(30);
-
-  if (error) {
-
-    list.innerHTML =
-      '<div class="empty">' +
-      error.message +
-      '</div>';
-
-    return;
-  }
-
-  if (!data || data.length === 0) {
-
-    list.innerHTML =
-      '<div class="empty">No transactions yet.</div>';
-
-    return;
-  }
-
-  list.innerHTML = "";
-
-  data.forEach(
-    function(transaction) {
-
-      const wrapper =
-        document.createElement("div");
-
-      wrapper.className =
-        "transaction";
-
-      const amount =
-        Number(
-          transaction.amount || 0
-        );
-
-      const isPositive =
-        transaction.type === "deposit" ||
-        (
-          transaction.type === "transfer" &&
-          transaction.description &&
-          transaction.description
-            .toLowerCase()
-            .includes("received")
-        );
-
-      const amountClass =
-        isPositive
-          ? "positive"
-          : "negative";
-
-      const sign =
-        isPositive
-          ? "+"
-          : "-";
-
-      const date =
-        new Date(
-          transaction.created_at
-        ).toLocaleString();
-
-      wrapper.innerHTML = `
-        <div class="transaction-top">
-
-          <div class="transaction-title">
-            ${transaction.description || transaction.type}
-          </div>
-
-          <div class="transaction-amount ${amountClass}">
-            ${sign}${formatMoney(amount, transaction.currency)}
-          </div>
-
-        </div>
-
-        <div class="transaction-meta">
-          ${date}<br>
-          Status: ${transaction.status || "unknown"}<br>
-          Reference: ${transaction.reference || "—"}
-        </div>
-      `;
-
-      list.appendChild(wrapper);
-    }
-  );
-}
-
-
-/* ------------------------------
-   BUTTONS
------------------------------- */
-
-document
-  .getElementById("loginBtn")
-  .addEventListener(
-    "click",
-    login
-  );
-
-
-document
-  .getElementById("signupBtn")
-  .addEventListener(
-    "click",
-    signup
-  );
-
-
-document
-  .getElementById("logoutBtn")
-  .addEventListener(
-    "click",
-    logout
-  );
-
-
-/* ------------------------------
-   START APP
------------------------------- */
-
-async function startApp() {
-
-  const {
-    data:{
+    data: {
       session
     }
-  } =
-    await supabaseClient.auth.getSession();
+  } = await supabaseClient.auth.getSession();
 
-  if (
-    session &&
-    session.user
-  ) {
+  if (session) {
 
-    currentUser =
-      session.user;
+    currentUser = session.user;
 
     await showDashboard();
 
   } else {
 
-    document
-      .getElementById("authSection")
-      .classList.remove("hidden");
-
-    document
-      .getElementById("dashboardSection")
-      .classList.add("hidden");
+    showLoggedOut();
   }
 }
 
 
 supabaseClient.auth.onAuthStateChange(
-  async function(event, session) {
+  async (event, session) => {
 
-    if (
-      session &&
-      session.user
-    ) {
+    if (session) {
 
-      currentUser =
-        session.user;
+      currentUser = session.user;
 
       await showDashboard();
 
@@ -1689,19 +828,957 @@ supabaseClient.auth.onAuthStateChange(
 
       currentUser = null;
 
-      document
-        .getElementById("dashboardSection")
-        .classList.add("hidden");
-
-      document
-        .getElementById("authSection")
-        .classList.remove("hidden");
+      showLoggedOut();
     }
   }
 );
 
 
-startApp();
+/* =========================
+   SHOW DASHBOARD
+========================= */
+
+async function showDashboard() {
+
+  authSection.classList.add("hidden");
+  landingSection.classList.add("hidden");
+
+  dashboardSection.classList.remove("hidden");
+  logoutBtn.classList.remove("hidden");
+
+  await loadWallet();
+  await loadAccountNumber();
+  await loadTransactions();
+}
+
+
+function showLoggedOut() {
+
+  currentUser = null;
+  currentWallet = null;
+  currentTransactions = [];
+
+  authSection.classList.remove("hidden");
+  landingSection.classList.remove("hidden");
+
+  dashboardSection.classList.add("hidden");
+  logoutBtn.classList.add("hidden");
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+logoutBtn.addEventListener("click", async () => {
+
+  await supabaseClient.auth.signOut();
+});
+
+
+/* =========================
+   LOAD WALLET
+========================= */
+
+async function loadWallet() {
+
+  if (!currentUser) {
+    return;
+  }
+
+  const {
+    data,
+    error
+  } = await supabaseClient
+    .from("wallets")
+    .select("*")
+    .eq("user_id", currentUser.id)
+    .eq("currency", "NGN")
+    .eq("status", "active")
+    .maybeSingle();
+
+  if (error) {
+
+    console.error(error);
+
+    balanceDisplay.textContent = "₦0.00";
+    currencyDisplay.textContent = "Wallet unavailable";
+
+    return;
+  }
+
+  currentWallet = data;
+
+  if (!data) {
+
+    balanceDisplay.textContent = "₦0.00";
+    currencyDisplay.textContent = "Nigerian Naira";
+
+    return;
+  }
+
+  balanceDisplay.textContent =
+    formatMoney(data.balance, data.currency);
+
+  currencyDisplay.textContent =
+    data.currency === "NGN"
+      ? "Nigerian Naira"
+      : data.currency;
+}
+
+
+/* =========================
+   LOAD ACCOUNT NUMBER
+========================= */
+
+async function loadAccountNumber() {
+
+  if (!currentUser) {
+    return;
+  }
+
+  const {
+    data,
+    error
+  } = await supabaseClient
+    .from("user_profiles")
+    .select("phone_number")
+    .eq("id", currentUser.id)
+    .maybeSingle();
+
+  if (error) {
+
+    console.error(error);
+
+    accountNumberDisplay.textContent =
+      "Not available";
+
+    receiveAccountNumber.textContent =
+      "Not available";
+
+    return;
+  }
+
+  const accountNumber =
+    data?.phone_number || "Not set";
+
+  accountNumberDisplay.textContent =
+    accountNumber;
+
+  receiveAccountNumber.textContent =
+    accountNumber;
+}
+
+
+/* =========================
+   COPY ACCOUNT NUMBER
+========================= */
+
+async function copyAccountNumber() {
+
+  const accountNumber =
+    accountNumberDisplay.textContent.trim();
+
+  if (
+    !accountNumber ||
+    accountNumber === "Loading..." ||
+    accountNumber === "Not available" ||
+    accountNumber === "Not set"
+  ) {
+    return;
+  }
+
+  try {
+
+    await navigator.clipboard.writeText(accountNumber);
+
+    alert("Account number copied.");
+
+  } catch (error) {
+
+    alert("Unable to copy account number.");
+  }
+}
+
+
+document
+  .getElementById("copyAccountBtn")
+  .addEventListener("click", copyAccountNumber);
+
+
+document
+  .getElementById("copyReceiveAccountBtn")
+  .addEventListener("click", copyAccountNumber);
+
+
+/* =========================
+   PANEL HELPERS
+========================= */
+
+function hideAllPanels() {
+
+  document
+    .getElementById("addMoneyPanel")
+    .classList.add("hidden");
+
+  document
+    .getElementById("withdrawPanel")
+    .classList.add("hidden");
+
+  document
+    .getElementById("sendMoneyPanel")
+    .classList.add("hidden");
+
+  document
+    .getElementById("receiveMoneyPanel")
+    .classList.add("hidden");
+}
+
+
+/* =========================
+   ADD MONEY PANEL
+========================= */
+
+document
+  .getElementById("addMoneyBtn")
+  .addEventListener("click", () => {
+
+    hideAllPanels();
+
+    document
+      .getElementById("addMoneyPanel")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("addAmountInput")
+      .focus();
+  });
+
+
+document
+  .getElementById("cancelAddBtn")
+  .addEventListener("click", () => {
+
+    document
+      .getElementById("addMoneyPanel")
+      .classList.add("hidden");
+
+    hideMessage(
+      document.getElementById("addMessage")
+    );
+  });
+
+
+/* =========================
+   ADD MONEY
+========================= */
+
+document
+  .getElementById("confirmAddBtn")
+  .addEventListener("click", async () => {
+
+    const input =
+      document.getElementById("addAmountInput");
+
+    const message =
+      document.getElementById("addMessage");
+
+    const amount =
+      Number(input.value);
+
+    hideMessage(message);
+
+    if (!amount || amount <= 0) {
+
+      showMessage(
+        message,
+        "Enter a valid amount.",
+        "error"
+      );
+
+      return;
+    }
+
+    if (!currentUser) {
+      return;
+    }
+
+    const reference =
+      generateReference("DEP");
+
+    const button =
+      document.getElementById("confirmAddBtn");
+
+    button.disabled = true;
+
+    try {
+
+      const {
+        data,
+        error
+      } = await supabaseClient.rpc(
+        "process_wallet_transaction",
+        {
+          p_user_id: currentUser.id,
+          p_type: "deposit",
+          p_amount: amount,
+          p_currency: "NGN",
+          p_reference: reference,
+          p_description: "NexaWallet deposit"
+        }
+      );
+
+      if (error) {
+        throw error;
+      }
+
+      showMessage(
+        message,
+        "Money added successfully.",
+        "success"
+      );
+
+      input.value = "";
+
+      await loadWallet();
+      await loadTransactions();
+
+    } catch (error) {
+
+      showMessage(
+        message,
+        error.message || "Unable to add money.",
+        "error"
+      );
+
+    } finally {
+
+      button.disabled = false;
+    }
+  });
+
+
+/* =========================
+   WITHDRAW PANEL
+========================= */
+
+document
+  .getElementById("withdrawBtn")
+  .addEventListener("click", () => {
+
+    hideAllPanels();
+
+    document
+      .getElementById("withdrawPanel")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("withdrawAmountInput")
+      .focus();
+  });
+
+
+document
+  .getElementById("cancelWithdrawBtn")
+  .addEventListener("click", () => {
+
+    document
+      .getElementById("withdrawPanel")
+      .classList.add("hidden");
+
+    hideMessage(
+      document.getElementById("withdrawMessage")
+    );
+  });
+
+
+/* =========================
+   WITHDRAW
+========================= */
+
+document
+  .getElementById("confirmWithdrawBtn")
+  .addEventListener("click", async () => {
+
+    const input =
+      document.getElementById("withdrawAmountInput");
+
+    const message =
+      document.getElementById("withdrawMessage");
+
+    const amount =
+      Number(input.value);
+
+    hideMessage(message);
+
+    if (!amount || amount <= 0) {
+
+      showMessage(
+        message,
+        "Enter a valid amount.",
+        "error"
+      );
+
+      return;
+    }
+
+    if (!currentUser) {
+      return;
+    }
+
+    const reference =
+      generateReference("WTH");
+
+    const button =
+      document.getElementById("confirmWithdrawBtn");
+
+    button.disabled = true;
+
+    try {
+
+      const {
+        data,
+        error
+      } = await supabaseClient.rpc(
+        "process_wallet_transaction",
+        {
+          p_user_id: currentUser.id,
+          p_type: "withdrawal",
+          p_amount: amount,
+          p_currency: "NGN",
+          p_reference: reference,
+          p_description: "NexaWallet withdrawal"
+        }
+      );
+
+      if (error) {
+        throw error;
+      }
+
+      showMessage(
+        message,
+        "Withdrawal completed successfully.",
+        "success"
+      );
+
+      input.value = "";
+
+      await loadWallet();
+      await loadTransactions();
+
+    } catch (error) {
+
+      showMessage(
+        message,
+        error.message || "Unable to withdraw money.",
+        "error"
+      );
+
+    } finally {
+
+      button.disabled = false;
+    }
+  });
+
+
+/* =========================
+   SEND MONEY PANEL
+========================= */
+
+document
+  .getElementById("sendMoneyBtn")
+  .addEventListener("click", () => {
+
+    hideAllPanels();
+
+    document
+      .getElementById("sendMoneyPanel")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("recipientInput")
+      .focus();
+  });
+
+
+document
+  .getElementById("cancelSendBtn")
+  .addEventListener("click", () => {
+
+    document
+      .getElementById("sendMoneyPanel")
+      .classList.add("hidden");
+
+    hideMessage(
+      document.getElementById("sendMessage")
+    );
+  });
+
+
+/* =========================
+   SEND MONEY
+========================= */
+
+document
+  .getElementById("confirmSendBtn")
+  .addEventListener("click", async () => {
+
+    const recipient =
+      document
+        .getElementById("recipientInput")
+        .value
+        .trim();
+
+    const amount =
+      Number(
+        document
+          .getElementById("sendAmountInput")
+          .value
+      );
+
+    const message =
+      document.getElementById("sendMessage");
+
+    hideMessage(message);
+
+    if (!recipient) {
+
+      showMessage(
+        message,
+        "Enter the recipient's email or account number.",
+        "error"
+      );
+
+      return;
+    }
+
+    if (!amount || amount <= 0) {
+
+      showMessage(
+        message,
+        "Enter a valid amount.",
+        "error"
+      );
+
+      return;
+    }
+
+    if (!currentUser) {
+      return;
+    }
+
+    const reference =
+      generateReference("TRF");
+
+    const button =
+      document.getElementById("confirmSendBtn");
+
+    button.disabled = true;
+
+    try {
+
+      const {
+        data,
+        error
+      } = await supabaseClient.rpc(
+        "send_wallet_money",
+        {
+          p_sender_id: currentUser.id,
+          p_recipient_email: recipient,
+          p_amount: amount,
+          p_currency: "NGN",
+          p_reference: reference
+        }
+      );
+
+      if (error) {
+        throw error;
+      }
+
+      showMessage(
+        message,
+        "Money sent successfully.",
+        "success"
+      );
+
+      document
+        .getElementById("recipientInput")
+        .value = "";
+
+      document
+        .getElementById("sendAmountInput")
+        .value = "";
+
+      await loadWallet();
+      await loadTransactions();
+
+    } catch (error) {
+
+      showMessage(
+        message,
+        error.message || "Unable to send money.",
+        "error"
+      );
+
+    } finally {
+
+      button.disabled = false;
+    }
+  });
+
+
+/* =========================
+   RECEIVE MONEY
+========================= */
+
+document
+  .getElementById("receiveMoneyBtn")
+  .addEventListener("click", async () => {
+
+    hideAllPanels();
+
+    document
+      .getElementById("receiveMoneyPanel")
+      .classList.remove("hidden");
+
+    await loadAccountNumber();
+
+    document
+      .getElementById("receiveMoneyPanel")
+      .scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+  });
+
+
+document
+  .getElementById("closeReceiveBtn")
+  .addEventListener("click", () => {
+
+    document
+      .getElementById("receiveMoneyPanel")
+      .classList.add("hidden");
+
+    hideMessage(
+      document.getElementById("receiveMessage")
+    );
+  });
+
+
+/* =========================
+   TRANSACTIONS
+========================= */
+
+async function loadTransactions() {
+
+  if (!currentUser) {
+    return;
+  }
+
+  transactionsList.innerHTML =
+    '<p style="color:#667085;">Loading transactions...</p>';
+
+  const {
+    data,
+    error
+  } = await supabaseClient
+    .from("transactions")
+    .select("*")
+    .eq("user_id", currentUser.id)
+    .order("created_at", {
+      ascending: false
+    });
+
+  if (error) {
+
+    console.error(error);
+
+    transactionsList.innerHTML =
+      '<p style="color:#dc2626;">Unable to load transactions.</p>';
+
+    return;
+  }
+
+  currentTransactions = data || [];
+
+  if (!currentTransactions.length) {
+
+    transactionsList.innerHTML =
+      '<p style="color:#667085;">No transactions yet.</p>';
+
+    return;
+  }
+
+  transactionsList.innerHTML = "";
+
+  currentTransactions.forEach(
+    (transaction, index) => {
+
+      const row =
+        document.createElement("div");
+
+      row.className = "transaction";
+
+      const amount =
+        Number(transaction.amount || 0);
+
+      let amountClass =
+        "amount-positive";
+
+      let amountPrefix = "+";
+
+      if (
+        transaction.type === "withdrawal"
+        ||
+        (
+          transaction.type === "transfer"
+          &&
+          transaction.description
+          &&
+          transaction.description
+            .toLowerCase()
+            .includes("sent")
+        )
+      ) {
+
+        amountClass =
+          "amount-negative";
+
+        amountPrefix = "-";
+      }
+
+      row.innerHTML = `
+        <div class="transaction-top">
+
+          <div>
+            <div class="transaction-type">
+              ${escapeHtml(
+                transaction.description ||
+                transaction.type ||
+                "Transaction"
+              )}
+            </div>
+
+            <div class="transaction-date">
+              ${formatDate(transaction.created_at)}
+            </div>
+          </div>
+
+          <div class="${amountClass}">
+            ${amountPrefix}${formatMoney(
+              amount,
+              transaction.currency
+            )}
+          </div>
+
+        </div>
+      `;
+
+      row.addEventListener("click", () => {
+        openTransactionDetails(index);
+      });
+
+      transactionsList.appendChild(row);
+    }
+  );
+}
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHtml(value) {
+
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+
+/* =========================
+   TRANSACTION DETAILS
+========================= */
+
+function openTransactionDetails(index) {
+
+  const transaction =
+    currentTransactions[index];
+
+  if (!transaction) {
+    return;
+  }
+
+  const amount =
+    Number(transaction.amount || 0);
+
+  let amountPrefix = "";
+
+  if (transaction.type === "deposit") {
+    amountPrefix = "+";
+  } else if (transaction.type === "withdrawal") {
+    amountPrefix = "-";
+  } else if (
+    transaction.type === "transfer"
+  ) {
+
+    if (
+      transaction.description &&
+      transaction.description
+        .toLowerCase()
+        .includes("sent")
+    ) {
+      amountPrefix = "-";
+    } else {
+      amountPrefix = "+";
+    }
+  }
+
+  transactionDetails.innerHTML = `
+
+    <div class="detail-row">
+      <div class="detail-label">
+        Transaction
+      </div>
+
+      <div class="detail-value">
+        ${escapeHtml(
+          transaction.description ||
+          transaction.type ||
+          "Transaction"
+        )}
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">
+        Amount
+      </div>
+
+      <div class="detail-value">
+        ${amountPrefix}${formatMoney(
+          amount,
+          transaction.currency
+        )}
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">
+        Type
+      </div>
+
+      <div class="detail-value">
+        ${escapeHtml(
+          transaction.type || "N/A"
+        )}
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">
+        Currency
+      </div>
+
+      <div class="detail-value">
+        ${escapeHtml(
+          transaction.currency || "N/A"
+        )}
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">
+        Status
+      </div>
+
+      <div class="detail-value">
+        ${escapeHtml(
+          transaction.status || "N/A"
+        )}
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">
+        Reference
+      </div>
+
+      <div class="detail-value">
+        ${escapeHtml(
+          transaction.reference || "N/A"
+        )}
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">
+        Date & Time
+      </div>
+
+      <div class="detail-value">
+        ${escapeHtml(
+          formatDate(transaction.created_at)
+        )}
+      </div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">
+        Description
+      </div>
+
+      <div class="detail-value">
+        ${escapeHtml(
+          transaction.description || "N/A"
+        )}
+      </div>
+    </div>
+  `;
+
+  transactionModal.classList.add("show");
+}
+
+
+/* =========================
+   CLOSE TRANSACTION MODAL
+========================= */
+
+document
+  .getElementById("closeTransactionBtn")
+  .addEventListener("click", () => {
+
+    transactionModal.classList.remove("show");
+  });
+
+
+transactionModal.addEventListener(
+  "click",
+  (event) => {
+
+    if (
+      event.target === transactionModal
+    ) {
+
+      transactionModal.classList.remove("show");
+    }
+  }
+);
+
+
+/* =========================
+   INITIAL LOAD
+========================= */
+
+loadSession();
 
 </script>
 
