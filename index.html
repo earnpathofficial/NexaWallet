@@ -70,10 +70,12 @@ footer{text-align:center;padding:25px;background:#0b1120;color:#9ca3af;font-size
 <input id="email" type="email" placeholder="Email address">
 <input id="password" type="password" placeholder="Password">
 <button id="authBtn" onclick="auth()">Create Account</button>
+
 <div class="switch">
 <span id="switchText">Already have an account?</span>
 <button onclick="toggle()">Log In</button>
 </div>
+
 <div class="msg" id="msg" style="display:none"></div>
 </div>
 </section>
@@ -97,7 +99,11 @@ footer{text-align:center;padding:25px;background:#0b1120;color:#9ca3af;font-size
 
 <div class="transactions">
 <h3>Recent Transactions</h3>
-<div id="tx"><div class="transaction empty"><span>No transactions yet</span><span>—</span></div></div>
+<div id="tx">
+<div class="transaction empty">
+<span>No transactions yet</span><span>—</span>
+</div>
+</div>
 </div>
 </section>
 
@@ -108,11 +114,9 @@ Prototype only — not a bank and not currently a licensed financial institution
 
 <script>
 
-/* ===== SUPABASE ===== */
-
 const SUPABASE_URL="https://sukhdbkokkyvrduryakz.supabase.co";
 
-sb_publishable_OA3jvEJfstZrEhBqMSFUzw_wXcAoEVl
+const SUPABASE_KEY="sb_publishable_OA3jvEJfstZrEhBqMSFUzw_wXcAoEVl";
 
 const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
@@ -124,17 +128,29 @@ document.getElementById("auth").scrollIntoView({behavior:"smooth"});
 
 function toggle(){
 login=!login;
-document.getElementById("title").textContent=login?"Log in to NexaWallet":"Create your NexaWallet account";
-document.getElementById("authBtn").textContent=login?"Log In":"Create Account";
-document.getElementById("name").style.display=login?"none":"block";
-document.getElementById("switchText").textContent=login?"Don't have an account?":"Already have an account?";
-document.querySelector(".switch button").textContent=login?"Create Account":"Log In";
+
+document.getElementById("title").textContent=
+login?"Log in to NexaWallet":"Create your NexaWallet account";
+
+document.getElementById("authBtn").textContent=
+login?"Log In":"Create Account";
+
+document.getElementById("name").style.display=
+login?"none":"block";
+
+document.getElementById("switchText").textContent=
+login?"Don't have an account?":"Already have an account?";
+
+document.querySelector(".switch button").textContent=
+login?"Create Account":"Log In";
+
 document.getElementById("msg").style.display="none";
 }
 
 function message(x){
 const m=document.getElementById("msg");
-m.textContent=x;m.style.display="block";
+m.textContent=x;
+m.style.display="block";
 }
 
 async function auth(){
@@ -142,36 +158,60 @@ async function auth(){
 const email=document.getElementById("email").value.trim();
 const password=document.getElementById("password").value;
 const name=document.getElementById("name").value.trim();
+const button=document.getElementById("authBtn");
 
 if(!email||!password||(!login&&!name)){
-message("Please complete all fields.");return;
+message("Please complete all fields.");
+return;
 }
 
 if(password.length<6){
-message("Password must contain at least 6 characters.");return;
+message("Password must contain at least 6 characters.");
+return;
 }
 
-document.getElementById("authBtn").disabled=true;
+button.disabled=true;
+button.textContent=login?"Logging in...":"Creating account...";
 
 try{
 
 if(login){
 
-const {data,error}=await db.auth.signInWithPassword({email,password});
+const {data,error}=await db.auth.signInWithPassword({
+email:email,
+password:password
+});
+
 if(error)throw error;
+
 await dashboard(data.user);
 
 }else{
 
-const {data,error}=await db.auth.signUp({email,password});
+const {data,error}=await db.auth.signUp({
+email:email,
+password:password,
+options:{
+data:{
+full_name:name
+}
+}
+});
+
 if(error)throw error;
 
-if(!data.user)throw new Error("Account could not be created.");
+if(!data.user){
+throw new Error("Account could not be created.");
+}
 
 if(data.session){
+
 await dashboard(data.user);
+
 }else{
+
 message("Account created. Check your email to confirm your account, then log in.");
+
 }
 
 }
@@ -183,7 +223,8 @@ message(e.message||"Something went wrong.");
 
 }
 
-document.getElementById("authBtn").disabled=false;
+button.disabled=false;
+button.textContent=login?"Log In":"Create Account";
 }
 
 async function dashboard(user){
@@ -217,11 +258,13 @@ return;
 }
 
 if(data){
+
 document.getElementById("balance").textContent=
 new Intl.NumberFormat(undefined,{
 style:"currency",
 currency:data.currency||"NGN"
 }).format(Number(data.balance||0));
+
 }
 }
 
@@ -243,11 +286,15 @@ const box=document.getElementById("tx");
 box.innerHTML="";
 
 if(!data||!data.length){
-box.innerHTML='<div class="transaction empty"><span>No transactions yet</span><span>—</span></div>';
+
+box.innerHTML=
+'<div class="transaction empty"><span>No transactions yet</span><span>—</span></div>';
+
 return;
 }
 
 data.forEach(t=>{
+
 const row=document.createElement("div");
 row.className="transaction";
 
@@ -255,13 +302,16 @@ const name=document.createElement("span");
 name.textContent=t.description||t.type||"Transaction";
 
 const amount=document.createElement("span");
-amount.textContent=new Intl.NumberFormat(undefined,{
+
+amount.textContent=
+new Intl.NumberFormat(undefined,{
 style:"currency",
 currency:t.currency||"NGN"
 }).format(Number(t.amount||0));
 
 row.append(name,amount);
 box.appendChild(row);
+
 });
 }
 
@@ -285,6 +335,7 @@ const {data}=await db.auth.getSession();
 if(data.session){
 await dashboard(data.session.user);
 }
+
 }
 
 start();
