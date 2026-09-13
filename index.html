@@ -1370,7 +1370,7 @@ async function loadWallet() {
 
 /* =========================
    ACCOUNT NUMBER
-   FIXED VERSION
+   SECURE RPC VERSION
 ========================= */
 
 async function loadAccountNumber() {
@@ -1395,76 +1395,26 @@ async function loadAccountNumber() {
   try {
 
     const {
-      data: {
-        user
-      },
-      error: userError
-    } =
-      await supabaseClient.auth.getUser();
-
-    if (userError) {
-      throw userError;
-    }
-
-    if (!user) {
-      throw new Error(
-        "No authenticated user found."
-      );
-    }
-
-    currentUser = user;
-
-    const {
       data,
       error
     } =
-      await supabaseClient
-        .from("user_profiles")
-        .select(
-          "id, phone_number"
-        )
-        .eq(
-          "id",
-          user.id
-        )
-        .limit(1)
-        .maybeSingle();
+      await supabaseClient.rpc(
+        "get_my_account_number"
+      );
 
     if (error) {
 
       console.error(
-        "Account number profile error:",
+        "Account number RPC error:",
         error
       );
 
-      accountNumberDisplay.textContent =
-        "Not available";
-
-      receiveAccountNumber.textContent =
-        "Not available";
-
-      return;
-    }
-
-    if (!data) {
-
-      console.warn(
-        "No user profile found for:",
-        user.id
-      );
-
-      accountNumberDisplay.textContent =
-        "Not set";
-
-      receiveAccountNumber.textContent =
-        "Not set";
-
-      return;
+      throw error;
     }
 
     const accountNumber =
       String(
-        data.phone_number || ""
+        data || ""
       ).trim();
 
     if (!accountNumber) {
