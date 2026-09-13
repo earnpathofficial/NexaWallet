@@ -1171,29 +1171,28 @@ return;
 }
 
 
-const recipientEmail =
+const recipient =
 prompt(
-"Enter the recipient's NexaWallet email address:"
+"Enter the recipient's NexaWallet email or phone number:"
 );
 
 
-if(recipientEmail === null){
+if(recipient === null){
 
 return;
 
 }
 
 
-const email =
-recipientEmail
-.trim()
-.toLowerCase();
+const recipientValue =
+recipient
+.trim();
 
 
-if(!email){
+if(!recipientValue){
 
 alert(
-"Please enter a recipient email address."
+"Please enter a recipient email or phone number."
 );
 
 return;
@@ -1253,7 +1252,7 @@ await db.rpc(
 "send_wallet_money",
 {
 p_sender_id:currentUser.id,
-p_recipient_email:email,
+p_recipient_email:recipientValue,
 p_amount:amount,
 p_currency:"NGN",
 p_reference:reference
@@ -1282,7 +1281,7 @@ alert(
 "Amount: ₦" +
 amount.toLocaleString("en-NG") +
 "\nRecipient: " +
-email +
+recipientValue +
 "\nReference: " +
 reference
 );
