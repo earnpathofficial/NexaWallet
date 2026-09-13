@@ -6,7 +6,7 @@
 
 <title>NexaWallet — Your Money. Simplified.</title>
 
-<meta name="description" content="NexaWallet — a digital wallet prototype for managing balances, transfers and transaction history.">
+<meta name="description" content="NexaWallet — a digital wallet prototype for managing balances, transfers, identity verification and transaction history.">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -51,7 +51,9 @@ header {
   box-shadow: 0 5px 20px rgba(0,0,0,0.06);
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   margin-top: 0;
 }
 
@@ -71,6 +73,7 @@ h1, h2, h3 {
 }
 
 input,
+select,
 button {
   width: 100%;
   padding: 13px 14px;
@@ -78,9 +81,11 @@ button {
   font-size: 15px;
 }
 
-input {
+input,
+select {
   border: 1px solid #d0d5dd;
   margin-bottom: 12px;
+  background: white;
 }
 
 button {
@@ -106,6 +111,10 @@ button:hover {
 
 .success {
   background: #16a34a;
+}
+
+.warning {
+  background: #d97706;
 }
 
 .auth-switch {
@@ -140,6 +149,11 @@ button:hover {
 .message.success {
   background: #dcfce7;
   color: #166534;
+}
+
+.message.info {
+  background: #e0f2fe;
+  color: #075985;
 }
 
 .balance-card {
@@ -218,6 +232,48 @@ button:hover {
   font-weight: 700;
 }
 
+.status-badge {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.status-pending {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-verified {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-rejected {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status-unverified {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.kyc-status-box {
+  padding: 15px;
+  border-radius: 12px;
+  background: #f9fafb;
+  margin-bottom: 15px;
+}
+
+.kyc-note {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #667085;
+}
+
 .modal {
   position: fixed;
   inset: 0;
@@ -259,6 +315,13 @@ button:hover {
   word-break: break-word;
 }
 
+.file-help {
+  font-size: 12px;
+  color: #667085;
+  margin-top: -5px;
+  margin-bottom: 12px;
+}
+
 .hidden {
   display: none !important;
 }
@@ -271,6 +334,7 @@ footer {
 }
 
 @media (max-width: 600px) {
+
   .hero h1 {
     font-size: 30px;
   }
@@ -290,244 +354,599 @@ footer {
 
 <header>
   <div class="logo">NexaWallet</div>
-  <button id="logoutBtn" class="secondary hidden" style="width:auto;padding:9px 14px;">
+
+  <button
+    id="logoutBtn"
+    class="secondary hidden"
+    style="width:auto;padding:9px 14px;"
+  >
     Log Out
   </button>
 </header>
 
 <main class="container">
 
-  <section id="landingSection" class="hero">
-    <h1>Your Money. Simplified.</h1>
-    <p>
-      Manage your wallet, send money and keep track of your transactions
-      from one place.
+<section id="landingSection" class="hero">
+
+  <h1>Your Money. Simplified.</h1>
+
+  <p>
+    Manage your wallet, send money and keep track of your transactions
+    from one place.
+  </p>
+
+</section>
+
+
+<!-- AUTH -->
+
+<section id="authSection" class="card">
+
+  <h2 id="authTitle">
+    Create your account
+  </h2>
+
+  <input
+    type="email"
+    id="emailInput"
+    placeholder="Email address"
+    autocomplete="email"
+  >
+
+  <input
+    type="password"
+    id="passwordInput"
+    placeholder="Password"
+    autocomplete="new-password"
+  >
+
+  <button id="authBtn">
+    Create Account
+  </button>
+
+  <div id="authMessage" class="message"></div>
+
+  <div class="auth-switch">
+
+    <span id="authSwitchText">
+      Already have an account?
+    </span>
+
+    <button id="authSwitchBtn">
+      Log In
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- DASHBOARD -->
+
+<section id="dashboardSection" class="hidden">
+
+  <div class="card">
+
+    <h2>Your Money Dashboard</h2>
+
+    <p style="color:#667085;">
+      Manage your wallet, transfers, identity verification
+      and transaction history from one place.
     </p>
-  </section>
 
-  <!-- AUTH -->
-  <section id="authSection" class="card">
-    <h2 id="authTitle">Create your account</h2>
+  </div>
 
-    <input
-      type="email"
-      id="emailInput"
-      placeholder="Email address"
-      autocomplete="email"
+
+  <!-- KYC STATUS -->
+
+  <div class="card">
+
+    <h3>Identity Verification</h3>
+
+    <div class="kyc-status-box">
+
+      <div
+        style="font-size:13px;color:#667085;margin-bottom:5px;"
+      >
+        Verification Status
+      </div>
+
+      <div id="kycStatusBadge">
+        <span class="status-badge status-unverified">
+          Not Verified
+        </span>
+      </div>
+
+    </div>
+
+    <p class="kyc-note">
+      Verify your identity to help protect your account and
+      prepare NexaWallet for regulated financial services.
+    </p>
+
+    <button id="openKycBtn">
+      Verify Identity
+    </button>
+
+  </div>
+
+
+  <!-- WALLET -->
+
+  <div class="card balance-card">
+
+    <div class="balance-label">
+      Wallet Balance
+    </div>
+
+    <div
+      class="balance"
+      id="balanceDisplay"
     >
+      ₦0.00
+    </div>
 
-    <input
-      type="password"
-      id="passwordInput"
-      placeholder="Password"
-      autocomplete="new-password"
+    <div
+      class="balance-label"
+      id="currencyDisplay"
     >
-
-    <button id="authBtn">Create Account</button>
-
-    <div id="authMessage" class="message"></div>
-
-    <div class="auth-switch">
-      <span id="authSwitchText">Already have an account?</span>
-      <button id="authSwitchBtn">Log In</button>
-    </div>
-  </section>
-
-  <!-- DASHBOARD -->
-  <section id="dashboardSection" class="hidden">
-
-    <div class="card">
-      <h2>Your Money Dashboard</h2>
-      <p style="color:#667085;">
-        Manage your wallet, transfers and transaction history from one place.
-      </p>
+      Nigerian Naira
     </div>
 
-    <!-- WALLET -->
-    <div class="card balance-card">
-      <div class="balance-label">Wallet Balance</div>
+    <div class="account-box">
 
-      <div class="balance" id="balanceDisplay">
-        ₦0.00
+      <div class="balance-label">
+        NexaWallet Account Number
       </div>
 
-      <div class="balance-label" id="currencyDisplay">
-        Nigerian Naira
+      <div
+        class="account-number"
+        id="accountNumberDisplay"
+      >
+        Loading...
       </div>
 
-      <div class="account-box">
-        <div class="balance-label">NexaWallet Account Number</div>
-
-        <div class="account-number" id="accountNumberDisplay">
-          Loading...
-        </div>
-
-        <button id="copyAccountBtn" class="secondary">
-          Copy Account Number
-        </button>
-      </div>
-    </div>
-
-    <!-- WALLET ACTIONS -->
-    <div class="card">
-      <h3>Wallet Actions</h3>
-
-      <div class="action-grid">
-
-        <button id="addMoneyBtn" class="success">
-          + Add Money
-        </button>
-
-        <button id="withdrawBtn">
-          Withdraw
-        </button>
-
-        <button id="sendMoneyBtn">
-          Send Money
-        </button>
-
-        <button id="receiveMoneyBtn" class="secondary">
-          Receive Money
-        </button>
-
-      </div>
-    </div>
-
-    <!-- ADD MONEY -->
-    <div id="addMoneyPanel" class="card hidden">
-      <h3>Add Money</h3>
-
-      <input
-        type="number"
-        id="addAmountInput"
-        placeholder="Amount"
-        min="0.01"
-        step="0.01"
+      <button
+        id="copyAccountBtn"
+        class="secondary"
       >
-
-      <button id="confirmAddBtn" class="success">
-        Add Money
+        Copy Account Number
       </button>
 
-      <button id="cancelAddBtn" class="secondary" style="margin-top:8px;">
-        Cancel
-      </button>
-
-      <div id="addMessage" class="message"></div>
     </div>
 
-    <!-- WITHDRAW -->
-    <div id="withdrawPanel" class="card hidden">
-      <h3>Withdraw Money</h3>
+  </div>
 
-      <input
-        type="number"
-        id="withdrawAmountInput"
-        placeholder="Amount"
-        min="0.01"
-        step="0.01"
+
+  <!-- WALLET ACTIONS -->
+
+  <div class="card">
+
+    <h3>Wallet Actions</h3>
+
+    <div class="action-grid">
+
+      <button
+        id="addMoneyBtn"
+        class="success"
       >
-
-      <button id="confirmWithdrawBtn">
-        Withdraw Money
+        + Add Money
       </button>
 
-      <button id="cancelWithdrawBtn" class="secondary" style="margin-top:8px;">
-        Cancel
+      <button id="withdrawBtn">
+        Withdraw
       </button>
 
-      <div id="withdrawMessage" class="message"></div>
-    </div>
-
-    <!-- SEND MONEY -->
-    <div id="sendMoneyPanel" class="card hidden">
-      <h3>Send Money</h3>
-
-      <input
-        type="text"
-        id="recipientInput"
-        placeholder="Recipient email or account number"
-        autocomplete="off"
-      >
-
-      <input
-        type="number"
-        id="sendAmountInput"
-        placeholder="Amount"
-        min="0.01"
-        step="0.01"
-      >
-
-      <button id="confirmSendBtn">
+      <button id="sendMoneyBtn">
         Send Money
       </button>
 
-      <button id="cancelSendBtn" class="secondary" style="margin-top:8px;">
-        Cancel
+      <button
+        id="receiveMoneyBtn"
+        class="secondary"
+      >
+        Receive Money
       </button>
 
-      <div id="sendMessage" class="message"></div>
     </div>
 
-    <!-- RECEIVE MONEY -->
-    <div id="receiveMoneyPanel" class="card hidden">
-      <h3>↓ Receive Money</h3>
+  </div>
 
-      <p style="color:#667085;">
-        Share your NexaWallet account number with another NexaWallet user
-        so they can send money to you.
-      </p>
 
-      <div style="
+  <!-- ADD MONEY -->
+
+  <div
+    id="addMoneyPanel"
+    class="card hidden"
+  >
+
+    <h3>Add Money</h3>
+
+    <input
+      type="number"
+      id="addAmountInput"
+      placeholder="Amount"
+      min="0.01"
+      step="0.01"
+    >
+
+    <button
+      id="confirmAddBtn"
+      class="success"
+    >
+      Add Money
+    </button>
+
+    <button
+      id="cancelAddBtn"
+      class="secondary"
+      style="margin-top:8px;"
+    >
+      Cancel
+    </button>
+
+    <div
+      id="addMessage"
+      class="message"
+    ></div>
+
+  </div>
+
+
+  <!-- WITHDRAW -->
+
+  <div
+    id="withdrawPanel"
+    class="card hidden"
+  >
+
+    <h3>Withdraw Money</h3>
+
+    <input
+      type="number"
+      id="withdrawAmountInput"
+      placeholder="Amount"
+      min="0.01"
+      step="0.01"
+    >
+
+    <button id="confirmWithdrawBtn">
+      Withdraw Money
+    </button>
+
+    <button
+      id="cancelWithdrawBtn"
+      class="secondary"
+      style="margin-top:8px;"
+    >
+      Cancel
+    </button>
+
+    <div
+      id="withdrawMessage"
+      class="message"
+    ></div>
+
+  </div>
+
+
+  <!-- SEND MONEY -->
+
+  <div
+    id="sendMoneyPanel"
+    class="card hidden"
+  >
+
+    <h3>Send Money</h3>
+
+    <input
+      type="text"
+      id="recipientInput"
+      placeholder="Recipient email or account number"
+      autocomplete="off"
+    >
+
+    <input
+      type="number"
+      id="sendAmountInput"
+      placeholder="Amount"
+      min="0.01"
+      step="0.01"
+    >
+
+    <button id="confirmSendBtn">
+      Send Money
+    </button>
+
+    <button
+      id="cancelSendBtn"
+      class="secondary"
+      style="margin-top:8px;"
+    >
+      Cancel
+    </button>
+
+    <div
+      id="sendMessage"
+      class="message"
+    ></div>
+
+  </div>
+
+
+  <!-- RECEIVE MONEY -->
+
+  <div
+    id="receiveMoneyPanel"
+    class="card hidden"
+  >
+
+    <h3>↓ Receive Money</h3>
+
+    <p style="color:#667085;">
+      Share your NexaWallet account number with another
+      NexaWallet user so they can send money to you.
+    </p>
+
+    <div
+      style="
         background:#f3f4f6;
         padding:18px;
         border-radius:12px;
         text-align:center;
         margin:15px 0;
-      ">
-        <div style="font-size:13px;color:#667085;">
-          Your Account Number
-        </div>
+      "
+    >
 
-        <div
-          id="receiveAccountNumber"
-          style="
-            font-size:24px;
-            font-weight:700;
-            margin:8px 0;
-            letter-spacing:1px;
-          "
-        >
-          Loading...
-        </div>
+      <div
+        style="font-size:13px;color:#667085;"
+      >
+        Your Account Number
       </div>
 
-      <button id="copyReceiveAccountBtn">
-        Copy Account Number
-      </button>
-
-      <button id="closeReceiveBtn" class="secondary" style="margin-top:8px;">
-        Close
-      </button>
-
-      <div id="receiveMessage" class="message"></div>
-    </div>
-
-    <!-- TRANSACTIONS -->
-    <div class="card">
-      <h3>Transaction History</h3>
-
-      <div id="transactionsList">
-        <p style="color:#667085;">Loading transactions...</p>
+      <div
+        id="receiveAccountNumber"
+        style="
+          font-size:24px;
+          font-weight:700;
+          margin:8px 0;
+          letter-spacing:1px;
+        "
+      >
+        Loading...
       </div>
+
     </div>
 
-  </section>
+    <button id="copyReceiveAccountBtn">
+      Copy Account Number
+    </button>
+
+    <button
+      id="closeReceiveBtn"
+      class="secondary"
+      style="margin-top:8px;"
+    >
+      Close
+    </button>
+
+    <div
+      id="receiveMessage"
+      class="message"
+    ></div>
+
+  </div>
+
+
+  <!-- TRANSACTIONS -->
+
+  <div class="card">
+
+    <h3>Transaction History</h3>
+
+    <div id="transactionsList">
+
+      <p style="color:#667085;">
+        Loading transactions...
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
 
 </main>
 
+
+<!-- KYC MODAL -->
+
+<div
+  id="kycModal"
+  class="modal"
+>
+
+  <div class="modal-card">
+
+    <h2>Verify Your Identity</h2>
+
+    <p class="kyc-note">
+      Enter your legal information exactly as it appears
+      on your government-issued identification document.
+    </p>
+
+    <input
+      type="text"
+      id="kycFullName"
+      placeholder="Full legal name"
+      autocomplete="name"
+    >
+
+    <label
+      style="
+        display:block;
+        font-size:13px;
+        color:#667085;
+        margin-bottom:5px;
+      "
+    >
+      Date of birth
+    </label>
+
+    <input
+      type="date"
+      id="kycDateOfBirth"
+    >
+
+    <select id="kycCountry">
+
+      <option value="">
+        Select country
+      </option>
+
+      <option value="Algeria">
+        Algeria
+      </option>
+
+      <option value="Nigeria">
+        Nigeria
+      </option>
+
+      <option value="United Kingdom">
+        United Kingdom
+      </option>
+
+      <option value="United States">
+        United States
+      </option>
+
+      <option value="Ghana">
+        Ghana
+      </option>
+
+      <option value="Kenya">
+        Kenya
+      </option>
+
+      <option value="South Africa">
+        South Africa
+      </option>
+
+      <option value="Other">
+        Other
+      </option>
+
+    </select>
+
+    <select id="kycIdType">
+
+      <option value="">
+        Select ID type
+      </option>
+
+      <option value="National ID">
+        National ID
+      </option>
+
+      <option value="Passport">
+        Passport
+      </option>
+
+      <option value="Driver's License">
+        Driver's License
+      </option>
+
+      <option value="Residence Permit">
+        Residence Permit
+      </option>
+
+    </select>
+
+    <input
+      type="text"
+      id="kycIdNumber"
+      placeholder="Government ID number"
+      autocomplete="off"
+    >
+
+    <label
+      style="
+        display:block;
+        font-size:13px;
+        color:#667085;
+        margin-bottom:5px;
+      "
+    >
+      ID document
+    </label>
+
+    <input
+      type="file"
+      id="kycIdDocument"
+      accept="image/*,.pdf"
+    >
+
+    <div class="file-help">
+      Accepted for this prototype: image or PDF.
+      Actual identity verification requires a compliant
+      KYC provider.
+    </div>
+
+    <label
+      style="
+        display:flex;
+        gap:8px;
+        align-items:flex-start;
+        font-size:13px;
+        color:#667085;
+        margin:15px 0;
+      "
+    >
+
+      <input
+        type="checkbox"
+        id="kycConsent"
+        style="width:auto;margin:2px 0 0 0;"
+      >
+
+      <span>
+        I confirm that the information I provide is accurate
+        and belongs to me.
+      </span>
+
+    </label>
+
+    <button
+      id="submitKycBtn"
+      class="success"
+    >
+      Submit Verification
+    </button>
+
+    <button
+      id="closeKycBtn"
+      class="secondary"
+      style="margin-top:8px;"
+    >
+      Close
+    </button>
+
+    <div
+      id="kycMessage"
+      class="message"
+    ></div>
+
+  </div>
+
+</div>
+
+
 <!-- TRANSACTION DETAILS MODAL -->
-<div id="transactionModal" class="modal">
+
+<div
+  id="transactionModal"
+  class="modal"
+>
 
   <div class="modal-card">
 
@@ -535,7 +954,11 @@ footer {
 
     <div id="transactionDetails"></div>
 
-    <button id="closeTransactionBtn" class="secondary" style="margin-top:18px;">
+    <button
+      id="closeTransactionBtn"
+      class="secondary"
+      style="margin-top:18px;"
+    >
       Close
     </button>
 
@@ -543,51 +966,83 @@ footer {
 
 </div>
 
+
 <footer>
+
   NexaWallet © 2026<br>
-  Prototype only — not a bank and not currently a licensed financial institution.
+
+  Prototype only — not a bank and not currently
+  a licensed financial institution.
+
 </footer>
 
+
 <script>
-const SUPABASE_URL = "https://sukhdbkokkyvrduryakz.supabase.co";
+
+const SUPABASE_URL =
+  "https://sukhdbkokkyvrduryakz.supabase.co";
 
 const SUPABASE_KEY =
   "sb_publishable_OA3jvEJfstZrEhBqMSFUzw_wXcAoEVl";
 
 const { createClient } = supabase;
 
-const supabaseClient = createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+const supabaseClient =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
 
 let currentUser = null;
 let authMode = "signup";
 let currentWallet = null;
 let currentTransactions = [];
+let currentKyc = null;
 
 
 /* =========================
    ELEMENTS
 ========================= */
 
-const authSection = document.getElementById("authSection");
-const dashboardSection = document.getElementById("dashboardSection");
-const landingSection = document.getElementById("landingSection");
+const authSection =
+  document.getElementById("authSection");
 
-const authTitle = document.getElementById("authTitle");
-const authBtn = document.getElementById("authBtn");
-const authSwitchBtn = document.getElementById("authSwitchBtn");
-const authSwitchText = document.getElementById("authSwitchText");
-const authMessage = document.getElementById("authMessage");
+const dashboardSection =
+  document.getElementById("dashboardSection");
 
-const emailInput = document.getElementById("emailInput");
-const passwordInput = document.getElementById("passwordInput");
+const landingSection =
+  document.getElementById("landingSection");
 
-const logoutBtn = document.getElementById("logoutBtn");
+const authTitle =
+  document.getElementById("authTitle");
 
-const balanceDisplay = document.getElementById("balanceDisplay");
-const currencyDisplay = document.getElementById("currencyDisplay");
+const authBtn =
+  document.getElementById("authBtn");
+
+const authSwitchBtn =
+  document.getElementById("authSwitchBtn");
+
+const authSwitchText =
+  document.getElementById("authSwitchText");
+
+const authMessage =
+  document.getElementById("authMessage");
+
+const emailInput =
+  document.getElementById("emailInput");
+
+const passwordInput =
+  document.getElementById("passwordInput");
+
+const logoutBtn =
+  document.getElementById("logoutBtn");
+
+const balanceDisplay =
+  document.getElementById("balanceDisplay");
+
+const currencyDisplay =
+  document.getElementById("currencyDisplay");
 
 const accountNumberDisplay =
   document.getElementById("accountNumberDisplay");
@@ -604,60 +1059,111 @@ const transactionModal =
 const transactionDetails =
   document.getElementById("transactionDetails");
 
+const kycModal =
+  document.getElementById("kycModal");
+
+const kycStatusBadge =
+  document.getElementById("kycStatusBadge");
+
 
 /* =========================
    HELPERS
 ========================= */
 
 function showMessage(element, text, type) {
+
   element.textContent = text;
-  element.className = "message show " + type;
+
+  element.className =
+    "message show " + type;
 }
+
 
 function hideMessage(element) {
+
   element.textContent = "";
-  element.className = "message";
+
+  element.className =
+    "message";
 }
 
+
 function formatMoney(amount, currency) {
-  const value = Number(amount || 0);
+
+  const value =
+    Number(amount || 0);
 
   let symbol = "₦";
 
   if (currency === "USD") {
     symbol = "$";
-  } else if (currency === "GBP") {
+  }
+
+  else if (currency === "GBP") {
     symbol = "£";
-  } else if (currency === "EUR") {
+  }
+
+  else if (currency === "EUR") {
     symbol = "€";
-  } else if (currency === "DZD") {
+  }
+
+  else if (currency === "DZD") {
     symbol = "دج ";
   }
 
-  return symbol + value.toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  });
+  return symbol +
+    value.toLocaleString(
+      undefined,
+      {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }
+    );
 }
 
+
 function formatDate(dateValue) {
+
   if (!dateValue) {
     return "N/A";
   }
 
-  const date = new Date(dateValue);
-
-  return date.toLocaleString();
+  return new Date(
+    dateValue
+  ).toLocaleString();
 }
 
+
 function generateReference(prefix) {
+
   return (
     prefix +
     "-" +
     Date.now() +
     "-" +
-    Math.random().toString(36).substring(2, 8).toUpperCase()
+    Math.random()
+      .toString(36)
+      .substring(2,8)
+      .toUpperCase()
   );
+}
+
+
+function escapeHtml(value) {
+
+  if (
+    value === null ||
+    value === undefined
+  ) {
+    return "";
+  }
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
 
 
@@ -665,129 +1171,161 @@ function generateReference(prefix) {
    AUTH MODE
 ========================= */
 
-authSwitchBtn.addEventListener("click", () => {
+authSwitchBtn.addEventListener(
+  "click",
+  () => {
 
-  if (authMode === "signup") {
+    if (authMode === "signup") {
 
-    authMode = "login";
+      authMode = "login";
 
-    authTitle.textContent = "Log in to NexaWallet";
-    authBtn.textContent = "Log In";
+      authTitle.textContent =
+        "Log in to NexaWallet";
 
-    authSwitchText.textContent =
-      "Don't have an account?";
+      authBtn.textContent =
+        "Log In";
 
-    authSwitchBtn.textContent =
-      "Create Account";
+      authSwitchText.textContent =
+        "Don't have an account?";
 
-  } else {
+      authSwitchBtn.textContent =
+        "Create Account";
 
-    authMode = "signup";
+    }
 
-    authTitle.textContent =
-      "Create your account";
+    else {
 
-    authBtn.textContent =
-      "Create Account";
+      authMode = "signup";
 
-    authSwitchText.textContent =
-      "Already have an account?";
+      authTitle.textContent =
+        "Create your account";
 
-    authSwitchBtn.textContent =
-      "Log In";
+      authBtn.textContent =
+        "Create Account";
+
+      authSwitchText.textContent =
+        "Already have an account?";
+
+      authSwitchBtn.textContent =
+        "Log In";
+    }
+
+    hideMessage(authMessage);
   }
-
-  hideMessage(authMessage);
-});
+);
 
 
 /* =========================
    AUTH
 ========================= */
 
-authBtn.addEventListener("click", async () => {
+authBtn.addEventListener(
+  "click",
+  async () => {
 
-  const email = emailInput.value.trim();
-  const password = passwordInput.value;
+    const email =
+      emailInput.value.trim();
 
-  hideMessage(authMessage);
+    const password =
+      passwordInput.value;
 
-  if (!email || !password) {
-    showMessage(
-      authMessage,
-      "Please enter your email and password.",
-      "error"
-    );
-    return;
-  }
+    hideMessage(authMessage);
 
-  authBtn.disabled = true;
-
-  try {
-
-    if (authMode === "signup") {
-
-      const { data, error } =
-        await supabaseClient.auth.signUp({
-          email,
-          password
-        });
-
-      if (error) {
-        throw error;
-      }
-
-      if (data.session) {
-
-        showMessage(
-          authMessage,
-          "Account created successfully.",
-          "success"
-        );
-
-      } else {
-
-        showMessage(
-          authMessage,
-          "Account created. Check your email if confirmation is required, then log in.",
-          "success"
-        );
-
-        return;
-      }
-
-    } else {
-
-      const { error } =
-        await supabaseClient.auth.signInWithPassword({
-          email,
-          password
-        });
-
-      if (error) {
-        throw error;
-      }
+    if (!email || !password) {
 
       showMessage(
         authMessage,
-        "Logged in successfully.",
-        "success"
+        "Please enter your email and password.",
+        "error"
       );
+
+      return;
     }
 
-  } catch (error) {
+    authBtn.disabled = true;
 
-    showMessage(
-      authMessage,
-      error.message || "Authentication failed.",
-      "error"
-    );
+    try {
 
-  } finally {
+      if (authMode === "signup") {
 
-    authBtn.disabled = false;
+        const {
+          data,
+          error
+        } =
+          await supabaseClient.auth.signUp({
+            email,
+            password
+          });
+
+        if (error) {
+          throw error;
+        }
+
+        if (data.session) {
+
+          showMessage(
+            authMessage,
+            "Account created successfully.",
+            "success"
+          );
+
+        }
+
+        else {
+
+          showMessage(
+            authMessage,
+            "Account created. Check your email if confirmation is required, then log in.",
+            "success"
+          );
+
+          return;
+        }
+
+      }
+
+      else {
+
+        const {
+          error
+        } =
+          await supabaseClient.auth
+            .signInWithPassword({
+              email,
+              password
+            });
+
+        if (error) {
+          throw error;
+        }
+
+        showMessage(
+          authMessage,
+          "Logged in successfully.",
+          "success"
+        );
+      }
+
+    }
+
+    catch (error) {
+
+      showMessage(
+        authMessage,
+        error.message ||
+        "Authentication failed.",
+        "error"
+      );
+
+    }
+
+    finally {
+
+      authBtn.disabled = false;
+    }
+
   }
-});
+);
 
 
 /* =========================
@@ -800,15 +1338,19 @@ async function loadSession() {
     data: {
       session
     }
-  } = await supabaseClient.auth.getSession();
+  } =
+    await supabaseClient.auth.getSession();
 
   if (session) {
 
-    currentUser = session.user;
+    currentUser =
+      session.user;
 
     await showDashboard();
 
-  } else {
+  }
+
+  else {
 
     showLoggedOut();
   }
@@ -816,38 +1358,51 @@ async function loadSession() {
 
 
 supabaseClient.auth.onAuthStateChange(
-  async (event, session) => {
+  async (
+    event,
+    session
+  ) => {
 
     if (session) {
 
-      currentUser = session.user;
+      currentUser =
+        session.user;
 
       await showDashboard();
 
-    } else {
+    }
+
+    else {
 
       currentUser = null;
 
       showLoggedOut();
     }
+
   }
 );
 
 
 /* =========================
-   SHOW DASHBOARD
+   DASHBOARD
 ========================= */
 
 async function showDashboard() {
 
   authSection.classList.add("hidden");
+
   landingSection.classList.add("hidden");
 
   dashboardSection.classList.remove("hidden");
+
   logoutBtn.classList.remove("hidden");
 
   await loadWallet();
+
   await loadAccountNumber();
+
+  await loadKyc();
+
   await loadTransactions();
 }
 
@@ -855,13 +1410,19 @@ async function showDashboard() {
 function showLoggedOut() {
 
   currentUser = null;
+
   currentWallet = null;
+
   currentTransactions = [];
 
+  currentKyc = null;
+
   authSection.classList.remove("hidden");
+
   landingSection.classList.remove("hidden");
 
   dashboardSection.classList.add("hidden");
+
   logoutBtn.classList.add("hidden");
 }
 
@@ -870,10 +1431,14 @@ function showLoggedOut() {
    LOGOUT
 ========================= */
 
-logoutBtn.addEventListener("click", async () => {
+logoutBtn.addEventListener(
+  "click",
+  async () => {
 
-  await supabaseClient.auth.signOut();
-});
+    await supabaseClient.auth.signOut();
+
+  }
+);
 
 
 /* =========================
@@ -889,20 +1454,33 @@ async function loadWallet() {
   const {
     data,
     error
-  } = await supabaseClient
-    .from("wallets")
-    .select("*")
-    .eq("user_id", currentUser.id)
-    .eq("currency", "NGN")
-    .eq("status", "active")
-    .maybeSingle();
+  } =
+    await supabaseClient
+      .from("wallets")
+      .select("*")
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .eq(
+        "currency",
+        "NGN"
+      )
+      .eq(
+        "status",
+        "active"
+      )
+      .maybeSingle();
 
   if (error) {
 
     console.error(error);
 
-    balanceDisplay.textContent = "₦0.00";
-    currencyDisplay.textContent = "Wallet unavailable";
+    balanceDisplay.textContent =
+      "₦0.00";
+
+    currencyDisplay.textContent =
+      "Wallet unavailable";
 
     return;
   }
@@ -911,14 +1489,20 @@ async function loadWallet() {
 
   if (!data) {
 
-    balanceDisplay.textContent = "₦0.00";
-    currencyDisplay.textContent = "Nigerian Naira";
+    balanceDisplay.textContent =
+      "₦0.00";
+
+    currencyDisplay.textContent =
+      "Nigerian Naira";
 
     return;
   }
 
   balanceDisplay.textContent =
-    formatMoney(data.balance, data.currency);
+    formatMoney(
+      data.balance,
+      data.currency
+    );
 
   currencyDisplay.textContent =
     data.currency === "NGN"
@@ -928,7 +1512,7 @@ async function loadWallet() {
 
 
 /* =========================
-   LOAD ACCOUNT NUMBER
+   ACCOUNT NUMBER
 ========================= */
 
 async function loadAccountNumber() {
@@ -940,11 +1524,15 @@ async function loadAccountNumber() {
   const {
     data,
     error
-  } = await supabaseClient
-    .from("user_profiles")
-    .select("phone_number")
-    .eq("id", currentUser.id)
-    .maybeSingle();
+  } =
+    await supabaseClient
+      .from("user_profiles")
+      .select("phone_number")
+      .eq(
+        "id",
+        currentUser.id
+      )
+      .maybeSingle();
 
   if (error) {
 
@@ -960,7 +1548,8 @@ async function loadAccountNumber() {
   }
 
   const accountNumber =
-    data?.phone_number || "Not set";
+    data?.phone_number ||
+    "Not set";
 
   accountNumberDisplay.textContent =
     accountNumber;
@@ -977,7 +1566,9 @@ async function loadAccountNumber() {
 async function copyAccountNumber() {
 
   const accountNumber =
-    accountNumberDisplay.textContent.trim();
+    accountNumberDisplay
+      .textContent
+      .trim();
 
   if (
     !accountNumber ||
@@ -990,83 +1581,74 @@ async function copyAccountNumber() {
 
   try {
 
-    await navigator.clipboard.writeText(accountNumber);
+    await navigator.clipboard
+      .writeText(accountNumber);
 
-    alert("Account number copied.");
+    alert(
+      "Account number copied."
+    );
 
-  } catch (error) {
+  }
 
-    alert("Unable to copy account number.");
+  catch (error) {
+
+    alert(
+      "Unable to copy account number."
+    );
   }
 }
 
 
 document
-  .getElementById("copyAccountBtn")
-  .addEventListener("click", copyAccountNumber);
+  .getElementById(
+    "copyAccountBtn"
+  )
+  .addEventListener(
+    "click",
+    copyAccountNumber
+  );
 
 
 document
-  .getElementById("copyReceiveAccountBtn")
-  .addEventListener("click", copyAccountNumber);
+  .getElementById(
+    "copyReceiveAccountBtn"
+  )
+  .addEventListener(
+    "click",
+    copyAccountNumber
+  );
 
 
 /* =========================
-   PANEL HELPERS
+   PANELS
 ========================= */
 
 function hideAllPanels() {
 
   document
-    .getElementById("addMoneyPanel")
+    .getElementById(
+      "addMoneyPanel"
+    )
     .classList.add("hidden");
 
   document
-    .getElementById("withdrawPanel")
+    .getElementById(
+      "withdrawPanel"
+    )
     .classList.add("hidden");
 
   document
-    .getElementById("sendMoneyPanel")
+    .getElementById(
+      "sendMoneyPanel"
+    )
     .classList.add("hidden");
 
   document
-    .getElementById("receiveMoneyPanel")
+    .getElementById(
+      "receiveMoneyPanel"
+    )
     .classList.add("hidden");
 }
-
-
-/* =========================
-   ADD MONEY PANEL
-========================= */
-
-document
-  .getElementById("addMoneyBtn")
-  .addEventListener("click", () => {
-
-    hideAllPanels();
-
-    document
-      .getElementById("addMoneyPanel")
-      .classList.remove("hidden");
-
-    document
-      .getElementById("addAmountInput")
-      .focus();
-  });
-
-
-document
-  .getElementById("cancelAddBtn")
-  .addEventListener("click", () => {
-
-    document
-      .getElementById("addMoneyPanel")
-      .classList.add("hidden");
-
-    hideMessage(
-      document.getElementById("addMessage")
-    );
-  });
 
 
 /* =========================
@@ -1074,122 +1656,166 @@ document
 ========================= */
 
 document
-  .getElementById("confirmAddBtn")
-  .addEventListener("click", async () => {
+  .getElementById(
+    "addMoneyBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
 
-    const input =
-      document.getElementById("addAmountInput");
+      hideAllPanels();
 
-    const message =
-      document.getElementById("addMessage");
+      document
+        .getElementById(
+          "addMoneyPanel"
+        )
+        .classList
+        .remove("hidden");
 
-    const amount =
-      Number(input.value);
-
-    hideMessage(message);
-
-    if (!amount || amount <= 0) {
-
-      showMessage(
-        message,
-        "Enter a valid amount.",
-        "error"
-      );
-
-      return;
+      document
+        .getElementById(
+          "addAmountInput"
+        )
+        .focus();
     }
+  );
 
-    if (!currentUser) {
-      return;
-    }
 
-    const reference =
-      generateReference("DEP");
+document
+  .getElementById(
+    "cancelAddBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
 
-    const button =
-      document.getElementById("confirmAddBtn");
+      document
+        .getElementById(
+          "addMoneyPanel"
+        )
+        .classList
+        .add("hidden");
 
-    button.disabled = true;
-
-    try {
-
-      const {
-        data,
-        error
-      } = await supabaseClient.rpc(
-        "process_wallet_transaction",
-        {
-          p_user_id: currentUser.id,
-          p_type: "deposit",
-          p_amount: amount,
-          p_currency: "NGN",
-          p_reference: reference,
-          p_description: "NexaWallet deposit"
-        }
+      hideMessage(
+        document.getElementById(
+          "addMessage"
+        )
       );
+    }
+  );
 
-      if (error) {
-        throw error;
+
+document
+  .getElementById(
+    "confirmAddBtn"
+  )
+  .addEventListener(
+    "click",
+    async () => {
+
+      const input =
+        document.getElementById(
+          "addAmountInput"
+        );
+
+      const message =
+        document.getElementById(
+          "addMessage"
+        );
+
+      const amount =
+        Number(input.value);
+
+      hideMessage(message);
+
+      if (!amount || amount <= 0) {
+
+        showMessage(
+          message,
+          "Enter a valid amount.",
+          "error"
+        );
+
+        return;
       }
 
-      showMessage(
-        message,
-        "Money added successfully.",
-        "success"
-      );
+      if (!currentUser) {
+        return;
+      }
 
-      input.value = "";
+      const reference =
+        generateReference("DEP");
 
-      await loadWallet();
-      await loadTransactions();
+      const button =
+        document.getElementById(
+          "confirmAddBtn"
+        );
 
-    } catch (error) {
+      button.disabled = true;
 
-      showMessage(
-        message,
-        error.message || "Unable to add money.",
-        "error"
-      );
+      try {
 
-    } finally {
+        const {
+          error
+        } =
+          await supabaseClient.rpc(
+            "process_wallet_transaction",
+            {
+              p_user_id:
+                currentUser.id,
 
-      button.disabled = false;
+              p_type:
+                "deposit",
+
+              p_amount:
+                amount,
+
+              p_currency:
+                "NGN",
+
+              p_reference:
+                reference,
+
+              p_description:
+                "NexaWallet deposit"
+            }
+          );
+
+        if (error) {
+          throw error;
+        }
+
+        showMessage(
+          message,
+          "Money added successfully.",
+          "success"
+        );
+
+        input.value = "";
+
+        await loadWallet();
+
+        await loadTransactions();
+
+      }
+
+      catch (error) {
+
+        showMessage(
+          message,
+          error.message ||
+          "Unable to add money.",
+          "error"
+        );
+
+      }
+
+      finally {
+
+        button.disabled = false;
+      }
     }
-  });
-
-
-/* =========================
-   WITHDRAW PANEL
-========================= */
-
-document
-  .getElementById("withdrawBtn")
-  .addEventListener("click", () => {
-
-    hideAllPanels();
-
-    document
-      .getElementById("withdrawPanel")
-      .classList.remove("hidden");
-
-    document
-      .getElementById("withdrawAmountInput")
-      .focus();
-  });
-
-
-document
-  .getElementById("cancelWithdrawBtn")
-  .addEventListener("click", () => {
-
-    document
-      .getElementById("withdrawPanel")
-      .classList.add("hidden");
-
-    hideMessage(
-      document.getElementById("withdrawMessage")
-    );
-  });
+  );
 
 
 /* =========================
@@ -1197,122 +1823,166 @@ document
 ========================= */
 
 document
-  .getElementById("confirmWithdrawBtn")
-  .addEventListener("click", async () => {
+  .getElementById(
+    "withdrawBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
 
-    const input =
-      document.getElementById("withdrawAmountInput");
+      hideAllPanels();
 
-    const message =
-      document.getElementById("withdrawMessage");
+      document
+        .getElementById(
+          "withdrawPanel"
+        )
+        .classList
+        .remove("hidden");
 
-    const amount =
-      Number(input.value);
-
-    hideMessage(message);
-
-    if (!amount || amount <= 0) {
-
-      showMessage(
-        message,
-        "Enter a valid amount.",
-        "error"
-      );
-
-      return;
+      document
+        .getElementById(
+          "withdrawAmountInput"
+        )
+        .focus();
     }
+  );
 
-    if (!currentUser) {
-      return;
-    }
 
-    const reference =
-      generateReference("WTH");
+document
+  .getElementById(
+    "cancelWithdrawBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
 
-    const button =
-      document.getElementById("confirmWithdrawBtn");
+      document
+        .getElementById(
+          "withdrawPanel"
+        )
+        .classList
+        .add("hidden");
 
-    button.disabled = true;
-
-    try {
-
-      const {
-        data,
-        error
-      } = await supabaseClient.rpc(
-        "process_wallet_transaction",
-        {
-          p_user_id: currentUser.id,
-          p_type: "withdrawal",
-          p_amount: amount,
-          p_currency: "NGN",
-          p_reference: reference,
-          p_description: "NexaWallet withdrawal"
-        }
+      hideMessage(
+        document.getElementById(
+          "withdrawMessage"
+        )
       );
+    }
+  );
 
-      if (error) {
-        throw error;
+
+document
+  .getElementById(
+    "confirmWithdrawBtn"
+  )
+  .addEventListener(
+    "click",
+    async () => {
+
+      const input =
+        document.getElementById(
+          "withdrawAmountInput"
+        );
+
+      const message =
+        document.getElementById(
+          "withdrawMessage"
+        );
+
+      const amount =
+        Number(input.value);
+
+      hideMessage(message);
+
+      if (!amount || amount <= 0) {
+
+        showMessage(
+          message,
+          "Enter a valid amount.",
+          "error"
+        );
+
+        return;
       }
 
-      showMessage(
-        message,
-        "Withdrawal completed successfully.",
-        "success"
-      );
+      if (!currentUser) {
+        return;
+      }
 
-      input.value = "";
+      const reference =
+        generateReference("WTH");
 
-      await loadWallet();
-      await loadTransactions();
+      const button =
+        document.getElementById(
+          "confirmWithdrawBtn"
+        );
 
-    } catch (error) {
+      button.disabled = true;
 
-      showMessage(
-        message,
-        error.message || "Unable to withdraw money.",
-        "error"
-      );
+      try {
 
-    } finally {
+        const {
+          error
+        } =
+          await supabaseClient.rpc(
+            "process_wallet_transaction",
+            {
+              p_user_id:
+                currentUser.id,
 
-      button.disabled = false;
+              p_type:
+                "withdrawal",
+
+              p_amount:
+                amount,
+
+              p_currency:
+                "NGN",
+
+              p_reference:
+                reference,
+
+              p_description:
+                "NexaWallet withdrawal"
+            }
+          );
+
+        if (error) {
+          throw error;
+        }
+
+        showMessage(
+          message,
+          "Withdrawal completed successfully.",
+          "success"
+        );
+
+        input.value = "";
+
+        await loadWallet();
+
+        await loadTransactions();
+
+      }
+
+      catch (error) {
+
+        showMessage(
+          message,
+          error.message ||
+          "Unable to withdraw money.",
+          "error"
+        );
+
+      }
+
+      finally {
+
+        button.disabled = false;
+      }
     }
-  });
-
-
-/* =========================
-   SEND MONEY PANEL
-========================= */
-
-document
-  .getElementById("sendMoneyBtn")
-  .addEventListener("click", () => {
-
-    hideAllPanels();
-
-    document
-      .getElementById("sendMoneyPanel")
-      .classList.remove("hidden");
-
-    document
-      .getElementById("recipientInput")
-      .focus();
-  });
-
-
-document
-  .getElementById("cancelSendBtn")
-  .addEventListener("click", () => {
-
-    document
-      .getElementById("sendMoneyPanel")
-      .classList.add("hidden");
-
-    hideMessage(
-      document.getElementById("sendMessage")
-    );
-  });
+  );
 
 
 /* =========================
@@ -1320,111 +1990,193 @@ document
 ========================= */
 
 document
-  .getElementById("confirmSendBtn")
-  .addEventListener("click", async () => {
+  .getElementById(
+    "sendMoneyBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
 
-    const recipient =
+      hideAllPanels();
+
       document
-        .getElementById("recipientInput")
-        .value
-        .trim();
+        .getElementById(
+          "sendMoneyPanel"
+        )
+        .classList
+        .remove("hidden");
 
-    const amount =
-      Number(
+      document
+        .getElementById(
+          "recipientInput"
+        )
+        .focus();
+    }
+  );
+
+
+document
+  .getElementById(
+    "cancelSendBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      document
+        .getElementById(
+          "sendMoneyPanel"
+        )
+        .classList
+        .add("hidden");
+
+      hideMessage(
+        document.getElementById(
+          "sendMessage"
+        )
+      );
+    }
+  );
+
+
+document
+  .getElementById(
+    "confirmSendBtn"
+  )
+  .addEventListener(
+    "click",
+    async () => {
+
+      const recipient =
         document
-          .getElementById("sendAmountInput")
+          .getElementById(
+            "recipientInput"
+          )
           .value
-      );
+          .trim();
 
-    const message =
-      document.getElementById("sendMessage");
+      const amount =
+        Number(
+          document
+            .getElementById(
+              "sendAmountInput"
+            )
+            .value
+        );
 
-    hideMessage(message);
+      const message =
+        document.getElementById(
+          "sendMessage"
+        );
 
-    if (!recipient) {
+      hideMessage(message);
 
-      showMessage(
-        message,
-        "Enter the recipient's email or account number.",
-        "error"
-      );
+      if (!recipient) {
 
-      return;
-    }
+        showMessage(
+          message,
+          "Enter the recipient's email or account number.",
+          "error"
+        );
 
-    if (!amount || amount <= 0) {
-
-      showMessage(
-        message,
-        "Enter a valid amount.",
-        "error"
-      );
-
-      return;
-    }
-
-    if (!currentUser) {
-      return;
-    }
-
-    const reference =
-      generateReference("TRF");
-
-    const button =
-      document.getElementById("confirmSendBtn");
-
-    button.disabled = true;
-
-    try {
-
-      const {
-        data,
-        error
-      } = await supabaseClient.rpc(
-        "send_wallet_money",
-        {
-          p_sender_id: currentUser.id,
-          p_recipient_email: recipient,
-          p_amount: amount,
-          p_currency: "NGN",
-          p_reference: reference
-        }
-      );
-
-      if (error) {
-        throw error;
+        return;
       }
 
-      showMessage(
-        message,
-        "Money sent successfully.",
-        "success"
-      );
+      if (!amount || amount <= 0) {
 
-      document
-        .getElementById("recipientInput")
-        .value = "";
+        showMessage(
+          message,
+          "Enter a valid amount.",
+          "error"
+        );
 
-      document
-        .getElementById("sendAmountInput")
-        .value = "";
+        return;
+      }
 
-      await loadWallet();
-      await loadTransactions();
+      if (!currentUser) {
+        return;
+      }
 
-    } catch (error) {
+      const reference =
+        generateReference("TRF");
 
-      showMessage(
-        message,
-        error.message || "Unable to send money.",
-        "error"
-      );
+      const button =
+        document.getElementById(
+          "confirmSendBtn"
+        );
 
-    } finally {
+      button.disabled = true;
 
-      button.disabled = false;
+      try {
+
+        const {
+          error
+        } =
+          await supabaseClient.rpc(
+            "send_wallet_money",
+            {
+              p_sender_id:
+                currentUser.id,
+
+              p_recipient_email:
+                recipient,
+
+              p_amount:
+                amount,
+
+              p_currency:
+                "NGN",
+
+              p_reference:
+                reference
+            }
+          );
+
+        if (error) {
+          throw error;
+        }
+
+        showMessage(
+          message,
+          "Money sent successfully.",
+          "success"
+        );
+
+        document
+          .getElementById(
+            "recipientInput"
+          )
+          .value = "";
+
+        document
+          .getElementById(
+            "sendAmountInput"
+          )
+          .value = "";
+
+        await loadWallet();
+
+        await loadTransactions();
+
+      }
+
+      catch (error) {
+
+        showMessage(
+          message,
+          error.message ||
+          "Unable to send money.",
+          "error"
+        );
+
+      }
+
+      finally {
+
+        button.disabled = false;
+      }
     }
-  });
+  );
 
 
 /* =========================
@@ -1432,38 +2184,562 @@ document
 ========================= */
 
 document
-  .getElementById("receiveMoneyBtn")
-  .addEventListener("click", async () => {
+  .getElementById(
+    "receiveMoneyBtn"
+  )
+  .addEventListener(
+    "click",
+    async () => {
 
-    hideAllPanels();
+      hideAllPanels();
 
-    document
-      .getElementById("receiveMoneyPanel")
-      .classList.remove("hidden");
+      document
+        .getElementById(
+          "receiveMoneyPanel"
+        )
+        .classList
+        .remove("hidden");
 
-    await loadAccountNumber();
+      await loadAccountNumber();
 
-    document
-      .getElementById("receiveMoneyPanel")
-      .scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
-  });
+      document
+        .getElementById(
+          "receiveMoneyPanel"
+        )
+        .scrollIntoView({
+          behavior: "smooth",
+          block: "center"
+        });
+    }
+  );
 
 
 document
-  .getElementById("closeReceiveBtn")
-  .addEventListener("click", () => {
+  .getElementById(
+    "closeReceiveBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      document
+        .getElementById(
+          "receiveMoneyPanel"
+        )
+        .classList
+        .add("hidden");
+    }
+  );
+
+
+/* =========================
+   KYC
+========================= */
+
+async function loadKyc() {
+
+  if (!currentUser) {
+    return;
+  }
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("kyc_verifications")
+      .select("*")
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .maybeSingle();
+
+  if (error) {
+
+    console.warn(
+      "KYC table is not available yet:",
+      error.message
+    );
+
+    currentKyc = null;
+
+    updateKycStatus(
+      "unverified"
+    );
+
+    return;
+  }
+
+  currentKyc = data;
+
+  if (!data) {
+
+    updateKycStatus(
+      "unverified"
+    );
+
+    return;
+  }
+
+  updateKycStatus(
+    data.status
+  );
+}
+
+
+function updateKycStatus(status) {
+
+  const normalized =
+    String(
+      status || "unverified"
+    ).toLowerCase();
+
+  if (normalized === "verified") {
+
+    kycStatusBadge.innerHTML =
+      `
+        <span class="status-badge status-verified">
+          Verified
+        </span>
+      `;
 
     document
-      .getElementById("receiveMoneyPanel")
-      .classList.add("hidden");
+      .getElementById(
+        "openKycBtn"
+      )
+      .textContent =
+      "Identity Verified";
 
-    hideMessage(
-      document.getElementById("receiveMessage")
-    );
-  });
+    document
+      .getElementById(
+        "openKycBtn"
+      )
+      .disabled = true;
+
+    return;
+  }
+
+  if (normalized === "pending") {
+
+    kycStatusBadge.innerHTML =
+      `
+        <span class="status-badge status-pending">
+          Verification Pending
+        </span>
+      `;
+
+    document
+      .getElementById(
+        "openKycBtn"
+      )
+      .textContent =
+      "View Verification";
+
+    document
+      .getElementById(
+        "openKycBtn"
+      )
+      .disabled = false;
+
+    return;
+  }
+
+  if (normalized === "rejected") {
+
+    kycStatusBadge.innerHTML =
+      `
+        <span class="status-badge status-rejected">
+          Verification Rejected
+        </span>
+      `;
+
+    document
+      .getElementById(
+        "openKycBtn"
+      )
+      .textContent =
+      "Resubmit Verification";
+
+    document
+      .getElementById(
+        "openKycBtn"
+      )
+      .disabled = false;
+
+    return;
+  }
+
+  kycStatusBadge.innerHTML =
+    `
+      <span class="status-badge status-unverified">
+        Not Verified
+      </span>
+    `;
+
+  document
+    .getElementById(
+      "openKycBtn"
+    )
+    .textContent =
+    "Verify Identity";
+
+  document
+    .getElementById(
+      "openKycBtn"
+    )
+    .disabled = false;
+}
+
+
+/* =========================
+   OPEN KYC
+========================= */
+
+document
+  .getElementById(
+    "openKycBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      if (
+        currentKyc &&
+        currentKyc.status === "verified"
+      ) {
+        return;
+      }
+
+      hideMessage(
+        document.getElementById(
+          "kycMessage"
+        )
+      );
+
+      if (currentKyc) {
+
+        document
+          .getElementById(
+            "kycFullName"
+          )
+          .value =
+          currentKyc.full_name ||
+          "";
+
+        document
+          .getElementById(
+            "kycDateOfBirth"
+          )
+          .value =
+          currentKyc.date_of_birth ||
+          "";
+
+        document
+          .getElementById(
+            "kycCountry"
+          )
+          .value =
+          currentKyc.country ||
+          "";
+
+        document
+          .getElementById(
+            "kycIdType"
+          )
+          .value =
+          currentKyc.id_type ||
+          "";
+
+        document
+          .getElementById(
+            "kycIdNumber"
+          )
+          .value =
+          currentKyc.id_number ||
+          "";
+      }
+
+      kycModal.classList.add("show");
+    }
+  );
+
+
+/* =========================
+   CLOSE KYC
+========================= */
+
+document
+  .getElementById(
+    "closeKycBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      kycModal.classList.remove(
+        "show"
+      );
+    }
+  );
+
+
+kycModal.addEventListener(
+  "click",
+  (event) => {
+
+    if (
+      event.target ===
+      kycModal
+    ) {
+
+      kycModal.classList.remove(
+        "show"
+      );
+    }
+  }
+);
+
+
+/* =========================
+   SUBMIT KYC
+========================= */
+
+document
+  .getElementById(
+    "submitKycBtn"
+  )
+  .addEventListener(
+    "click",
+    async () => {
+
+      const fullName =
+        document
+          .getElementById(
+            "kycFullName"
+          )
+          .value
+          .trim();
+
+      const dateOfBirth =
+        document
+          .getElementById(
+            "kycDateOfBirth"
+          )
+          .value;
+
+      const country =
+        document
+          .getElementById(
+            "kycCountry"
+          )
+          .value;
+
+      const idType =
+        document
+          .getElementById(
+            "kycIdType"
+          )
+          .value;
+
+      const idNumber =
+        document
+          .getElementById(
+            "kycIdNumber"
+          )
+          .value
+          .trim();
+
+      const documentFile =
+        document
+          .getElementById(
+            "kycIdDocument"
+          )
+          .files[0];
+
+      const consent =
+        document
+          .getElementById(
+            "kycConsent"
+          )
+          .checked;
+
+      const message =
+        document.getElementById(
+          "kycMessage"
+        );
+
+      hideMessage(message);
+
+      if (
+        !fullName ||
+        !dateOfBirth ||
+        !country ||
+        !idType ||
+        !idNumber
+      ) {
+
+        showMessage(
+          message,
+          "Please complete all identity fields.",
+          "error"
+        );
+
+        return;
+      }
+
+      if (!documentFile) {
+
+        showMessage(
+          message,
+          "Please select your ID document.",
+          "error"
+        );
+
+        return;
+      }
+
+      if (!consent) {
+
+        showMessage(
+          message,
+          "Please confirm that the information is accurate.",
+          "error"
+        );
+
+        return;
+      }
+
+      if (!currentUser) {
+
+        showMessage(
+          message,
+          "Please log in again.",
+          "error"
+        );
+
+        return;
+      }
+
+      const button =
+        document.getElementById(
+          "submitKycBtn"
+        );
+
+      button.disabled = true;
+
+      try {
+
+        /*
+         * The selected ID file is intentionally NOT
+         * uploaded to a public bucket here.
+         *
+         * A production KYC system should use a
+         * secure KYC provider or private storage.
+         */
+
+        const payload = {
+
+          user_id:
+            currentUser.id,
+
+          full_name:
+            fullName,
+
+          date_of_birth:
+            dateOfBirth,
+
+          country:
+            country,
+
+          id_type:
+            idType,
+
+          id_number:
+            idNumber,
+
+          document_name:
+            documentFile.name,
+
+          document_type:
+            documentFile.type,
+
+          status:
+            "pending",
+
+          submitted_at:
+            new Date().toISOString(),
+
+          updated_at:
+            new Date().toISOString()
+        };
+
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from(
+              "kyc_verifications"
+            )
+            .upsert(
+              payload,
+              {
+                onConflict:
+                  "user_id"
+              }
+            );
+
+        if (error) {
+          throw error;
+        }
+
+        currentKyc =
+          payload;
+
+        updateKycStatus(
+          "pending"
+        );
+
+        showMessage(
+          message,
+          "Identity verification submitted. Your status is now pending.",
+          "success"
+        );
+
+        setTimeout(
+          () => {
+
+            kycModal.classList.remove(
+              "show"
+            );
+
+          },
+          1800
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(error);
+
+        showMessage(
+          message,
+          error.message ||
+          "Unable to submit identity verification. The KYC database table may not be ready yet.",
+          "error"
+        );
+
+      }
+
+      finally {
+
+        button.disabled = false;
+      }
+
+    }
+  );
 
 
 /* =========================
@@ -1482,57 +2758,87 @@ async function loadTransactions() {
   const {
     data,
     error
-  } = await supabaseClient
-    .from("transactions")
-    .select("*")
-    .eq("user_id", currentUser.id)
-    .order("created_at", {
-      ascending: false
-    });
+  } =
+    await supabaseClient
+      .from("transactions")
+      .select("*")
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .order(
+        "created_at",
+        {
+          ascending: false
+        }
+      );
 
   if (error) {
 
     console.error(error);
 
     transactionsList.innerHTML =
-      '<p style="color:#dc2626;">Unable to load transactions.</p>';
+      `
+        <p style="color:#dc2626;">
+          Unable to load transactions.
+        </p>
+      `;
 
     return;
   }
 
-  currentTransactions = data || [];
+  currentTransactions =
+    data || [];
 
-  if (!currentTransactions.length) {
+  if (
+    !currentTransactions.length
+  ) {
 
     transactionsList.innerHTML =
-      '<p style="color:#667085;">No transactions yet.</p>';
+      `
+        <p style="color:#667085;">
+          No transactions yet.
+        </p>
+      `;
 
     return;
   }
 
-  transactionsList.innerHTML = "";
+  transactionsList.innerHTML =
+    "";
 
   currentTransactions.forEach(
-    (transaction, index) => {
+    (
+      transaction,
+      index
+    ) => {
 
       const row =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
-      row.className = "transaction";
+      row.className =
+        "transaction";
 
       const amount =
-        Number(transaction.amount || 0);
+        Number(
+          transaction.amount || 0
+        );
 
       let amountClass =
         "amount-positive";
 
-      let amountPrefix = "+";
+      let amountPrefix =
+        "+";
 
       if (
-        transaction.type === "withdrawal"
+        transaction.type ===
+        "withdrawal"
         ||
         (
-          transaction.type === "transfer"
+          transaction.type ===
+          "transfer"
           &&
           transaction.description
           &&
@@ -1545,62 +2851,60 @@ async function loadTransactions() {
         amountClass =
           "amount-negative";
 
-        amountPrefix = "-";
+        amountPrefix =
+          "-";
       }
 
-      row.innerHTML = `
-        <div class="transaction-top">
+      row.innerHTML =
+        `
+          <div class="transaction-top">
 
-          <div>
-            <div class="transaction-type">
-              ${escapeHtml(
-                transaction.description ||
-                transaction.type ||
-                "Transaction"
+            <div>
+
+              <div class="transaction-type">
+                ${escapeHtml(
+                  transaction.description ||
+                  transaction.type ||
+                  "Transaction"
+                )}
+              </div>
+
+              <div class="transaction-date">
+                ${formatDate(
+                  transaction.created_at
+                )}
+              </div>
+
+            </div>
+
+            <div
+              class="${amountClass}"
+            >
+              ${amountPrefix}${formatMoney(
+                amount,
+                transaction.currency
               )}
             </div>
 
-            <div class="transaction-date">
-              ${formatDate(transaction.created_at)}
-            </div>
           </div>
+        `;
 
-          <div class="${amountClass}">
-            ${amountPrefix}${formatMoney(
-              amount,
-              transaction.currency
-            )}
-          </div>
+      row.addEventListener(
+        "click",
+        () => {
 
-        </div>
-      `;
+          openTransactionDetails(
+            index
+          );
 
-      row.addEventListener("click", () => {
-        openTransactionDetails(index);
-      });
+        }
+      );
 
-      transactionsList.appendChild(row);
+      transactionsList.appendChild(
+        row
+      );
     }
   );
-}
-
-
-/* =========================
-   ESCAPE HTML
-========================= */
-
-function escapeHtml(value) {
-
-  if (value === null || value === undefined) {
-    return "";
-  }
-
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
 }
 
 
@@ -1608,7 +2912,9 @@ function escapeHtml(value) {
    TRANSACTION DETAILS
 ========================= */
 
-function openTransactionDetails(index) {
+function openTransactionDetails(
+  index
+) {
 
   const transaction =
     currentTransactions[index];
@@ -1618,16 +2924,36 @@ function openTransactionDetails(index) {
   }
 
   const amount =
-    Number(transaction.amount || 0);
+    Number(
+      transaction.amount || 0
+    );
 
-  let amountPrefix = "";
+  let amountPrefix =
+    "";
 
-  if (transaction.type === "deposit") {
-    amountPrefix = "+";
-  } else if (transaction.type === "withdrawal") {
-    amountPrefix = "-";
-  } else if (
-    transaction.type === "transfer"
+  if (
+    transaction.type ===
+    "deposit"
+  ) {
+
+    amountPrefix =
+      "+";
+
+  }
+
+  else if (
+    transaction.type ===
+    "withdrawal"
+  ) {
+
+    amountPrefix =
+      "-";
+
+  }
+
+  else if (
+    transaction.type ===
+    "transfer"
   ) {
 
     if (
@@ -1636,128 +2962,175 @@ function openTransactionDetails(index) {
         .toLowerCase()
         .includes("sent")
     ) {
-      amountPrefix = "-";
-    } else {
-      amountPrefix = "+";
+
+      amountPrefix =
+        "-";
+
+    }
+
+    else {
+
+      amountPrefix =
+        "+";
     }
   }
 
-  transactionDetails.innerHTML = `
+  transactionDetails.innerHTML =
+    `
 
-    <div class="detail-row">
-      <div class="detail-label">
-        Transaction
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Transaction
+        </div>
+
+        <div class="detail-value">
+          ${escapeHtml(
+            transaction.description ||
+            transaction.type ||
+            "Transaction"
+          )}
+        </div>
+
       </div>
 
-      <div class="detail-value">
-        ${escapeHtml(
-          transaction.description ||
-          transaction.type ||
-          "Transaction"
-        )}
-      </div>
-    </div>
 
-    <div class="detail-row">
-      <div class="detail-label">
-        Amount
-      </div>
+      <div class="detail-row">
 
-      <div class="detail-value">
-        ${amountPrefix}${formatMoney(
-          amount,
-          transaction.currency
-        )}
-      </div>
-    </div>
+        <div class="detail-label">
+          Amount
+        </div>
 
-    <div class="detail-row">
-      <div class="detail-label">
-        Type
+        <div class="detail-value">
+          ${amountPrefix}${formatMoney(
+            amount,
+            transaction.currency
+          )}
+        </div>
+
       </div>
 
-      <div class="detail-value">
-        ${escapeHtml(
-          transaction.type || "N/A"
-        )}
-      </div>
-    </div>
 
-    <div class="detail-row">
-      <div class="detail-label">
-        Currency
-      </div>
+      <div class="detail-row">
 
-      <div class="detail-value">
-        ${escapeHtml(
-          transaction.currency || "N/A"
-        )}
-      </div>
-    </div>
+        <div class="detail-label">
+          Type
+        </div>
 
-    <div class="detail-row">
-      <div class="detail-label">
-        Status
+        <div class="detail-value">
+          ${escapeHtml(
+            transaction.type ||
+            "N/A"
+          )}
+        </div>
+
       </div>
 
-      <div class="detail-value">
-        ${escapeHtml(
-          transaction.status || "N/A"
-        )}
-      </div>
-    </div>
 
-    <div class="detail-row">
-      <div class="detail-label">
-        Reference
-      </div>
+      <div class="detail-row">
 
-      <div class="detail-value">
-        ${escapeHtml(
-          transaction.reference || "N/A"
-        )}
-      </div>
-    </div>
+        <div class="detail-label">
+          Currency
+        </div>
 
-    <div class="detail-row">
-      <div class="detail-label">
-        Date & Time
+        <div class="detail-value">
+          ${escapeHtml(
+            transaction.currency ||
+            "N/A"
+          )}
+        </div>
+
       </div>
 
-      <div class="detail-value">
-        ${escapeHtml(
-          formatDate(transaction.created_at)
-        )}
-      </div>
-    </div>
 
-    <div class="detail-row">
-      <div class="detail-label">
-        Description
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Status
+        </div>
+
+        <div class="detail-value">
+          ${escapeHtml(
+            transaction.status ||
+            "N/A"
+          )}
+        </div>
+
       </div>
 
-      <div class="detail-value">
-        ${escapeHtml(
-          transaction.description || "N/A"
-        )}
-      </div>
-    </div>
-  `;
 
-  transactionModal.classList.add("show");
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Reference
+        </div>
+
+        <div class="detail-value">
+          ${escapeHtml(
+            transaction.reference ||
+            "N/A"
+          )}
+        </div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Date & Time
+        </div>
+
+        <div class="detail-value">
+          ${escapeHtml(
+            formatDate(
+              transaction.created_at
+            )
+          )}
+        </div>
+
+      </div>
+
+
+      <div class="detail-row">
+
+        <div class="detail-label">
+          Description
+        </div>
+
+        <div class="detail-value">
+          ${escapeHtml(
+            transaction.description ||
+            "N/A"
+          )}
+        </div>
+
+      </div>
+    `;
+
+  transactionModal.classList.add(
+    "show"
+  );
 }
 
 
 /* =========================
-   CLOSE TRANSACTION MODAL
+   CLOSE TRANSACTION
 ========================= */
 
 document
-  .getElementById("closeTransactionBtn")
-  .addEventListener("click", () => {
+  .getElementById(
+    "closeTransactionBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
 
-    transactionModal.classList.remove("show");
-  });
+      transactionModal.classList.remove(
+        "show"
+      );
+    }
+  );
 
 
 transactionModal.addEventListener(
@@ -1765,10 +3138,13 @@ transactionModal.addEventListener(
   (event) => {
 
     if (
-      event.target === transactionModal
+      event.target ===
+      transactionModal
     ) {
 
-      transactionModal.classList.remove("show");
+      transactionModal.classList.remove(
+        "show"
+      );
     }
   }
 );
