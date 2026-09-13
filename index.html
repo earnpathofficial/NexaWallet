@@ -2,312 +2,365 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NexaWallet — Your Money, Simplified</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NexaWallet — Your Money. Simplified.</title>
+
+<meta name="description" content="NexaWallet — digital wallet, money transfers and transaction history.">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{
+  box-sizing:border-box;
+}
 
 body{
-font-family:Arial,sans-serif;
-background:#f5f7fb;
-color:#111827;
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f4f7fb;
+  color:#172033;
 }
 
 header{
-background:#111827;
-color:white;
-padding:18px 20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
+  background:#ffffff;
+  border-bottom:1px solid #e7ebf2;
+  padding:16px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:20;
 }
 
 .logo{
-font-size:23px;
-font-weight:800;
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:-0.5px;
 }
 
-.logo span{
-color:#4f8cff;
+.header-user{
+  font-size:13px;
+  color:#667085;
 }
 
-button{
-cursor:pointer;
-border:0;
-border-radius:8px;
-font-weight:700;
-}
-
-button:disabled{
-opacity:.6;
-cursor:not-allowed;
-}
-
-.header-btn{
-background:transparent;
-border:1px solid #4f8cff;
-color:white;
-padding:9px 15px;
+.container{
+  width:100%;
+  max-width:760px;
+  margin:0 auto;
+  padding:22px 16px 50px;
 }
 
 .hero{
-text-align:center;
-background:white;
-padding:55px 20px;
+  background:#111827;
+  color:white;
+  border-radius:24px;
+  padding:28px 22px;
+  margin-bottom:18px;
 }
 
 .hero h1{
-font-size:38px;
-margin-bottom:16px;
-}
-
-.hero h1 span{
-color:#4f8cff;
+  margin:0 0 8px;
+  font-size:30px;
 }
 
 .hero p{
-max-width:650px;
-margin:auto;
-color:#6b7280;
-line-height:1.6;
-}
-
-.hero button,
-.auth button{
-background:#4f8cff;
-color:white;
-padding:14px 22px;
-margin-top:22px;
-}
-
-.section{
-max-width:1100px;
-margin:auto;
-padding:45px 20px;
-}
-
-.section h2{
-text-align:center;
-margin-bottom:30px;
-}
-
-.features{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:18px;
+  margin:0;
+  color:#d1d5db;
+  line-height:1.5;
 }
 
 .card{
-background:white;
-padding:22px;
-border-radius:14px;
-box-shadow:0 3px 12px #0000000d;
+  background:white;
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:16px;
+  box-shadow:0 6px 20px rgba(16,24,40,.06);
+  border:1px solid #edf0f5;
 }
 
-.card p{
-color:#6b7280;
-line-height:1.5;
-margin-top:10px;
+.card h2{
+  margin:0 0 15px;
+  font-size:18px;
 }
 
-.auth{
-background:#111827;
-padding:45px 20px;
+.balance-card{
+  background:linear-gradient(135deg,#111827,#273449);
+  color:white;
+  border:none;
 }
 
-.auth-box{
-max-width:430px;
-margin:auto;
-background:white;
-padding:25px;
-border-radius:15px;
-}
-
-input{
-width:100%;
-padding:13px;
-margin-bottom:12px;
-border:1px solid #d1d5db;
-border-radius:8px;
-font-size:15px;
-}
-
-.auth button{
-width:100%;
-margin-top:0;
-}
-
-.switch{
-text-align:center;
-margin-top:14px;
-color:#6b7280;
-font-size:14px;
-}
-
-.switch button{
-background:none;
-color:#4f8cff;
-padding:0;
-margin:0;
-}
-
-.msg{
-margin-top:12px;
-padding:10px;
-background:#f3f4f6;
-border-radius:8px;
-font-size:14px;
-}
-
-.dashboard{
-display:none;
-max-width:1100px;
-margin:auto;
-padding:35px 20px;
-}
-
-.top{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:20px;
-}
-
-.logout{
-background:#111827;
-color:white;
-padding:10px 15px;
+.balance-label{
+  color:#cbd5e1;
+  font-size:13px;
+  margin-bottom:8px;
 }
 
 .balance{
-background:#111827;
-color:white;
-padding:25px;
-border-radius:15px;
-margin-bottom:20px;
+  font-size:36px;
+  font-weight:800;
+  letter-spacing:-1px;
 }
 
-.balance small{
-color:#cbd5e1;
+.currency-label{
+  color:#cbd5e1;
+  font-size:13px;
+  margin-top:7px;
 }
 
-.balance h2{
-font-size:35px;
-margin-top:8px;
+.account-card{
+  background:white;
 }
 
-.wallet-status{
-margin-top:8px;
-font-size:13px;
-color:#cbd5e1;
+.account-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.account-title h2{
+  margin:0;
+}
+
+.account-badge{
+  background:#eef6ff;
+  color:#2563eb;
+  padding:6px 9px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:700;
+}
+
+.account-number-box{
+  margin-top:14px;
+  background:#f7f9fc;
+  border:1px solid #e6eaf0;
+  border-radius:16px;
+  padding:16px;
+}
+
+.account-label{
+  font-size:12px;
+  color:#667085;
+  margin-bottom:7px;
+}
+
+.account-number{
+  font-size:23px;
+  font-weight:800;
+  letter-spacing:.5px;
+  word-break:break-word;
+}
+
+.account-help{
+  margin-top:9px;
+  font-size:12px;
+  color:#667085;
+  line-height:1.45;
+}
+
+button{
+  width:100%;
+  border:none;
+  border-radius:13px;
+  padding:14px 16px;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+button:active{
+  transform:scale(.99);
+}
+
+.primary{
+  background:#111827;
+  color:white;
+}
+
+.secondary{
+  background:#eef2f7;
+  color:#172033;
+}
+
+.copy-btn{
+  margin-top:12px;
+  background:#eaf2ff;
+  color:#175cd3;
+}
+
+.danger{
+  background:#fff0f0;
+  color:#c62828;
 }
 
 .actions{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:18px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
 }
 
-.action{
-background:white;
-padding:20px;
-font-size:15px;
-box-shadow:0 3px 12px #0000000d;
+.actions button{
+  min-height:54px;
 }
 
-.action:hover{
-transform:translateY(-1px);
+.auth-section{
+  max-width:480px;
+  margin:35px auto;
 }
 
-.transactions{
-background:white;
-padding:22px;
-border-radius:14px;
-box-shadow:0 3px 12px #0000000d;
-margin-top:25px;
+.auth-section h1{
+  text-align:center;
+  margin-bottom:8px;
+}
+
+.auth-subtitle{
+  text-align:center;
+  color:#667085;
+  margin-bottom:24px;
+}
+
+input,select{
+  width:100%;
+  padding:14px;
+  border:1px solid #d9dee8;
+  border-radius:12px;
+  font-size:15px;
+  outline:none;
+  background:#fff;
+}
+
+input:focus,select:focus{
+  border-color:#111827;
+}
+
+.field{
+  margin-bottom:13px;
+}
+
+.field label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin-bottom:7px;
+}
+
+.auth-buttons{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:8px;
+}
+
+.switch-auth{
+  margin-top:16px;
+  text-align:center;
+  font-size:13px;
+  color:#667085;
+}
+
+.switch-auth button{
+  width:auto;
+  background:none;
+  color:#175cd3;
+  padding:0;
+  font-size:13px;
+}
+
+.hidden{
+  display:none !important;
 }
 
 .transaction{
-display:flex;
-justify-content:space-between;
-gap:15px;
-padding:15px 0;
-border-bottom:1px solid #eee;
+  border-bottom:1px solid #edf0f5;
+  padding:13px 0;
 }
 
 .transaction:last-child{
-border-bottom:0;
+  border-bottom:none;
 }
 
-.transaction-left{
-display:flex;
-flex-direction:column;
-gap:5px;
+.transaction-top{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
 }
 
 .transaction-title{
-font-weight:700;
+  font-weight:700;
+  font-size:14px;
 }
 
-.transaction-date{
-font-size:12px;
-color:#9ca3af;
+.transaction-amount{
+  font-weight:800;
+  font-size:14px;
 }
 
-.deposit{
-color:#16a34a;
+.transaction-meta{
+  margin-top:5px;
+  color:#667085;
+  font-size:12px;
+  line-height:1.45;
 }
 
-.withdrawal{
-color:#dc2626;
+.positive{
+  color:#087443;
 }
 
-.transfer{
-color:#4f8cff;
+.negative{
+  color:#c62828;
 }
 
 .empty{
-color:#6b7280;
+  color:#667085;
+  font-size:14px;
+  padding:10px 0;
 }
 
-.loading{
-text-align:center;
-padding:20px;
-color:#6b7280;
+.status{
+  margin-top:12px;
+  padding:12px;
+  border-radius:12px;
+  font-size:13px;
+  line-height:1.4;
+}
+
+.status.success{
+  background:#ecfdf3;
+  color:#067647;
+}
+
+.status.error{
+  background:#fef3f2;
+  color:#b42318;
 }
 
 footer{
-text-align:center;
-padding:25px;
-background:#0b1120;
-color:#9ca3af;
-font-size:13px;
+  text-align:center;
+  color:#98a2b3;
+  font-size:12px;
+  padding:25px 15px;
+  line-height:1.5;
 }
 
-@media(max-width:750px){
+@media(max-width:520px){
+  .hero h1{
+    font-size:27px;
+  }
 
-.features,
-.actions{
-grid-template-columns:1fr;
-}
+  .balance{
+    font-size:32px;
+  }
 
-.hero h1{
-font-size:31px;
-}
+  .account-number{
+    font-size:20px;
+  }
 
-.top{
-align-items:flex-start;
-gap:12px;
-flex-direction:column;
-}
-
-.balance h2{
-font-size:31px;
-}
-
+  .actions{
+    grid-template-columns:1fr;
+  }
 }
 </style>
 </head>
@@ -315,1223 +368,992 @@ font-size:31px;
 <body>
 
 <header>
-
-<div class="logo">
-Nexa<span>Wallet</span>
-</div>
-
-<button
-class="header-btn"
-id="headBtn"
-onclick="showAuth()">
-Log In
-</button>
-
+  <div class="logo">NexaWallet</div>
+  <div id="headerUser" class="header-user"></div>
 </header>
 
+<main class="container">
 
-<section class="hero" id="home">
+  <!-- AUTH -->
+  <section id="authSection" class="auth-section">
 
-<h1>
-Your Money.<br>
-<span>Simplified.</span>
-</h1>
+    <div class="card">
 
-<p>
-NexaWallet is being built to give users a simple place to manage money,
-view transactions and access supported financial services.
-</p>
+      <h1 id="authTitle">Welcome to NexaWallet</h1>
 
-<button onclick="showAuth()">
-Get Started
-</button>
+      <p id="authSubtitle" class="auth-subtitle">
+        Your money. Simplified.
+      </p>
 
-</section>
+      <div class="field">
+        <label>Email</label>
+        <input id="emailInput" type="email" placeholder="you@example.com">
+      </div>
 
+      <div class="field">
+        <label>Password</label>
+        <input id="passwordInput" type="password" placeholder="Enter your password">
+      </div>
 
-<section class="section" id="features">
+      <div id="authButtons" class="auth-buttons">
+        <button class="primary" id="loginBtn">Log In</button>
+        <button class="secondary" id="signupBtn">Create Account</button>
+      </div>
 
-<h2>
-What NexaWallet Will Offer
-</h2>
+      <div id="authStatus"></div>
 
-<div class="features">
+      <div class="switch-auth">
+        Prototype wallet account — use a valid email and password.
+      </div>
 
-<div class="card">
-<h3>💳 Digital Wallet</h3>
-<p>
-View your available balance and manage supported money services.
-</p>
-</div>
+    </div>
 
-<div class="card">
-<h3>↔️ Money Transfers</h3>
-<p>
-Send and receive money through supported infrastructure.
-</p>
-</div>
+  </section>
 
-<div class="card">
-<h3>📊 Transaction History</h3>
-<p>
-Track deposits, withdrawals, transfers and wallet activity.
-</p>
-</div>
+  <!-- DASHBOARD -->
+  <section id="dashboardSection" class="hidden">
 
-</div>
+    <div class="hero">
+      <h1>Your Money. Simplified.</h1>
+      <p>
+        Manage your NexaWallet balance, send money and view your transaction history.
+      </p>
+    </div>
 
-</section>
+    <!-- BALANCE -->
+    <div class="card balance-card">
 
+      <div class="balance-label">Available Balance</div>
 
-<section class="auth" id="auth">
+      <div id="balanceAmount" class="balance">
+        ₦0.00
+      </div>
 
-<div class="auth-box">
+      <div id="balanceCurrency" class="currency-label">
+        NGN wallet
+      </div>
 
-<h2 id="title">
-Create your NexaWallet account
-</h2>
+    </div>
 
-<br>
+    <!-- ACCOUNT NUMBER -->
+    <div class="card account-card">
 
-<input
-id="name"
-placeholder="Full name">
+      <div class="account-title">
+        <h2>Account Number</h2>
+        <span class="account-badge">NexaWallet</span>
+      </div>
 
-<input
-id="email"
-type="email"
-placeholder="Email address">
+      <div class="account-number-box">
 
-<input
-id="password"
-type="password"
-placeholder="Password">
+        <div class="account-label">
+          Your NexaWallet account number
+        </div>
 
-<button
-id="authBtn"
-onclick="auth()">
-Create Account
-</button>
+        <div id="accountNumber" class="account-number">
+          Loading...
+        </div>
 
-<div class="switch">
+        <div class="account-help">
+          Share this phone number with another NexaWallet user to receive money.
+        </div>
 
-<span id="switchText">
-Already have an account?
-</span>
+        <button id="copyAccountBtn" class="copy-btn">
+          Copy Account Number
+        </button>
 
-<button onclick="toggle()">
-Log In
-</button>
+      </div>
 
-</div>
+      <div id="accountStatus"></div>
 
-<div
-class="msg"
-id="msg"
-style="display:none">
-</div>
+    </div>
 
-</div>
+    <!-- ACTIONS -->
+    <div class="card">
 
-</section>
+      <h2>Wallet</h2>
 
+      <div class="actions">
 
-<section class="dashboard" id="dash">
+        <button id="addMoneyBtn" class="primary">
+          + Add Money
+        </button>
 
-<div class="top">
+        <button id="withdrawBtn" class="secondary">
+          Withdraw
+        </button>
 
-<h2 id="welcome">
-Welcome
-</h2>
+        <button id="sendMoneyBtn" class="primary">
+          Send Money
+        </button>
 
-<button
-class="logout"
-onclick="logout()">
-Log Out
-</button>
+        <button id="refreshBtn" class="secondary">
+          Refresh
+        </button>
 
-</div>
+      </div>
 
+      <div id="walletStatus"></div>
 
-<div class="balance">
+    </div>
 
-<small>
-Available Balance
-</small>
+    <!-- TRANSACTIONS -->
+    <div class="card">
 
-<h2 id="balance">
-₦0.00
-</h2>
+      <h2>Transaction History</h2>
 
-<div
-class="wallet-status"
-id="walletStatus">
-Loading wallet...
-</div>
+      <div id="transactionsList">
+        <div class="empty">Loading transactions...</div>
+      </div>
 
-</div>
+    </div>
 
+    <!-- LOGOUT -->
+    <div class="card">
 
-<div class="actions">
+      <button id="logoutBtn" class="danger">
+        Log Out
+      </button>
 
-<button
-class="action"
-id="depositBtn"
-onclick="depositMoney()">
-➕ Add Money
-</button>
+    </div>
 
-<button
-class="action"
-id="withdrawBtn"
-onclick="withdrawMoney()">
-💸 Withdraw
-</button>
+  </section>
 
-<button
-class="action"
-id="sendBtn"
-onclick="sendMoney()">
-↔️ Send Money
-</button>
-
-</div>
-
-
-<div class="transactions">
-
-<h3>
-Recent Transactions
-</h3>
-
-<div id="tx">
-
-<div class="loading">
-Loading transactions...
-</div>
-
-</div>
-
-</div>
-
-</section>
-
+</main>
 
 <footer>
-
-© 2026 NexaWallet. Planning and development platform.
-<br><br>
-Prototype only — not a bank and not currently a licensed financial institution.
-
+  NexaWallet<br>
+  Prototype only — not a bank and not currently a licensed financial institution.
 </footer>
 
 
 <script>
+const SUPABASE_URL = "https://sukhdbkokkyvrduryakz.supabase.co";
 
-const SUPABASE_URL =
-"https://sukhdbkokkyvrduryakz.supabase.co";
+const SUPABASE_KEY = "sb_publishable_OA3jvEJfstZrEhBqMSFUzw_wXcAoEVl";
 
-const SUPABASE_KEY =
-"sb_publishable_OA3jvEJfstZrEhBqMSFUzw_wXcAoEVl";
-
-const db =
-window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
-let login = false;
 let currentUser = null;
+let currentWallet = null;
 
 
-/* =========================
-   BASIC UI
-========================= */
+/* ------------------------------
+   HELPERS
+------------------------------ */
 
-function showAuth(){
+function showStatus(elementId, message, type = "success") {
+  const element = document.getElementById(elementId);
 
-document
-.getElementById("auth")
-.scrollIntoView({
-behavior:"smooth"
-});
+  if (!element) return;
 
+  element.innerHTML =
+    '<div class="status ' + type + '">' +
+    message +
+    '</div>';
+}
+
+function clearStatus(elementId) {
+  const element = document.getElementById(elementId);
+
+  if (element) {
+    element.innerHTML = "";
+  }
+}
+
+function formatMoney(amount, currency) {
+
+  const number = Number(amount || 0);
+
+  let symbol = currency === "NGN" ? "₦" : currency + " ";
+
+  return symbol + number.toLocaleString(
+    undefined,
+    {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }
+  );
+}
+
+function createReference(prefix) {
+
+  return (
+    prefix +
+    "-" +
+    Date.now() +
+    "-" +
+    Math.random().toString(36).substring(2, 8).toUpperCase()
+  );
 }
 
 
-function toggle(){
-
-login = !login;
-
-document.getElementById("title").textContent =
-login
-? "Log in to NexaWallet"
-: "Create your NexaWallet account";
-
-document.getElementById("authBtn").textContent =
-login
-? "Log In"
-: "Create Account";
-
-document.getElementById("name").style.display =
-login
-? "none"
-: "block";
-
-document.getElementById("switchText").textContent =
-login
-? "Don't have an account?"
-: "Already have an account?";
-
-document.querySelector(".switch button").textContent =
-login
-? "Create Account"
-: "Log In";
-
-document.getElementById("msg").style.display =
-"none";
-
-}
-
-
-function message(x){
-
-const m =
-document.getElementById("msg");
-
-m.textContent = x;
-m.style.display = "block";
-
-}
-
-
-/* =========================
+/* ------------------------------
    AUTH
-========================= */
+------------------------------ */
 
-async function auth(){
+async function login() {
 
-const email =
-document
-.getElementById("email")
-.value
-.trim();
+  clearStatus("authStatus");
 
-const password =
-document
-.getElementById("password")
-.value;
+  const email =
+    document.getElementById("emailInput").value.trim();
 
-const name =
-document
-.getElementById("name")
-.value
-.trim();
+  const password =
+    document.getElementById("passwordInput").value;
 
-const button =
-document.getElementById("authBtn");
+  if (!email || !password) {
 
+    showStatus(
+      "authStatus",
+      "Please enter your email and password.",
+      "error"
+    );
 
-if(
-!email ||
-!password ||
-(!login && !name)
-){
+    return;
+  }
 
-message("Please complete all fields.");
-return;
+  const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: password
+    });
 
+  if (error) {
+
+    showStatus(
+      "authStatus",
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+  currentUser = data.user;
+
+  await showDashboard();
 }
 
 
-if(password.length < 6){
+async function signup() {
 
-message(
-"Password must contain at least 6 characters."
-);
+  clearStatus("authStatus");
 
-return;
+  const email =
+    document.getElementById("emailInput").value.trim();
 
+  const password =
+    document.getElementById("passwordInput").value;
+
+  if (!email || !password) {
+
+    showStatus(
+      "authStatus",
+      "Please enter an email and password.",
+      "error"
+    );
+
+    return;
+  }
+
+  if (password.length < 6) {
+
+    showStatus(
+      "authStatus",
+      "Password must be at least 6 characters.",
+      "error"
+    );
+
+    return;
+  }
+
+  const { data, error } =
+    await supabaseClient.auth.signUp({
+      email: email,
+      password: password
+    });
+
+  if (error) {
+
+    showStatus(
+      "authStatus",
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+  if (data.user) {
+
+    currentUser = data.user;
+
+    showStatus(
+      "authStatus",
+      "Account created successfully. You can now use NexaWallet.",
+      "success"
+    );
+
+    if (data.session) {
+      await showDashboard();
+    }
+
+  } else {
+
+    showStatus(
+      "authStatus",
+      "Account created. Please check your email if confirmation is required.",
+      "success"
+    );
+  }
 }
 
 
-button.disabled = true;
+async function logout() {
 
-button.textContent =
-login
-? "Logging in..."
-: "Creating account...";
+  await supabaseClient.auth.signOut();
 
+  currentUser = null;
+  currentWallet = null;
 
-try{
+  document
+    .getElementById("dashboardSection")
+    .classList.add("hidden");
 
-if(login){
+  document
+    .getElementById("authSection")
+    .classList.remove("hidden");
 
-const {data,error} =
-await db.auth.signInWithPassword({
+  document.getElementById("headerUser").textContent = "";
 
-email:email,
-password:password
+  document.getElementById("accountNumber").textContent =
+    "Loading...";
 
-});
+  document.getElementById("transactionsList").innerHTML =
+    '<div class="empty">Loading transactions...</div>';
 
-if(error) throw error;
-
-await dashboard(data.user);
-
-}else{
-
-const {data,error} =
-await db.auth.signUp({
-
-email:email,
-password:password,
-
-options:{
-data:{
-full_name:name
-}
-}
-
-});
-
-if(error) throw error;
-
-if(!data.user){
-
-throw new Error(
-"Account could not be created."
-);
-
+  document.getElementById("emailInput").value = "";
+  document.getElementById("passwordInput").value = "";
 }
 
 
-if(data.session){
-
-await dashboard(data.user);
-
-}else{
-
-message(
-"Account created. Check your email to confirm your account, then log in."
-);
-
-}
-
-}
-
-}catch(e){
-
-console.error(e);
-
-message(
-e.message ||
-"Something went wrong."
-);
-
-}
-
-
-button.disabled = false;
-
-button.textContent =
-login
-? "Log In"
-: "Create Account";
-
-}
-
-
-/* =========================
+/* ------------------------------
    DASHBOARD
-========================= */
+------------------------------ */
 
-async function dashboard(user){
+async function showDashboard() {
 
-currentUser = user;
+  document
+    .getElementById("authSection")
+    .classList.add("hidden");
 
-document.getElementById("home").style.display =
-"none";
+  document
+    .getElementById("dashboardSection")
+    .classList.remove("hidden");
 
-document.getElementById("features").style.display =
-"none";
+  if (currentUser) {
 
-document.getElementById("auth").style.display =
-"none";
+    document.getElementById("headerUser").textContent =
+      currentUser.email || "";
+  }
 
-document.getElementById("dash").style.display =
-"block";
-
-document.getElementById("headBtn").style.display =
-"none";
-
-document.getElementById("welcome").textContent =
-"Welcome, " +
-(user.email?.split("@")[0] || "User");
-
-
-await ensureWallet(user.id);
-
-await loadWallet(user.id);
-
-await transactions(user.id);
-
-window.scrollTo(0,0);
-
+  await loadAccountNumber();
+  await loadWallet();
+  await loadTransactions();
 }
 
 
-/* =========================
-   ENSURE NGN WALLET
-========================= */
+/* ------------------------------
+   ACCOUNT NUMBER
+------------------------------ */
 
-async function ensureWallet(uid){
+async function loadAccountNumber() {
 
-const {data,error} =
-await db
-.from("wallets")
-.select("id,balance,currency,status")
-.eq("user_id",uid)
-.eq("currency","NGN")
-.eq("status","active")
-.maybeSingle();
+  if (!currentUser) return;
 
+  const accountElement =
+    document.getElementById("accountNumber");
 
-if(error){
+  accountElement.textContent = "Loading...";
 
-console.error(
-"Wallet lookup error:",
-error
-);
+  const { data, error } =
+    await supabaseClient
+      .from("user_profiles")
+      .select("phone_number")
+      .eq("id", currentUser.id)
+      .maybeSingle();
 
-return;
+  if (error) {
 
+    accountElement.textContent =
+      "Unable to load account number";
+
+    showStatus(
+      "accountStatus",
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+  if (!data || !data.phone_number) {
+
+    accountElement.textContent =
+      "No account number yet";
+
+    showStatus(
+      "accountStatus",
+      "Your phone number has not been added to your NexaWallet profile yet.",
+      "error"
+    );
+
+    return;
+  }
+
+  accountElement.textContent =
+    data.phone_number;
+
+  clearStatus("accountStatus");
 }
 
 
-if(data){
+/* ------------------------------
+   COPY ACCOUNT NUMBER
+------------------------------ */
 
-return data;
+document
+  .getElementById("copyAccountBtn")
+  .addEventListener("click", async function() {
 
+    const accountNumber =
+      document
+        .getElementById("accountNumber")
+        .textContent
+        .trim();
+
+    if (
+      !accountNumber ||
+      accountNumber === "Loading..." ||
+      accountNumber === "No account number yet"
+    ) {
+
+      showStatus(
+        "accountStatus",
+        "There is no account number available to copy.",
+        "error"
+      );
+
+      return;
+    }
+
+    try {
+
+      await navigator.clipboard.writeText(accountNumber);
+
+      showStatus(
+        "accountStatus",
+        "Account number copied successfully.",
+        "success"
+      );
+
+    } catch (error) {
+
+      showStatus(
+        "accountStatus",
+        "Unable to copy automatically. Please press and hold the account number to copy it.",
+        "error"
+      );
+    }
+  });
+
+
+/* ------------------------------
+   WALLET
+------------------------------ */
+
+async function loadWallet() {
+
+  if (!currentUser) return;
+
+  const { data, error } =
+    await supabaseClient
+      .from("wallets")
+      .select("*")
+      .eq("user_id", currentUser.id)
+      .eq("status", "active")
+      .eq("currency", "NGN")
+      .limit(1)
+      .maybeSingle();
+
+  if (error) {
+
+    showStatus(
+      "walletStatus",
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+  if (!data) {
+
+    const { data: createdWallet, error: createError } =
+      await supabaseClient
+        .from("wallets")
+        .insert({
+          user_id: currentUser.id,
+          balance: 0,
+          currency: "NGN",
+          status: "active"
+        })
+        .select()
+        .single();
+
+    if (createError) {
+
+      showStatus(
+        "walletStatus",
+        createError.message,
+        "error"
+      );
+
+      return;
+    }
+
+    currentWallet = createdWallet;
+
+  } else {
+
+    currentWallet = data;
+  }
+
+  document.getElementById("balanceAmount").textContent =
+    formatMoney(
+      currentWallet.balance,
+      currentWallet.currency
+    );
+
+  document.getElementById("balanceCurrency").textContent =
+    currentWallet.currency + " wallet";
 }
 
 
-const {error:createError} =
-await db
-.from("wallets")
-.insert({
+/* ------------------------------
+   REFRESH
+------------------------------ */
 
-user_id:uid,
-balance:0,
-currency:"NGN",
-status:"active"
+document
+  .getElementById("refreshBtn")
+  .addEventListener("click", async function() {
 
-});
+    clearStatus("walletStatus");
 
+    await loadAccountNumber();
+    await loadWallet();
+    await loadTransactions();
 
-if(createError){
+    showStatus(
+      "walletStatus",
+      "Wallet updated.",
+      "success"
+    );
+  });
 
-console.error(
-"Wallet creation error:",
-createError
-);
 
-}
+/* ------------------------------
+   ADD MONEY
+------------------------------ */
 
-}
+document
+  .getElementById("addMoneyBtn")
+  .addEventListener("click", async function() {
 
+    if (!currentUser || !currentWallet) return;
 
-/* =========================
-   LOAD WALLET
-========================= */
+    const amountText =
+      prompt("Enter amount to add in NGN:");
 
-async function loadWallet(uid){
+    if (amountText === null) return;
 
-const status =
-document.getElementById("walletStatus");
+    const amount =
+      Number(amountText);
 
-status.textContent =
-"Loading wallet...";
+    if (!Number.isFinite(amount) || amount <= 0) {
 
+      showStatus(
+        "walletStatus",
+        "Enter a valid amount greater than zero.",
+        "error"
+      );
 
-const {data,error} =
-await db
-.from("wallets")
-.select("balance,currency,status")
-.eq("user_id",uid)
-.eq("currency","NGN")
-.eq("status","active")
-.maybeSingle();
+      return;
+    }
 
+    const reference =
+      createReference("ADD");
 
-if(error){
+    const { data, error } =
+      await supabaseClient.rpc(
+        "process_wallet_transaction",
+        {
+          p_user_id: currentUser.id,
+          p_type: "deposit",
+          p_amount: amount,
+          p_currency: "NGN",
+          p_reference: reference,
+          p_description: "NexaWallet deposit"
+        }
+      );
 
-console.error(error);
+    if (error) {
 
-status.textContent =
-"Unable to load wallet";
+      showStatus(
+        "walletStatus",
+        error.message,
+        "error"
+      );
 
-return;
+      return;
+    }
 
-}
+    showStatus(
+      "walletStatus",
+      "Money added successfully.",
+      "success"
+    );
 
+    await loadWallet();
+    await loadTransactions();
+  });
 
-if(!data){
 
-document.getElementById("balance").textContent =
-"₦0.00";
-
-status.textContent =
-"NGN wallet ready";
-
-return;
-
-}
-
-
-const amount =
-Number(data.balance || 0);
-
-
-document.getElementById("balance").textContent =
-new Intl.NumberFormat(
-"en-NG",
-{
-style:"currency",
-currency:"NGN"
-}
-).format(amount);
-
-
-status.textContent =
-"NGN wallet • Active";
-
-}
-
-
-/* =========================
-   DEPOSIT
-========================= */
-
-async function depositMoney(){
-
-if(!currentUser){
-
-alert("Please log in first.");
-return;
-
-}
-
-
-const value =
-prompt(
-"Enter the NGN amount to add to your NexaWallet:"
-);
-
-
-if(value === null){
-
-return;
-
-}
-
-
-const amount =
-Number(
-String(value)
-.replace(/,/g,"")
-);
-
-
-if(!Number.isFinite(amount) || amount <= 0){
-
-alert(
-"Please enter a valid amount greater than zero."
-);
-
-return;
-
-}
-
-
-const button =
-document.getElementById("depositBtn");
-
-button.disabled = true;
-
-button.textContent =
-"Adding Money...";
-
-
-try{
-
-const reference =
-"NEXA-DEP-" +
-Date.now();
-
-
-const {data,error} =
-await db.rpc(
-"process_wallet_transaction",
-{
-p_user_id:currentUser.id,
-p_type:"deposit",
-p_amount:amount,
-p_currency:"NGN",
-p_reference:reference,
-p_description:"NexaWallet deposit"
-}
-);
-
-
-if(error){
-
-throw error;
-
-}
-
-
-if(!data || data.success !== true){
-
-throw new Error(
-"Deposit could not be completed."
-);
-
-}
-
-
-alert(
-"Deposit successful!\n\nAmount: ₦" +
-amount.toLocaleString("en-NG") +
-"\nReference: " +
-reference
-);
-
-
-await loadWallet(currentUser.id);
-
-await transactions(currentUser.id);
-
-
-}catch(e){
-
-console.error(e);
-
-alert(
-e.message ||
-"Deposit failed."
-);
-
-}
-
-
-button.disabled = false;
-
-button.textContent =
-"➕ Add Money";
-
-}
-
-
-/* =========================
+/* ------------------------------
    WITHDRAW
-========================= */
+------------------------------ */
 
-async function withdrawMoney(){
+document
+  .getElementById("withdrawBtn")
+  .addEventListener("click", async function() {
 
-if(!currentUser){
+    if (!currentUser || !currentWallet) return;
 
-alert("Please log in first.");
-return;
+    const amountText =
+      prompt("Enter amount to withdraw in NGN:");
 
-}
+    if (amountText === null) return;
 
+    const amount =
+      Number(amountText);
 
-const value =
-prompt(
-"Enter the NGN amount to withdraw:"
-);
+    if (!Number.isFinite(amount) || amount <= 0) {
 
+      showStatus(
+        "walletStatus",
+        "Enter a valid amount greater than zero.",
+        "error"
+      );
 
-if(value === null){
+      return;
+    }
 
-return;
+    const reference =
+      createReference("WITHDRAW");
 
-}
+    const { data, error } =
+      await supabaseClient.rpc(
+        "process_wallet_transaction",
+        {
+          p_user_id: currentUser.id,
+          p_type: "withdrawal",
+          p_amount: amount,
+          p_currency: "NGN",
+          p_reference: reference,
+          p_description: "NexaWallet withdrawal"
+        }
+      );
 
+    if (error) {
 
-const amount =
-Number(
-String(value)
-.replace(/,/g,"")
-);
+      showStatus(
+        "walletStatus",
+        error.message,
+        "error"
+      );
 
+      return;
+    }
 
-if(!Number.isFinite(amount) || amount <= 0){
+    showStatus(
+      "walletStatus",
+      "Withdrawal recorded successfully.",
+      "success"
+    );
 
-alert(
-"Please enter a valid amount greater than zero."
-);
-
-return;
-
-}
-
-
-const button =
-document.getElementById("withdrawBtn");
-
-button.disabled = true;
-
-button.textContent =
-"Processing...";
-
-
-try{
-
-const reference =
-"NEXA-WD-" +
-Date.now();
-
-
-const {data,error} =
-await db.rpc(
-"process_wallet_transaction",
-{
-p_user_id:currentUser.id,
-p_type:"withdrawal",
-p_amount:amount,
-p_currency:"NGN",
-p_reference:reference,
-p_description:"NexaWallet withdrawal"
-}
-);
+    await loadWallet();
+    await loadTransactions();
+  });
 
 
-if(error){
-
-throw error;
-
-}
-
-
-if(!data || data.success !== true){
-
-throw new Error(
-"Withdrawal could not be completed."
-);
-
-}
-
-
-alert(
-"Withdrawal successful!\n\nAmount: ₦" +
-amount.toLocaleString("en-NG") +
-"\nReference: " +
-reference
-);
-
-
-await loadWallet(currentUser.id);
-
-await transactions(currentUser.id);
-
-
-}catch(e){
-
-console.error(e);
-
-alert(
-e.message ||
-"Withdrawal failed."
-);
-
-}
-
-
-button.disabled = false;
-
-button.textContent =
-"💸 Withdraw";
-
-}
-
-
-/* =========================
+/* ------------------------------
    SEND MONEY
-========================= */
+------------------------------ */
 
-async function sendMoney(){
+document
+  .getElementById("sendMoneyBtn")
+  .addEventListener("click", async function() {
 
-if(!currentUser){
+    if (!currentUser || !currentWallet) return;
 
-alert("Please log in first.");
-return;
+    const recipientValue =
+      prompt(
+        "Enter the recipient's NexaWallet email or phone number:"
+      );
 
-}
+    if (recipientValue === null) return;
 
+    const recipient =
+      recipientValue.trim();
 
-const recipient =
-prompt(
-"Enter the recipient's NexaWallet email or phone number:"
-);
+    if (!recipient) {
 
+      showStatus(
+        "walletStatus",
+        "Please enter the recipient's email or phone number.",
+        "error"
+      );
 
-if(recipient === null){
+      return;
+    }
 
-return;
+    const amountText =
+      prompt("Enter amount to send in NGN:");
 
-}
+    if (amountText === null) return;
 
+    const amount =
+      Number(amountText);
 
-const recipientValue =
-recipient
-.trim();
+    if (!Number.isFinite(amount) || amount <= 0) {
 
+      showStatus(
+        "walletStatus",
+        "Enter a valid amount greater than zero.",
+        "error"
+      );
 
-if(!recipientValue){
+      return;
+    }
 
-alert(
-"Please enter a recipient email or phone number."
-);
+    const reference =
+      createReference("TRANSFER");
 
-return;
+    const { data, error } =
+      await supabaseClient.rpc(
+        "send_wallet_money",
+        {
+          p_sender_id: currentUser.id,
+          p_recipient_email: recipient,
+          p_amount: amount,
+          p_currency: "NGN",
+          p_reference: reference
+        }
+      );
 
-}
+    if (error) {
 
+      showStatus(
+        "walletStatus",
+        error.message,
+        "error"
+      );
 
-const value =
-prompt(
-"Enter the NGN amount to send:"
-);
+      return;
+    }
 
+    showStatus(
+      "walletStatus",
+      "Money sent successfully.<br>Recipient: " +
+      recipient,
+      "success"
+    );
 
-if(value === null){
-
-return;
-
-}
-
-
-const amount =
-Number(
-String(value)
-.replace(/,/g,"")
-);
-
-
-if(!Number.isFinite(amount) || amount <= 0){
-
-alert(
-"Please enter a valid amount greater than zero."
-);
-
-return;
-
-}
-
-
-const button =
-document.getElementById("sendBtn");
-
-button.disabled = true;
-
-button.textContent =
-"Sending...";
-
-
-try{
-
-const reference =
-"NEXA-TX-" +
-Date.now();
+    await loadWallet();
+    await loadTransactions();
+  });
 
 
-const {data,error} =
-await db.rpc(
-"send_wallet_money",
-{
-p_sender_id:currentUser.id,
-p_recipient_email:recipientValue,
-p_amount:amount,
-p_currency:"NGN",
-p_reference:reference
-}
-);
-
-
-if(error){
-
-throw error;
-
-}
-
-
-if(!data || data.success !== true){
-
-throw new Error(
-"Transfer could not be completed."
-);
-
-}
-
-
-alert(
-"Money sent successfully!\n\n" +
-"Amount: ₦" +
-amount.toLocaleString("en-NG") +
-"\nRecipient: " +
-recipientValue +
-"\nReference: " +
-reference
-);
-
-
-await loadWallet(currentUser.id);
-
-await transactions(currentUser.id);
-
-
-}catch(e){
-
-console.error(e);
-
-alert(
-e.message ||
-"Transfer failed."
-);
-
-}
-
-
-button.disabled = false;
-
-button.textContent =
-"↔️ Send Money";
-
-}
-
-
-/* =========================
+/* ------------------------------
    TRANSACTIONS
-========================= */
+------------------------------ */
 
-async function transactions(uid){
+async function loadTransactions() {
 
-const box =
-document.getElementById("tx");
+  if (!currentUser) return;
 
-box.innerHTML =
-'<div class="loading">Loading transactions...</div>';
+  const list =
+    document.getElementById("transactionsList");
 
+  list.innerHTML =
+    '<div class="empty">Loading transactions...</div>';
 
-const {data,error} =
-await db
-.from("transactions")
-.select(
-"id,type,amount,currency,description,reference,status,created_at"
-)
-.eq("user_id",uid)
-.order(
-"created_at",
-{
-ascending:false
+  const { data, error } =
+    await supabaseClient
+      .from("transactions")
+      .select("*")
+      .eq("user_id", currentUser.id)
+      .order("created_at", { ascending:false })
+      .limit(30);
+
+  if (error) {
+
+    list.innerHTML =
+      '<div class="empty">' +
+      error.message +
+      '</div>';
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    list.innerHTML =
+      '<div class="empty">No transactions yet.</div>';
+
+    return;
+  }
+
+  list.innerHTML = "";
+
+  data.forEach(function(transaction) {
+
+    const wrapper =
+      document.createElement("div");
+
+    wrapper.className = "transaction";
+
+    const amount =
+      Number(transaction.amount || 0);
+
+    const isPositive =
+      transaction.type === "deposit" ||
+      (
+        transaction.type === "transfer" &&
+        transaction.description &&
+        transaction.description.toLowerCase().includes("received")
+      );
+
+    const amountClass =
+      isPositive ? "positive" : "negative";
+
+    const sign =
+      isPositive ? "+" : "-";
+
+    const date =
+      new Date(transaction.created_at)
+        .toLocaleString();
+
+    wrapper.innerHTML = `
+      <div class="transaction-top">
+        <div class="transaction-title">
+          ${transaction.description || transaction.type}
+        </div>
+
+        <div class="transaction-amount ${amountClass}">
+          ${sign}${formatMoney(amount, transaction.currency)}
+        </div>
+      </div>
+
+      <div class="transaction-meta">
+        ${date}<br>
+        Status: ${transaction.status || "unknown"}<br>
+        Reference: ${transaction.reference || "—"}
+      </div>
+    `;
+
+    list.appendChild(wrapper);
+  });
 }
-)
-.limit(10);
 
 
-if(error){
+/* ------------------------------
+   AUTH BUTTONS
+------------------------------ */
 
-console.error(error);
+document
+  .getElementById("loginBtn")
+  .addEventListener("click", login);
 
-box.innerHTML =
-'<div class="transaction empty"><span>Unable to load transactions</span></div>';
+document
+  .getElementById("signupBtn")
+  .addEventListener("click", signup);
 
-return;
+document
+  .getElementById("logoutBtn")
+  .addEventListener("click", logout);
 
+
+/* ------------------------------
+   START SESSION
+------------------------------ */
+
+async function startApp() {
+
+  const {
+    data: {
+      session
+    }
+  } = await supabaseClient.auth.getSession();
+
+  if (session && session.user) {
+
+    currentUser = session.user;
+
+    await showDashboard();
+
+  } else {
+
+    document
+      .getElementById("authSection")
+      .classList.remove("hidden");
+
+    document
+      .getElementById("dashboardSection")
+      .classList.add("hidden");
+  }
 }
 
 
-if(!data || !data.length){
+supabaseClient.auth.onAuthStateChange(
+  async function(event, session) {
 
-box.innerHTML =
-'<div class="transaction empty"><span>No transactions yet</span><span>—</span></div>';
+    if (session && session.user) {
 
-return;
+      currentUser = session.user;
 
-}
+      await showDashboard();
 
+    } else {
 
-box.innerHTML = "";
+      currentUser = null;
 
+      document
+        .getElementById("dashboardSection")
+        .classList.add("hidden");
 
-data.forEach(t=>{
-
-const row =
-document.createElement("div");
-
-row.className =
-"transaction";
-
-
-const left =
-document.createElement("div");
-
-left.className =
-"transaction-left";
-
-
-const title =
-document.createElement("span");
-
-title.className =
-"transaction-title";
-
-title.textContent =
-t.description ||
-t.type ||
-"Transaction";
-
-
-const date =
-document.createElement("span");
-
-date.className =
-"transaction-date";
-
-date.textContent =
-new Date(
-t.created_at
-).toLocaleString();
-
-
-left.appendChild(title);
-
-left.appendChild(date);
-
-
-const amount =
-document.createElement("span");
-
-
-if(t.type === "deposit"){
-
-amount.className =
-"deposit";
-
-amount.textContent =
-"+" +
-new Intl.NumberFormat(
-"en-NG",
-{
-style:"currency",
-currency:t.currency || "NGN"
-}
-).format(
-Number(t.amount || 0)
+      document
+        .getElementById("authSection")
+        .classList.remove("hidden");
+    }
+  }
 );
 
-}else if(t.type === "withdrawal"){
 
-amount.className =
-"withdrawal";
-
-amount.textContent =
-"-" +
-new Intl.NumberFormat(
-"en-NG",
-{
-style:"currency",
-currency:t.currency || "NGN"
-}
-).format(
-Number(t.amount || 0)
-);
-
-}else{
-
-amount.className =
-"transfer";
-
-amount.textContent =
-"Transfer " +
-new Intl.NumberFormat(
-"en-NG",
-{
-style:"currency",
-currency:t.currency || "NGN"
-}
-).format(
-Number(t.amount || 0)
-);
-
-}
-
-
-row.appendChild(left);
-
-row.appendChild(amount);
-
-box.appendChild(row);
-
-});
-
-}
-
-
-/* =========================
-   LOGOUT
-========================= */
-
-async function logout(){
-
-await db.auth.signOut();
-
-currentUser = null;
-
-document.getElementById("dash").style.display =
-"none";
-
-document.getElementById("home").style.display =
-"block";
-
-document.getElementById("features").style.display =
-"block";
-
-document.getElementById("auth").style.display =
-"block";
-
-document.getElementById("headBtn").style.display =
-"block";
-
-window.scrollTo(0,0);
-
-}
-
-
-/* =========================
-   START
-========================= */
-
-async function start(){
-
-const {data} =
-await db.auth.getSession();
-
-
-if(data.session){
-
-await dashboard(
-data.session.user
-);
-
-}
-
-}
-
-
-start();
+startApp();
 
 </script>
 
