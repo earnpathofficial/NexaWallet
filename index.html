@@ -265,6 +265,10 @@ color:#16a34a;
 color:#dc2626;
 }
 
+.transfer{
+color:#4f8cff;
+}
+
 .empty{
 color:#6b7280;
 }
@@ -486,7 +490,8 @@ onclick="withdrawMoney()">
 
 <button
 class="action"
-onclick="showMessage('Money transfers will be connected next.')">
+id="sendBtn"
+onclick="sendMoney()">
 ↔️ Send Money
 </button>
 
@@ -596,13 +601,6 @@ document.getElementById("msg");
 
 m.textContent = x;
 m.style.display = "block";
-
-}
-
-
-function showMessage(x){
-
-alert(x);
 
 }
 
@@ -817,11 +815,6 @@ return data;
 
 }
 
-
-/*
-Create an NGN wallet if
-the user does not already have one.
-*/
 
 const {error:createError} =
 await db
@@ -1165,6 +1158,162 @@ button.textContent =
 
 
 /* =========================
+   SEND MONEY
+========================= */
+
+async function sendMoney(){
+
+if(!currentUser){
+
+alert("Please log in first.");
+return;
+
+}
+
+
+const recipientEmail =
+prompt(
+"Enter the recipient's NexaWallet email address:"
+);
+
+
+if(recipientEmail === null){
+
+return;
+
+}
+
+
+const email =
+recipientEmail
+.trim()
+.toLowerCase();
+
+
+if(!email){
+
+alert(
+"Please enter a recipient email address."
+);
+
+return;
+
+}
+
+
+const value =
+prompt(
+"Enter the NGN amount to send:"
+);
+
+
+if(value === null){
+
+return;
+
+}
+
+
+const amount =
+Number(
+String(value)
+.replace(/,/g,"")
+);
+
+
+if(!Number.isFinite(amount) || amount <= 0){
+
+alert(
+"Please enter a valid amount greater than zero."
+);
+
+return;
+
+}
+
+
+const button =
+document.getElementById("sendBtn");
+
+button.disabled = true;
+
+button.textContent =
+"Sending...";
+
+
+try{
+
+const reference =
+"NEXA-TX-" +
+Date.now();
+
+
+const {data,error} =
+await db.rpc(
+"send_wallet_money",
+{
+p_sender_id:currentUser.id,
+p_recipient_email:email,
+p_amount:amount,
+p_currency:"NGN",
+p_reference:reference
+}
+);
+
+
+if(error){
+
+throw error;
+
+}
+
+
+if(!data || data.success !== true){
+
+throw new Error(
+"Transfer could not be completed."
+);
+
+}
+
+
+alert(
+"Money sent successfully!\n\n" +
+"Amount: ₦" +
+amount.toLocaleString("en-NG") +
+"\nRecipient: " +
+email +
+"\nReference: " +
+reference
+);
+
+
+await loadWallet(currentUser.id);
+
+await transactions(currentUser.id);
+
+
+}catch(e){
+
+console.error(e);
+
+alert(
+e.message ||
+"Transfer failed."
+);
+
+}
+
+
+button.disabled = false;
+
+button.textContent =
+"↔️ Send Money";
+
+}
+
+
+/* =========================
    TRANSACTIONS
 ========================= */
 
@@ -1259,6 +1408,7 @@ t.created_at
 
 
 left.appendChild(title);
+
 left.appendChild(date);
 
 
@@ -1266,20 +1416,13 @@ const amount =
 document.createElement("span");
 
 
+if(t.type === "deposit"){
+
 amount.className =
-t.type === "deposit"
-? "deposit"
-: "withdrawal";
-
-
-const sign =
-t.type === "deposit"
-? "+"
-: "-";
-
+"deposit";
 
 amount.textContent =
-sign +
+"+" +
 new Intl.NumberFormat(
 "en-NG",
 {
@@ -1290,10 +1433,46 @@ currency:t.currency || "NGN"
 Number(t.amount || 0)
 );
 
+}else if(t.type === "withdrawal"){
+
+amount.className =
+"withdrawal";
+
+amount.textContent =
+"-" +
+new Intl.NumberFormat(
+"en-NG",
+{
+style:"currency",
+currency:t.currency || "NGN"
+}
+).format(
+Number(t.amount || 0)
+);
+
+}else{
+
+amount.className =
+"transfer";
+
+amount.textContent =
+"Transfer " +
+new Intl.NumberFormat(
+"en-NG",
+{
+style:"currency",
+currency:t.currency || "NGN"
+}
+).format(
+Number(t.amount || 0)
+);
+
+}
+
 
 row.appendChild(left);
-row.appendChild(amount);
 
+row.appendChild(amount);
 
 box.appendChild(row);
 
