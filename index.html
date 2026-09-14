@@ -72,6 +72,73 @@ h3 {
   font-size: 17px;
 }
 
+.section-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #344054;
+  margin-bottom: 6px;
+}
+
+.input-help {
+  font-size: 12px;
+  color: #667085;
+  margin-top: -5px;
+  margin-bottom: 12px;
+}
+
+.info-box {
+  background: #eff6ff;
+  color: #1e40af;
+  border-radius: 12px;
+  padding: 13px;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.account-type-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.account-type-option {
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px;
+  cursor: pointer;
+  background: white;
+}
+
+.account-type-option.active {
+  border-color: #111827;
+  background: #f9fafb;
+}
+
+.account-type-option input {
+  width: auto;
+  margin: 0 7px 0 0;
+}
+
+.account-type-title {
+  font-weight: 700;
+}
+
+.account-type-description {
+  font-size: 12px;
+  color: #667085;
+  margin-top: 5px;
+  line-height: 1.4;
+}
+
+.form-section {
+  border-top: 1px solid #eaecf0;
+  padding-top: 18px;
+  margin-top: 18px;
+}
+
 input,
 select,
 button {
@@ -86,6 +153,10 @@ select {
   border: 1px solid #d0d5dd;
   margin-bottom: 12px;
   background: white;
+}
+
+input[type="file"] {
+  padding: 10px;
 }
 
 button {
@@ -279,6 +350,45 @@ button:disabled {
   color: #667085;
 }
 
+.profile-summary {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 18px;
+}
+
+.profile-avatar {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  font-size: 25px;
+  font-weight: 700;
+  color: #374151;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-name {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.profile-type {
+  font-size: 13px;
+  color: #667085;
+  margin-top: 4px;
+}
+
 .modal {
   position: fixed;
   inset: 0;
@@ -347,6 +457,10 @@ footer {
     grid-template-columns: 1fr 1fr;
   }
 
+  .account-type-grid {
+    grid-template-columns: 1fr;
+  }
+
   .balance {
     font-size: 32px;
   }
@@ -385,21 +499,258 @@ footer {
 
   <h2 id="authTitle">Create your account</h2>
 
-  <input
-    type="email"
-    id="emailInput"
-    placeholder="Email address"
-    autocomplete="email"
-  >
+  <div id="signupOnlySection">
 
-  <input
-    type="password"
-    id="passwordInput"
-    placeholder="Password"
-    autocomplete="new-password"
-  >
+    <label class="section-label">
+      Account Type
+    </label>
 
-  <button id="authBtn">Create Account</button>
+    <div class="account-type-grid">
+
+      <label
+        id="personalTypeCard"
+        class="account-type-option active"
+      >
+        <input
+          type="radio"
+          name="accountType"
+          id="personalAccountType"
+          value="personal"
+          checked
+        >
+        <span class="account-type-title">
+          Personal
+        </span>
+
+        <div class="account-type-description">
+          For your personal wallet and everyday money management.
+        </div>
+      </label>
+
+      <label
+        id="businessTypeCard"
+        class="account-type-option"
+      >
+        <input
+          type="radio"
+          name="accountType"
+          id="businessAccountType"
+          value="business"
+        >
+        <span class="account-type-title">
+          Business
+        </span>
+
+        <div class="account-type-description">
+          For businesses that need a separate business wallet.
+        </div>
+      </label>
+
+    </div>
+
+    <div
+      id="personalSignupFields"
+    >
+
+      <div class="form-section">
+
+        <h3>Personal Information</h3>
+
+        <input
+          type="text"
+          id="firstNameInput"
+          placeholder="First name"
+          autocomplete="given-name"
+        >
+
+        <input
+          type="text"
+          id="lastNameInput"
+          placeholder="Last name"
+          autocomplete="family-name"
+        >
+
+        <input
+          type="tel"
+          id="phoneInput"
+          placeholder="Phone number"
+          autocomplete="tel"
+        >
+
+        <label class="section-label">
+          Date of birth
+        </label>
+
+        <input
+          type="date"
+          id="dateOfBirthInput"
+        >
+
+        <select id="countryInput">
+          <option value="">Select country</option>
+          <option value="Nigeria">Nigeria</option>
+          <option value="United Kingdom">United Kingdom</option>
+          <option value="United States">United States</option>
+          <option value="Ghana">Ghana</option>
+          <option value="Kenya">Kenya</option>
+          <option value="South Africa">South Africa</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <input
+          type="text"
+          id="stateRegionInput"
+          placeholder="State / Region"
+        >
+
+        <input
+          type="text"
+          id="cityInput"
+          placeholder="City"
+        >
+
+        <input
+          type="text"
+          id="homeAddressInput"
+          placeholder="Home / residential address"
+          autocomplete="street-address"
+        >
+
+        <input
+          type="text"
+          id="postalCodeInput"
+          placeholder="Postal code"
+          autocomplete="postal-code"
+        >
+
+      </div>
+
+    </div>
+
+    <div
+      id="businessSignupFields"
+      class="hidden"
+    >
+
+      <div class="form-section">
+
+        <h3>Business Information</h3>
+
+        <input
+          type="text"
+          id="businessNameInput"
+          placeholder="Business name"
+          autocomplete="organization"
+        >
+
+        <input
+          type="text"
+          id="businessTypeInput"
+          placeholder="Business type"
+        >
+
+        <input
+          type="email"
+          id="businessEmailInput"
+          placeholder="Business email"
+          autocomplete="organization-email"
+        >
+
+        <input
+          type="tel"
+          id="businessPhoneInput"
+          placeholder="Business phone"
+          autocomplete="tel"
+        >
+
+        <input
+          type="text"
+          id="businessAddressInput"
+          placeholder="Business address"
+        >
+
+        <input
+          type="text"
+          id="businessCityInput"
+          placeholder="Business city"
+        >
+
+        <input
+          type="text"
+          id="businessStateInput"
+          placeholder="Business state / region"
+        >
+
+        <select id="businessCountryInput">
+          <option value="">Select country</option>
+          <option value="Nigeria">Nigeria</option>
+          <option value="United Kingdom">United Kingdom</option>
+          <option value="United States">United States</option>
+          <option value="Ghana">Ghana</option>
+          <option value="Kenya">Kenya</option>
+          <option value="South Africa">South Africa</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <input
+          type="text"
+          id="businessPostalCodeInput"
+          placeholder="Business postal code"
+        >
+
+        <input
+          type="text"
+          id="registrationNumberInput"
+          placeholder="Business registration number (optional)"
+        >
+
+      </div>
+
+      <div class="info-box">
+        Business verification can be completed separately after account creation.
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="loginInfo" class="info-box hidden">
+    Enter your email and password to access your NexaWallet account.
+  </div>
+
+  <div class="form-section">
+
+    <h3 id="loginDetailsTitle">
+      Login Details
+    </h3>
+
+    <input
+      type="email"
+      id="emailInput"
+      placeholder="Email address"
+      autocomplete="email"
+    >
+
+    <input
+      type="password"
+      id="passwordInput"
+      placeholder="Password"
+      autocomplete="new-password"
+    >
+
+    <div
+      id="profileSecurityNote"
+      class="input-help"
+    >
+      Your NIN and BVN are not collected in this signup form.
+      Identity verification is handled separately.
+    </div>
+
+  </div>
+
+  <button id="authBtn">
+    Create Account
+  </button>
 
   <div id="authMessage" class="message"></div>
 
@@ -421,12 +772,73 @@ footer {
 
   <div class="card">
 
+    <div class="profile-summary">
+
+      <div
+        id="profileAvatar"
+        class="profile-avatar"
+      >
+        N
+      </div>
+
+      <div>
+
+        <div
+          id="profileName"
+          class="profile-name"
+        >
+          NexaWallet User
+        </div>
+
+        <div
+          id="profileType"
+          class="profile-type"
+        >
+          Personal Account
+        </div>
+
+      </div>
+
+    </div>
+
     <h2>Your Money Dashboard</h2>
 
     <p style="color:#667085;">
       Manage your wallet, transfers, identity verification
       and transaction history from one place.
     </p>
+
+  </div>
+
+  <div class="card">
+
+    <h3>Your Profile</h3>
+
+    <label class="section-label">
+      Profile picture (optional)
+    </label>
+
+    <input
+      type="file"
+      id="profilePictureInput"
+      accept="image/*"
+    >
+
+    <div class="file-help">
+      Optional. Your profile picture is not required to use NexaWallet.
+    </div>
+
+    <button
+      id="saveProfilePictureBtn"
+      class="secondary"
+    >
+      Save Profile Picture
+    </button>
+
+    <div
+      id="profileMessage"
+      class="message"
+    ></div>
 
   </div>
 
@@ -713,7 +1125,6 @@ footer {
     <select id="kycCountry">
 
       <option value="">Select country</option>
-      <option value="Algeria">Algeria</option>
       <option value="Nigeria">Nigeria</option>
       <option value="United Kingdom">United Kingdom</option>
       <option value="United States">United States</option>
@@ -856,6 +1267,7 @@ let authMode = "signup";
 let currentWallet = null;
 let currentTransactions = [];
 let currentKyc = null;
+let currentProfile = null;
 
 
 /* =========================
@@ -921,6 +1333,42 @@ const kycModal =
 
 const kycStatusBadge =
   document.getElementById("kycStatusBadge");
+
+const signupOnlySection =
+  document.getElementById("signupOnlySection");
+
+const personalSignupFields =
+  document.getElementById("personalSignupFields");
+
+const businessSignupFields =
+  document.getElementById("businessSignupFields");
+
+const loginInfo =
+  document.getElementById("loginInfo");
+
+const profileSecurityNote =
+  document.getElementById("profileSecurityNote");
+
+const personalAccountType =
+  document.getElementById("personalAccountType");
+
+const businessAccountType =
+  document.getElementById("businessAccountType");
+
+const personalTypeCard =
+  document.getElementById("personalTypeCard");
+
+const businessTypeCard =
+  document.getElementById("businessTypeCard");
+
+const profileAvatar =
+  document.getElementById("profileAvatar");
+
+const profileName =
+  document.getElementById("profileName");
+
+const profileType =
+  document.getElementById("profileType");
 
 
 /* =========================
@@ -1024,9 +1472,136 @@ function escapeHtml(value) {
 }
 
 
+function getAccountType() {
+
+  if (businessAccountType.checked) {
+    return "business";
+  }
+
+  return "personal";
+}
+
+
+function updateAccountTypeUI() {
+
+  const type =
+    getAccountType();
+
+  if (type === "business") {
+
+    personalSignupFields.classList.add(
+      "hidden"
+    );
+
+    businessSignupFields.classList.remove(
+      "hidden"
+    );
+
+    personalTypeCard.classList.remove(
+      "active"
+    );
+
+    businessTypeCard.classList.add(
+      "active"
+    );
+
+  }
+
+  else {
+
+    personalSignupFields.classList.remove(
+      "hidden"
+    );
+
+    businessSignupFields.classList.add(
+      "hidden"
+    );
+
+    personalTypeCard.classList.add(
+      "active"
+    );
+
+    businessTypeCard.classList.remove(
+      "active"
+    );
+  }
+}
+
+
+function updateAuthUI() {
+
+  if (authMode === "signup") {
+
+    authTitle.textContent =
+      "Create your account";
+
+    authBtn.textContent =
+      "Create Account";
+
+    authSwitchText.textContent =
+      "Already have an account?";
+
+    authSwitchBtn.textContent =
+      "Log In";
+
+    signupOnlySection.classList.remove(
+      "hidden"
+    );
+
+    loginInfo.classList.add(
+      "hidden"
+    );
+
+    profileSecurityNote.classList.remove(
+      "hidden"
+    );
+
+    updateAccountTypeUI();
+
+  }
+
+  else {
+
+    authTitle.textContent =
+      "Log in to NexaWallet";
+
+    authBtn.textContent =
+      "Log In";
+
+    authSwitchText.textContent =
+      "Don't have an account?";
+
+    authSwitchBtn.textContent =
+      "Create Account";
+
+    signupOnlySection.classList.add(
+      "hidden"
+    );
+
+    loginInfo.classList.remove(
+      "hidden"
+    );
+
+    profileSecurityNote.classList.add(
+      "hidden"
+    );
+  }
+}
+
+
 /* =========================
    AUTH MODE
 ========================= */
+
+personalAccountType.addEventListener(
+  "change",
+  updateAccountTypeUI
+);
+
+businessAccountType.addEventListener(
+  "change",
+  updateAccountTypeUI
+);
 
 authSwitchBtn.addEventListener(
   "click",
@@ -1036,40 +1611,372 @@ authSwitchBtn.addEventListener(
 
       authMode = "login";
 
-      authTitle.textContent =
-        "Log in to NexaWallet";
-
-      authBtn.textContent =
-        "Log In";
-
-      authSwitchText.textContent =
-        "Don't have an account?";
-
-      authSwitchBtn.textContent =
-        "Create Account";
-
     }
 
     else {
 
       authMode = "signup";
 
-      authTitle.textContent =
-        "Create your account";
-
-      authBtn.textContent =
-        "Create Account";
-
-      authSwitchText.textContent =
-        "Already have an account?";
-
-      authSwitchBtn.textContent =
-        "Log In";
     }
 
     hideMessage(authMessage);
+
+    updateAuthUI();
   }
 );
+
+
+/* =========================
+   READ PERSONAL FORM
+========================= */
+
+function getPersonalFormData() {
+
+  return {
+
+    first_name:
+      document
+        .getElementById("firstNameInput")
+        .value
+        .trim(),
+
+    last_name:
+      document
+        .getElementById("lastNameInput")
+        .value
+        .trim(),
+
+    phone_number:
+      document
+        .getElementById("phoneInput")
+        .value
+        .trim(),
+
+    date_of_birth:
+      document
+        .getElementById("dateOfBirthInput")
+        .value,
+
+    country:
+      document
+        .getElementById("countryInput")
+        .value,
+
+    state_region:
+      document
+        .getElementById("stateRegionInput")
+        .value
+        .trim(),
+
+    city:
+      document
+        .getElementById("cityInput")
+        .value
+        .trim(),
+
+    home_address:
+      document
+        .getElementById("homeAddressInput")
+        .value
+        .trim(),
+
+    postal_code:
+      document
+        .getElementById("postalCodeInput")
+        .value
+        .trim()
+  };
+}
+
+
+/* =========================
+   READ BUSINESS FORM
+========================= */
+
+function getBusinessFormData() {
+
+  return {
+
+    business_name:
+      document
+        .getElementById("businessNameInput")
+        .value
+        .trim(),
+
+    business_type:
+      document
+        .getElementById("businessTypeInput")
+        .value
+        .trim(),
+
+    business_email:
+      document
+        .getElementById("businessEmailInput")
+        .value
+        .trim(),
+
+    business_phone:
+      document
+        .getElementById("businessPhoneInput")
+        .value
+        .trim(),
+
+    business_address:
+      document
+        .getElementById("businessAddressInput")
+        .value
+        .trim(),
+
+    business_city:
+      document
+        .getElementById("businessCityInput")
+        .value
+        .trim(),
+
+    business_state:
+      document
+        .getElementById("businessStateInput")
+        .value
+        .trim(),
+
+    business_country:
+      document
+        .getElementById("businessCountryInput")
+        .value,
+
+    business_postal_code:
+      document
+        .getElementById("businessPostalCodeInput")
+        .value
+        .trim(),
+
+    registration_number:
+      document
+        .getElementById("registrationNumberInput")
+        .value
+        .trim()
+  };
+}
+
+
+/* =========================
+   SAVE PROFILE
+========================= */
+
+async function saveUserProfile(
+  user,
+  metadata = null
+) {
+
+  if (!user) {
+    throw new Error(
+      "No authenticated user found."
+    );
+  }
+
+  const meta =
+    metadata ||
+    user.user_metadata ||
+    {};
+
+  const accountType =
+    meta.account_type ||
+    "personal";
+
+  if (accountType === "business") {
+
+    const businessPayload = {
+
+      id:
+        user.id,
+
+      account_type:
+        "business",
+
+      first_name:
+        meta.first_name ||
+        "",
+
+      last_name:
+        meta.last_name ||
+        "",
+
+      phone_number:
+        meta.phone_number ||
+        "",
+
+      profile_completed:
+        true,
+
+      kyc_status:
+        "not_started",
+
+      nin_verified:
+        false,
+
+      bvn_verified:
+        false
+    };
+
+    const {
+      error: profileError
+    } =
+      await supabaseClient
+        .from("user_profiles")
+        .upsert(
+          businessPayload,
+          {
+            onConflict: "id"
+          }
+        );
+
+    if (profileError) {
+      throw profileError;
+    }
+
+    const businessPayloadForTable = {
+
+      user_id:
+        user.id,
+
+      business_name:
+        meta.business_name ||
+        "",
+
+      business_type:
+        meta.business_type ||
+        "",
+
+      business_email:
+        meta.business_email ||
+        "",
+
+      business_phone:
+        meta.business_phone ||
+        "",
+
+      country:
+        meta.business_country ||
+        "",
+
+      state_region:
+        meta.business_state ||
+        "",
+
+      city:
+        meta.business_city ||
+        "",
+
+      business_address:
+        meta.business_address ||
+        "",
+
+      postal_code:
+        meta.business_postal_code ||
+        "",
+
+      registration_number:
+        meta.registration_number ||
+        "",
+
+      verification_status:
+        "not_started"
+    };
+
+    const {
+      error: businessError
+    } =
+      await supabaseClient
+        .from("business_profiles")
+        .upsert(
+          businessPayloadForTable,
+          {
+            onConflict: "user_id"
+          }
+        );
+
+    if (businessError) {
+      throw businessError;
+    }
+
+  }
+
+  else {
+
+    const personalPayload = {
+
+      id:
+        user.id,
+
+      account_type:
+        "personal",
+
+      first_name:
+        meta.first_name ||
+        "",
+
+      last_name:
+        meta.last_name ||
+        "",
+
+      phone_number:
+        meta.phone_number ||
+        "",
+
+      date_of_birth:
+        meta.date_of_birth ||
+        null,
+
+      country:
+        meta.country ||
+        "",
+
+      state_region:
+        meta.state_region ||
+        "",
+
+      city:
+        meta.city ||
+        "",
+
+      home_address:
+        meta.home_address ||
+        "",
+
+      postal_code:
+        meta.postal_code ||
+        "",
+
+      nin_verified:
+        false,
+
+      bvn_verified:
+        false,
+
+      kyc_status:
+        "not_started",
+
+      profile_completed:
+        true
+    };
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("user_profiles")
+        .upsert(
+          personalPayload,
+          {
+            onConflict: "id"
+          }
+        );
+
+    if (error) {
+      throw error;
+    }
+  }
+}
 
 
 /* =========================
@@ -1099,19 +2006,126 @@ authBtn.addEventListener(
       return;
     }
 
+    if (password.length < 6) {
+
+      showMessage(
+        authMessage,
+        "Password must contain at least 6 characters.",
+        "error"
+      );
+
+      return;
+    }
+
     authBtn.disabled = true;
 
     try {
 
       if (authMode === "signup") {
 
+        const accountType =
+          getAccountType();
+
+        let metadata = {
+
+          account_type:
+            accountType
+        };
+
+        if (accountType === "personal") {
+
+          const personal =
+            getPersonalFormData();
+
+          if (
+            !personal.first_name ||
+            !personal.last_name ||
+            !personal.phone_number ||
+            !personal.date_of_birth ||
+            !personal.country ||
+            !personal.state_region ||
+            !personal.city ||
+            !personal.home_address ||
+            !personal.postal_code
+          ) {
+
+            throw new Error(
+              "Please complete all required personal information."
+            );
+          }
+
+          metadata = {
+
+            account_type:
+              "personal",
+
+            ...personal,
+
+            email:
+              email
+          };
+
+        }
+
+        else {
+
+          const business =
+            getBusinessFormData();
+
+          if (
+            !business.business_name ||
+            !business.business_type ||
+            !business.business_email ||
+            !business.business_phone ||
+            !business.business_address ||
+            !business.business_city ||
+            !business.business_state ||
+            !business.business_country ||
+            !business.business_postal_code
+          ) {
+
+            throw new Error(
+              "Please complete all required business information."
+            );
+          }
+
+          metadata = {
+
+            account_type:
+              "business",
+
+            first_name:
+              "",
+
+            last_name:
+              "",
+
+            phone_number:
+              business.business_phone,
+
+            ...business,
+
+            email:
+              email
+          };
+        }
+
         const {
           data,
           error
         } =
           await supabaseClient.auth.signUp({
+
             email,
-            password
+
+            password,
+
+            options: {
+
+              data:
+                metadata
+            }
+
           });
 
         if (error) {
@@ -1120,11 +2134,21 @@ authBtn.addEventListener(
 
         if (data.session) {
 
+          currentUser =
+            data.user;
+
+          await saveUserProfile(
+            data.user,
+            metadata
+          );
+
           showMessage(
             authMessage,
             "Account created successfully.",
             "success"
           );
+
+          await showDashboard();
 
         }
 
@@ -1132,11 +2156,16 @@ authBtn.addEventListener(
 
           showMessage(
             authMessage,
-            "Account created. Check your email if confirmation is required, then log in.",
+            "Account created. Please confirm your email, then log in. Your onboarding information has been saved with your account.",
             "success"
           );
 
-          return;
+          authMode =
+            "login";
+
+          updateAuthUI();
+
+          passwordInput.value = "";
         }
 
       }
@@ -1144,16 +2173,39 @@ authBtn.addEventListener(
       else {
 
         const {
+          data,
           error
         } =
           await supabaseClient.auth
             .signInWithPassword({
+
               email,
+
               password
+
             });
 
         if (error) {
           throw error;
+        }
+
+        currentUser =
+          data.user;
+
+        try {
+
+          await saveUserProfile(
+            data.user
+          );
+
+        }
+
+        catch (profileError) {
+
+          console.warn(
+            "Profile creation/update warning:",
+            profileError.message
+          );
         }
 
         showMessage(
@@ -1161,11 +2213,15 @@ authBtn.addEventListener(
           "Logged in successfully.",
           "success"
         );
+
+        await showDashboard();
       }
 
     }
 
     catch (error) {
+
+      console.error(error);
 
       showMessage(
         authMessage,
@@ -1241,6 +2297,99 @@ supabaseClient.auth.onAuthStateChange(
 
 
 /* =========================
+   LOAD PROFILE
+========================= */
+
+async function loadProfile() {
+
+  if (!currentUser) {
+    return;
+  }
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("user_profiles")
+      .select("*")
+      .eq(
+        "id",
+        currentUser.id
+      )
+      .maybeSingle();
+
+  if (error) {
+
+    console.warn(
+      "Profile load error:",
+      error.message
+    );
+
+    return;
+  }
+
+  currentProfile =
+    data;
+
+  if (!data) {
+    return;
+  }
+
+  const firstName =
+    data.first_name ||
+    "";
+
+  const lastName =
+    data.last_name ||
+    "";
+
+  const fullName =
+    (
+      firstName +
+      " " +
+      lastName
+    ).trim();
+
+  const displayName =
+    fullName ||
+    currentUser.email ||
+    "NexaWallet User";
+
+  profileName.textContent =
+    displayName;
+
+  profileType.textContent =
+    data.account_type === "business"
+      ? "Business Account"
+      : "Personal Account";
+
+  const initial =
+    (
+      firstName ||
+      currentUser.email ||
+      "N"
+    )
+      .charAt(0)
+      .toUpperCase();
+
+  profileAvatar.textContent =
+    initial;
+
+  if (data.avatar_url) {
+
+    profileAvatar.innerHTML =
+      `
+        <img
+          src="${escapeHtml(data.avatar_url)}"
+          alt="Profile picture"
+        >
+      `;
+  }
+}
+
+
+/* =========================
    DASHBOARD
 ========================= */
 
@@ -1253,6 +2402,8 @@ async function showDashboard() {
   dashboardSection.classList.remove("hidden");
 
   logoutBtn.classList.remove("hidden");
+
+  await loadProfile();
 
   await loadWallet();
 
@@ -1273,6 +2424,8 @@ function showLoggedOut() {
   currentTransactions = [];
 
   currentKyc = null;
+
+  currentProfile = null;
 
   authSection.classList.remove("hidden");
 
@@ -1296,6 +2449,145 @@ logoutBtn.addEventListener(
 
   }
 );
+
+
+/* =========================
+   PROFILE PICTURE
+========================= */
+
+document
+  .getElementById(
+    "saveProfilePictureBtn"
+  )
+  .addEventListener(
+    "click",
+    async () => {
+
+      const input =
+        document.getElementById(
+          "profilePictureInput"
+        );
+
+      const message =
+        document.getElementById(
+          "profileMessage"
+        );
+
+      const file =
+        input.files[0];
+
+      hideMessage(message);
+
+      if (!file) {
+
+        showMessage(
+          message,
+          "Please select a profile picture.",
+          "error"
+        );
+
+        return;
+      }
+
+      if (!currentUser) {
+
+        showMessage(
+          message,
+          "Please log in again.",
+          "error"
+        );
+
+        return;
+      }
+
+      const button =
+        document.getElementById(
+          "saveProfilePictureBtn"
+        );
+
+      button.disabled = true;
+
+      try {
+
+        const reader =
+          new FileReader();
+
+        const imageData =
+          await new Promise(
+            (
+              resolve,
+              reject
+            ) => {
+
+              reader.onload =
+                () => resolve(
+                  reader.result
+                );
+
+              reader.onerror =
+                reject;
+
+              reader.readAsDataURL(
+                file
+              );
+            }
+          );
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from("user_profiles")
+            .update({
+              avatar_url:
+                imageData
+            })
+            .eq(
+              "id",
+              currentUser.id
+            );
+
+        if (error) {
+          throw error;
+        }
+
+        profileAvatar.innerHTML =
+          `
+            <img
+              src="${imageData}"
+              alt="Profile picture"
+            >
+          `;
+
+        input.value = "";
+
+        showMessage(
+          message,
+          "Profile picture saved.",
+          "success"
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(error);
+
+        showMessage(
+          message,
+          error.message ||
+          "Unable to save profile picture.",
+          "error"
+        );
+
+      }
+
+      finally {
+
+        button.disabled = false;
+      }
+    }
+  );
 
 
 /* =========================
@@ -1370,7 +2662,6 @@ async function loadWallet() {
 
 /* =========================
    ACCOUNT NUMBER
-   SECURE RPC VERSION
 ========================= */
 
 async function loadAccountNumber() {
@@ -1403,12 +2694,6 @@ async function loadAccountNumber() {
       );
 
     if (error) {
-
-      console.error(
-        "Account number RPC error:",
-        error
-      );
-
       throw error;
     }
 
@@ -3001,6 +4286,8 @@ transactionModal.addEventListener(
 /* =========================
    INITIAL LOAD
 ========================= */
+
+updateAuthUI();
 
 loadSession();
 
