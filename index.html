@@ -6,7 +6,10 @@
 
 <title>NexaWallet — Your Money. Simplified.</title>
 
-<meta name="description" content="NexaWallet — a digital wallet prototype for managing balances, transfers, identity verification and transaction history.">
+<meta
+  name="description"
+  content="NexaWallet — a digital wallet prototype for managing balances, transfers, identity verification and transaction history."
+>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -262,6 +265,67 @@ button:disabled {
   margin: 7px 0 12px;
 }
 
+.limit-card {
+  background: white;
+}
+
+.limit-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.limit-item {
+  background: #f8fafc;
+  border: 1px solid #eaecf0;
+  border-radius: 14px;
+  padding: 15px;
+}
+
+.limit-label {
+  color: #667085;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.limit-value {
+  font-size: 19px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.level-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  background: #dcfce7;
+  color: #166534;
+}
+
+.limit-progress {
+  height: 10px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.limit-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #111827;
+  transition: width 0.3s ease;
+}
+
+.limit-note {
+  font-size: 12px;
+  color: #667085;
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
 .action-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -449,6 +513,7 @@ footer {
 }
 
 @media (max-width: 600px) {
+
   .hero h1 {
     font-size: 30px;
   }
@@ -458,6 +523,10 @@ footer {
   }
 
   .account-type-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .limit-grid {
     grid-template-columns: 1fr;
   }
 
@@ -471,7 +540,10 @@ footer {
 <body>
 
 <header>
-  <div class="logo">NexaWallet</div>
+
+  <div class="logo">
+    NexaWallet
+  </div>
 
   <button
     id="logoutBtn"
@@ -480,6 +552,7 @@ footer {
   >
     Log Out
   </button>
+
 </header>
 
 <main class="container">
@@ -489,15 +562,22 @@ footer {
   <h1>Your Money. Simplified.</h1>
 
   <p>
-    Manage your wallet, send money and keep track of your transactions
-    from one place.
+    Manage your wallet, send money and keep track of your
+    transactions from one place.
   </p>
 
 </section>
 
+
+<!-- =========================
+     AUTH
+========================= -->
+
 <section id="authSection" class="card">
 
-  <h2 id="authTitle">Create your account</h2>
+  <h2 id="authTitle">
+    Create your account
+  </h2>
 
   <div id="signupOnlySection">
 
@@ -511,6 +591,7 @@ footer {
         id="personalTypeCard"
         class="account-type-option active"
       >
+
         <input
           type="radio"
           name="accountType"
@@ -518,6 +599,7 @@ footer {
           value="personal"
           checked
         >
+
         <span class="account-type-title">
           Personal
         </span>
@@ -525,18 +607,22 @@ footer {
         <div class="account-type-description">
           For your personal wallet and everyday money management.
         </div>
+
       </label>
+
 
       <label
         id="businessTypeCard"
         class="account-type-option"
       >
+
         <input
           type="radio"
           name="accountType"
           id="businessAccountType"
           value="business"
         >
+
         <span class="account-type-title">
           Business
         </span>
@@ -544,17 +630,19 @@ footer {
         <div class="account-type-description">
           For businesses that need a separate business wallet.
         </div>
+
       </label>
 
     </div>
 
-    <div
-      id="personalSignupFields"
-    >
+
+    <div id="personalSignupFields">
 
       <div class="form-section">
 
-        <h3>Personal Information</h3>
+        <h3>
+          Personal Information
+        </h3>
 
         <input
           type="text"
@@ -587,14 +675,39 @@ footer {
         >
 
         <select id="countryInput">
-          <option value="">Select country</option>
-          <option value="Nigeria">Nigeria</option>
-          <option value="United Kingdom">United Kingdom</option>
-          <option value="United States">United States</option>
-          <option value="Ghana">Ghana</option>
-          <option value="Kenya">Kenya</option>
-          <option value="South Africa">South Africa</option>
-          <option value="Other">Other</option>
+
+          <option value="">
+            Select country
+          </option>
+
+          <option value="Nigeria">
+            Nigeria
+          </option>
+
+          <option value="United Kingdom">
+            United Kingdom
+          </option>
+
+          <option value="United States">
+            United States
+          </option>
+
+          <option value="Ghana">
+            Ghana
+          </option>
+
+          <option value="Kenya">
+            Kenya
+          </option>
+
+          <option value="South Africa">
+            South Africa
+          </option>
+
+          <option value="Other">
+            Other
+          </option>
+
         </select>
 
         <input
@@ -627,6 +740,7 @@ footer {
 
     </div>
 
+
     <div
       id="businessSignupFields"
       class="hidden"
@@ -634,7 +748,9 @@ footer {
 
       <div class="form-section">
 
-        <h3>Business Information</h3>
+        <h3>
+          Business Information
+        </h3>
 
         <input
           type="text"
@@ -682,14 +798,39 @@ footer {
         >
 
         <select id="businessCountryInput">
-          <option value="">Select country</option>
-          <option value="Nigeria">Nigeria</option>
-          <option value="United Kingdom">United Kingdom</option>
-          <option value="United States">United States</option>
-          <option value="Ghana">Ghana</option>
-          <option value="Kenya">Kenya</option>
-          <option value="South Africa">South Africa</option>
-          <option value="Other">Other</option>
+
+          <option value="">
+            Select country
+          </option>
+
+          <option value="Nigeria">
+            Nigeria
+          </option>
+
+          <option value="United Kingdom">
+            United Kingdom
+          </option>
+
+          <option value="United States">
+            United States
+          </option>
+
+          <option value="Ghana">
+            Ghana
+          </option>
+
+          <option value="Kenya">
+            Kenya
+          </option>
+
+          <option value="South Africa">
+            South Africa
+          </option>
+
+          <option value="Other">
+            Other
+          </option>
+
         </select>
 
         <input
@@ -714,9 +855,14 @@ footer {
 
   </div>
 
-  <div id="loginInfo" class="info-box hidden">
+
+  <div
+    id="loginInfo"
+    class="info-box hidden"
+  >
     Enter your email and password to access your NexaWallet account.
   </div>
+
 
   <div class="form-section">
 
@@ -748,11 +894,13 @@ footer {
 
   </div>
 
+
   <button id="authBtn">
     Create Account
   </button>
 
   <div id="authMessage" class="message"></div>
+
 
   <div class="auth-switch">
 
@@ -768,7 +916,16 @@ footer {
 
 </section>
 
-<section id="dashboardSection" class="hidden">
+
+<!-- =========================
+     DASHBOARD
+========================= -->
+
+<section
+  id="dashboardSection"
+  class="hidden"
+>
+
 
   <div class="card">
 
@@ -801,7 +958,9 @@ footer {
 
     </div>
 
-    <h2>Your Money Dashboard</h2>
+    <h2>
+      Your Money Dashboard
+    </h2>
 
     <p style="color:#667085;">
       Manage your wallet, transfers, identity verification
@@ -810,9 +969,119 @@ footer {
 
   </div>
 
+
+  <!-- =========================
+       ACCOUNT LEVEL / LIMITS
+  ========================= -->
+
+  <div class="card limit-card">
+
+    <h3>
+      Account Level & Limits
+    </h3>
+
+    <div class="limit-grid">
+
+      <div class="limit-item">
+
+        <div class="limit-label">
+          Account Level
+        </div>
+
+        <div>
+          <span
+            id="accountLevelDisplay"
+            class="level-badge"
+          >
+            Level 1
+          </span>
+        </div>
+
+      </div>
+
+
+      <div class="limit-item">
+
+        <div class="limit-label">
+          Balance Limit
+        </div>
+
+        <div
+          id="balanceLimitDisplay"
+          class="limit-value"
+        >
+          ₦300,000.00
+        </div>
+
+      </div>
+
+
+      <div class="limit-item">
+
+        <div class="limit-label">
+          24-Hour Transfer Limit
+        </div>
+
+        <div
+          id="transferLimitDisplay"
+          class="limit-value"
+        >
+          ₦50,000.00
+        </div>
+
+      </div>
+
+
+      <div class="limit-item">
+
+        <div class="limit-label">
+          Remaining Transfer Limit
+        </div>
+
+        <div
+          id="remainingTransferDisplay"
+          class="limit-value"
+        >
+          ₦50,000.00
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="limit-progress"
+      title="24-hour transfer usage"
+    >
+
+      <div
+        id="transferProgressBar"
+        class="limit-progress-bar"
+      ></div>
+
+    </div>
+
+
+    <div
+      id="limitNote"
+      class="limit-note"
+    >
+      Your transfer limit is calculated over a rolling 24-hour period.
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       PROFILE
+  ========================= -->
+
   <div class="card">
 
-    <h3>Your Profile</h3>
+    <h3>
+      Your Profile
+    </h3>
 
     <label class="section-label">
       Profile picture (optional)
@@ -842,20 +1111,35 @@ footer {
 
   </div>
 
+
+  <!-- =========================
+       KYC
+  ========================= -->
+
   <div class="card">
 
-    <h3>Identity Verification</h3>
+    <h3>
+      Identity Verification
+    </h3>
 
     <div class="kyc-status-box">
 
-      <div style="font-size:13px;color:#667085;margin-bottom:5px;">
+      <div
+        style="
+          font-size:13px;
+          color:#667085;
+          margin-bottom:5px;
+        "
+      >
         Verification Status
       </div>
 
       <div id="kycStatusBadge">
+
         <span class="status-badge status-unverified">
           Not Verified
         </span>
+
       </div>
 
     </div>
@@ -871,19 +1155,31 @@ footer {
 
   </div>
 
+
+  <!-- =========================
+       WALLET BALANCE
+  ========================= -->
+
   <div class="card balance-card">
 
     <div class="balance-label">
       Wallet Balance
     </div>
 
-    <div class="balance" id="balanceDisplay">
+    <div
+      class="balance"
+      id="balanceDisplay"
+    >
       ₦0.00
     </div>
 
-    <div class="balance-label" id="currencyDisplay">
+    <div
+      class="balance-label"
+      id="currencyDisplay"
+    >
       Nigerian Naira
     </div>
+
 
     <div class="account-box">
 
@@ -891,11 +1187,17 @@ footer {
         NexaWallet Account Number
       </div>
 
-      <div class="account-number" id="accountNumberDisplay">
+      <div
+        class="account-number"
+        id="accountNumberDisplay"
+      >
         Loading...
       </div>
 
-      <button id="copyAccountBtn" class="secondary">
+      <button
+        id="copyAccountBtn"
+        class="secondary"
+      >
         Copy Account Number
       </button>
 
@@ -903,13 +1205,23 @@ footer {
 
   </div>
 
+
+  <!-- =========================
+       WALLET ACTIONS
+  ========================= -->
+
   <div class="card">
 
-    <h3>Wallet Actions</h3>
+    <h3>
+      Wallet Actions
+    </h3>
 
     <div class="action-grid">
 
-      <button id="addMoneyBtn" class="success">
+      <button
+        id="addMoneyBtn"
+        class="success"
+      >
         + Add Money
       </button>
 
@@ -921,7 +1233,10 @@ footer {
         Send Money
       </button>
 
-      <button id="receiveMoneyBtn" class="secondary">
+      <button
+        id="receiveMoneyBtn"
+        class="secondary"
+      >
         Receive Money
       </button>
 
@@ -929,9 +1244,19 @@ footer {
 
   </div>
 
-  <div id="addMoneyPanel" class="card hidden">
 
-    <h3>Add Money</h3>
+  <!-- =========================
+       ADD MONEY
+  ========================= -->
+
+  <div
+    id="addMoneyPanel"
+    class="card hidden"
+  >
+
+    <h3>
+      Add Money
+    </h3>
 
     <input
       type="number"
@@ -941,7 +1266,10 @@ footer {
       step="0.01"
     >
 
-    <button id="confirmAddBtn" class="success">
+    <button
+      id="confirmAddBtn"
+      class="success"
+    >
       Add Money
     </button>
 
@@ -953,13 +1281,26 @@ footer {
       Cancel
     </button>
 
-    <div id="addMessage" class="message"></div>
+    <div
+      id="addMessage"
+      class="message"
+    ></div>
 
   </div>
 
-  <div id="withdrawPanel" class="card hidden">
 
-    <h3>Withdraw Money</h3>
+  <!-- =========================
+       WITHDRAW
+  ========================= -->
+
+  <div
+    id="withdrawPanel"
+    class="card hidden"
+  >
+
+    <h3>
+      Withdraw Money
+    </h3>
 
     <input
       type="number"
@@ -981,18 +1322,37 @@ footer {
       Cancel
     </button>
 
-    <div id="withdrawMessage" class="message"></div>
+    <div
+      id="withdrawMessage"
+      class="message"
+    ></div>
 
   </div>
 
-  <div id="sendMoneyPanel" class="card hidden">
 
-    <h3>Send Money</h3>
+  <!-- =========================
+       SEND MONEY
+  ========================= -->
+
+  <div
+    id="sendMoneyPanel"
+    class="card hidden"
+  >
+
+    <h3>
+      Send Money
+    </h3>
+
+    <div class="info-box">
+      Send money using the recipient's NexaWallet account number.
+      Email addresses are not used for transfers.
+    </div>
 
     <input
       type="text"
       id="recipientInput"
-      placeholder="Recipient email or account number"
+      placeholder="Recipient NexaWallet Account Number"
+      inputmode="numeric"
       autocomplete="off"
     >
 
@@ -1016,13 +1376,26 @@ footer {
       Cancel
     </button>
 
-    <div id="sendMessage" class="message"></div>
+    <div
+      id="sendMessage"
+      class="message"
+    ></div>
 
   </div>
 
-  <div id="receiveMoneyPanel" class="card hidden">
 
-    <h3>↓ Receive Money</h3>
+  <!-- =========================
+       RECEIVE MONEY
+  ========================= -->
+
+  <div
+    id="receiveMoneyPanel"
+    class="card hidden"
+  >
+
+    <h3>
+      ↓ Receive Money
+    </h3>
 
     <p style="color:#667085;">
       Share your NexaWallet account number with another
@@ -1039,7 +1412,12 @@ footer {
       "
     >
 
-      <div style="font-size:13px;color:#667085;">
+      <div
+        style="
+          font-size:13px;
+          color:#667085;
+        "
+      >
         Your Account Number
       </div>
 
@@ -1069,13 +1447,23 @@ footer {
       Close
     </button>
 
-    <div id="receiveMessage" class="message"></div>
+    <div
+      id="receiveMessage"
+      class="message"
+    ></div>
 
   </div>
 
+
+  <!-- =========================
+       TRANSACTIONS
+  ========================= -->
+
   <div class="card">
 
-    <h3>Transaction History</h3>
+    <h3>
+      Transaction History
+    </h3>
 
     <div id="transactionsList">
 
@@ -1091,11 +1479,21 @@ footer {
 
 </main>
 
-<div id="kycModal" class="modal">
+
+<!-- =========================
+     KYC MODAL
+========================= -->
+
+<div
+  id="kycModal"
+  class="modal"
+>
 
   <div class="modal-card">
 
-    <h2>Verify Your Identity</h2>
+    <h2>
+      Verify Your Identity
+    </h2>
 
     <p class="kyc-note">
       Enter your legal information exactly as it appears
@@ -1120,28 +1518,68 @@ footer {
       Date of birth
     </label>
 
-    <input type="date" id="kycDateOfBirth">
+    <input
+      type="date"
+      id="kycDateOfBirth"
+    >
 
     <select id="kycCountry">
 
-      <option value="">Select country</option>
-      <option value="Nigeria">Nigeria</option>
-      <option value="United Kingdom">United Kingdom</option>
-      <option value="United States">United States</option>
-      <option value="Ghana">Ghana</option>
-      <option value="Kenya">Kenya</option>
-      <option value="South Africa">South Africa</option>
-      <option value="Other">Other</option>
+      <option value="">
+        Select country
+      </option>
+
+      <option value="Nigeria">
+        Nigeria
+      </option>
+
+      <option value="United Kingdom">
+        United Kingdom
+      </option>
+
+      <option value="United States">
+        United States
+      </option>
+
+      <option value="Ghana">
+        Ghana
+      </option>
+
+      <option value="Kenya">
+        Kenya
+      </option>
+
+      <option value="South Africa">
+        South Africa
+      </option>
+
+      <option value="Other">
+        Other
+      </option>
 
     </select>
 
     <select id="kycIdType">
 
-      <option value="">Select ID type</option>
-      <option value="National ID">National ID</option>
-      <option value="Passport">Passport</option>
-      <option value="Driver's License">Driver's License</option>
-      <option value="Residence Permit">Residence Permit</option>
+      <option value="">
+        Select ID type
+      </option>
+
+      <option value="National ID">
+        National ID
+      </option>
+
+      <option value="Passport">
+        Passport
+      </option>
+
+      <option value="Driver's License">
+        Driver's License
+      </option>
+
+      <option value="Residence Permit">
+        Residence Permit
+      </option>
 
     </select>
 
@@ -1189,7 +1627,10 @@ footer {
       <input
         type="checkbox"
         id="kycConsent"
-        style="width:auto;margin:2px 0 0 0;"
+        style="
+          width:auto;
+          margin:2px 0 0 0;
+        "
       >
 
       <span>
@@ -1199,7 +1640,10 @@ footer {
 
     </label>
 
-    <button id="submitKycBtn" class="success">
+    <button
+      id="submitKycBtn"
+      class="success"
+    >
       Submit Verification
     </button>
 
@@ -1211,17 +1655,30 @@ footer {
       Close
     </button>
 
-    <div id="kycMessage" class="message"></div>
+    <div
+      id="kycMessage"
+      class="message"
+    ></div>
 
   </div>
 
 </div>
 
-<div id="transactionModal" class="modal">
+
+<!-- =========================
+     TRANSACTION MODAL
+========================= -->
+
+<div
+  id="transactionModal"
+  class="modal"
+>
 
   <div class="modal-card">
 
-    <h2>Transaction Details</h2>
+    <h2>
+      Transaction Details
+    </h2>
 
     <div id="transactionDetails"></div>
 
@@ -1237,6 +1694,7 @@ footer {
 
 </div>
 
+
 <footer>
 
   NexaWallet © 2026<br>
@@ -1246,7 +1704,12 @@ footer {
 
 </footer>
 
+
 <script>
+
+/* =========================================================
+   SUPABASE
+========================================================= */
 
 const SUPABASE_URL =
   "https://sukhdbkokkyvrduryakz.supabase.co";
@@ -1262,120 +1725,236 @@ const supabaseClient =
     SUPABASE_KEY
   );
 
+
+/* =========================================================
+   STATE
+========================================================= */
+
 let currentUser = null;
+
 let authMode = "signup";
+
 let currentWallet = null;
+
 let currentTransactions = [];
+
 let currentKyc = null;
+
 let currentProfile = null;
 
+let currentAccountLimits = {
+  level: 1,
+  balanceLimit: 300000,
+  transferLimit: 50000,
+  sentLast24h: 0,
+  remainingTransfer: 50000
+};
 
-/* =========================
+
+/* =========================================================
    ELEMENTS
-========================= */
+========================================================= */
 
 const authSection =
-  document.getElementById("authSection");
+  document.getElementById(
+    "authSection"
+  );
 
 const dashboardSection =
-  document.getElementById("dashboardSection");
+  document.getElementById(
+    "dashboardSection"
+  );
 
 const landingSection =
-  document.getElementById("landingSection");
+  document.getElementById(
+    "landingSection"
+  );
 
 const authTitle =
-  document.getElementById("authTitle");
+  document.getElementById(
+    "authTitle"
+  );
 
 const authBtn =
-  document.getElementById("authBtn");
+  document.getElementById(
+    "authBtn"
+  );
 
 const authSwitchBtn =
-  document.getElementById("authSwitchBtn");
+  document.getElementById(
+    "authSwitchBtn"
+  );
 
 const authSwitchText =
-  document.getElementById("authSwitchText");
+  document.getElementById(
+    "authSwitchText"
+  );
 
 const authMessage =
-  document.getElementById("authMessage");
+  document.getElementById(
+    "authMessage"
+  );
 
 const emailInput =
-  document.getElementById("emailInput");
+  document.getElementById(
+    "emailInput"
+  );
 
 const passwordInput =
-  document.getElementById("passwordInput");
+  document.getElementById(
+    "passwordInput"
+  );
 
 const logoutBtn =
-  document.getElementById("logoutBtn");
+  document.getElementById(
+    "logoutBtn"
+  );
 
 const balanceDisplay =
-  document.getElementById("balanceDisplay");
+  document.getElementById(
+    "balanceDisplay"
+  );
 
 const currencyDisplay =
-  document.getElementById("currencyDisplay");
+  document.getElementById(
+    "currencyDisplay"
+  );
 
 const accountNumberDisplay =
-  document.getElementById("accountNumberDisplay");
+  document.getElementById(
+    "accountNumberDisplay"
+  );
 
 const receiveAccountNumber =
-  document.getElementById("receiveAccountNumber");
+  document.getElementById(
+    "receiveAccountNumber"
+  );
 
 const transactionsList =
-  document.getElementById("transactionsList");
+  document.getElementById(
+    "transactionsList"
+  );
 
 const transactionModal =
-  document.getElementById("transactionModal");
+  document.getElementById(
+    "transactionModal"
+  );
 
 const transactionDetails =
-  document.getElementById("transactionDetails");
+  document.getElementById(
+    "transactionDetails"
+  );
 
 const kycModal =
-  document.getElementById("kycModal");
+  document.getElementById(
+    "kycModal"
+  );
 
 const kycStatusBadge =
-  document.getElementById("kycStatusBadge");
+  document.getElementById(
+    "kycStatusBadge"
+  );
 
 const signupOnlySection =
-  document.getElementById("signupOnlySection");
+  document.getElementById(
+    "signupOnlySection"
+  );
 
 const personalSignupFields =
-  document.getElementById("personalSignupFields");
+  document.getElementById(
+    "personalSignupFields"
+  );
 
 const businessSignupFields =
-  document.getElementById("businessSignupFields");
+  document.getElementById(
+    "businessSignupFields"
+  );
 
 const loginInfo =
-  document.getElementById("loginInfo");
+  document.getElementById(
+    "loginInfo"
+  );
 
 const profileSecurityNote =
-  document.getElementById("profileSecurityNote");
+  document.getElementById(
+    "profileSecurityNote"
+  );
 
 const personalAccountType =
-  document.getElementById("personalAccountType");
+  document.getElementById(
+    "personalAccountType"
+  );
 
 const businessAccountType =
-  document.getElementById("businessAccountType");
+  document.getElementById(
+    "businessAccountType"
+  );
 
 const personalTypeCard =
-  document.getElementById("personalTypeCard");
+  document.getElementById(
+    "personalTypeCard"
+  );
 
 const businessTypeCard =
-  document.getElementById("businessTypeCard");
+  document.getElementById(
+    "businessTypeCard"
+  );
 
 const profileAvatar =
-  document.getElementById("profileAvatar");
+  document.getElementById(
+    "profileAvatar"
+  );
 
 const profileName =
-  document.getElementById("profileName");
+  document.getElementById(
+    "profileName"
+  );
 
 const profileType =
-  document.getElementById("profileType");
+  document.getElementById(
+    "profileType"
+  );
+
+const accountLevelDisplay =
+  document.getElementById(
+    "accountLevelDisplay"
+  );
+
+const balanceLimitDisplay =
+  document.getElementById(
+    "balanceLimitDisplay"
+  );
+
+const transferLimitDisplay =
+  document.getElementById(
+    "transferLimitDisplay"
+  );
+
+const remainingTransferDisplay =
+  document.getElementById(
+    "remainingTransferDisplay"
+  );
+
+const transferProgressBar =
+  document.getElementById(
+    "transferProgressBar"
+  );
+
+const limitNote =
+  document.getElementById(
+    "limitNote"
+  );
 
 
-/* =========================
+/* =========================================================
    HELPERS
-========================= */
+========================================================= */
 
-function showMessage(element, text, type) {
+function showMessage(
+  element,
+  text,
+  type
+) {
 
   element.textContent = text;
 
@@ -1384,7 +1963,9 @@ function showMessage(element, text, type) {
 }
 
 
-function hideMessage(element) {
+function hideMessage(
+  element
+) {
 
   element.textContent = "";
 
@@ -1393,7 +1974,10 @@ function hideMessage(element) {
 }
 
 
-function formatMoney(amount, currency) {
+function formatMoney(
+  amount,
+  currency
+) {
 
   const value =
     Number(amount || 0);
@@ -1427,7 +2011,9 @@ function formatMoney(amount, currency) {
 }
 
 
-function formatDate(dateValue) {
+function formatDate(
+  dateValue
+) {
 
   if (!dateValue) {
     return "N/A";
@@ -1439,7 +2025,9 @@ function formatDate(dateValue) {
 }
 
 
-function generateReference(prefix) {
+function generateReference(
+  prefix
+) {
 
   return (
     prefix +
@@ -1448,13 +2036,15 @@ function generateReference(prefix) {
     "-" +
     Math.random()
       .toString(36)
-      .substring(2,8)
+      .substring(2, 8)
       .toUpperCase()
   );
 }
 
 
-function escapeHtml(value) {
+function escapeHtml(
+  value
+) {
 
   if (
     value === null ||
@@ -1464,17 +2054,34 @@ function escapeHtml(value) {
   }
 
   return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+    .replace(
+      /</g,
+      "&lt;"
+    )
+    .replace(
+      />/g,
+      "&gt;"
+    )
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+    .replace(
+      /'/g,
+      "&#039;"
+    );
 }
 
 
 function getAccountType() {
 
-  if (businessAccountType.checked) {
+  if (
+    businessAccountType.checked
+  ) {
     return "business";
   }
 
@@ -1487,50 +2094,95 @@ function updateAccountTypeUI() {
   const type =
     getAccountType();
 
-  if (type === "business") {
+  if (
+    type === "business"
+  ) {
 
-    personalSignupFields.classList.add(
-      "hidden"
-    );
+    personalSignupFields
+      .classList
+      .add("hidden");
 
-    businessSignupFields.classList.remove(
-      "hidden"
-    );
+    businessSignupFields
+      .classList
+      .remove("hidden");
 
-    personalTypeCard.classList.remove(
-      "active"
-    );
+    personalTypeCard
+      .classList
+      .remove("active");
 
-    businessTypeCard.classList.add(
-      "active"
-    );
+    businessTypeCard
+      .classList
+      .add("active");
 
   }
 
   else {
 
-    personalSignupFields.classList.remove(
-      "hidden"
-    );
+    personalSignupFields
+      .classList
+      .remove("hidden");
 
-    businessSignupFields.classList.add(
-      "hidden"
-    );
+    businessSignupFields
+      .classList
+      .add("hidden");
 
-    personalTypeCard.classList.add(
-      "active"
-    );
+    personalTypeCard
+      .classList
+      .add("active");
 
-    businessTypeCard.classList.remove(
-      "active"
-    );
+    businessTypeCard
+      .classList
+      .remove("active");
   }
 }
 
 
+/* =========================================================
+   AUTH MODE
+========================================================= */
+
+personalAccountType.addEventListener(
+  "change",
+  updateAccountTypeUI
+);
+
+businessAccountType.addEventListener(
+  "change",
+  updateAccountTypeUI
+);
+
+
+authSwitchBtn.addEventListener(
+  "click",
+  () => {
+
+    if (
+      authMode === "signup"
+    ) {
+
+      authMode = "login";
+
+    }
+
+    else {
+
+      authMode = "signup";
+    }
+
+    hideMessage(
+      authMessage
+    );
+
+    updateAuthUI();
+  }
+);
+
+
 function updateAuthUI() {
 
-  if (authMode === "signup") {
+  if (
+    authMode === "signup"
+  ) {
 
     authTitle.textContent =
       "Create your account";
@@ -1544,17 +2196,17 @@ function updateAuthUI() {
     authSwitchBtn.textContent =
       "Log In";
 
-    signupOnlySection.classList.remove(
-      "hidden"
-    );
+    signupOnlySection
+      .classList
+      .remove("hidden");
 
-    loginInfo.classList.add(
-      "hidden"
-    );
+    loginInfo
+      .classList
+      .add("hidden");
 
-    profileSecurityNote.classList.remove(
-      "hidden"
-    );
+    profileSecurityNote
+      .classList
+      .remove("hidden");
 
     updateAccountTypeUI();
 
@@ -1574,61 +2226,24 @@ function updateAuthUI() {
     authSwitchBtn.textContent =
       "Create Account";
 
-    signupOnlySection.classList.add(
-      "hidden"
-    );
+    signupOnlySection
+      .classList
+      .add("hidden");
 
-    loginInfo.classList.remove(
-      "hidden"
-    );
+    loginInfo
+      .classList
+      .remove("hidden");
 
-    profileSecurityNote.classList.add(
-      "hidden"
-    );
+    profileSecurityNote
+      .classList
+      .add("hidden");
   }
 }
 
 
-/* =========================
-   AUTH MODE
-========================= */
-
-personalAccountType.addEventListener(
-  "change",
-  updateAccountTypeUI
-);
-
-businessAccountType.addEventListener(
-  "change",
-  updateAccountTypeUI
-);
-
-authSwitchBtn.addEventListener(
-  "click",
-  () => {
-
-    if (authMode === "signup") {
-
-      authMode = "login";
-
-    }
-
-    else {
-
-      authMode = "signup";
-
-    }
-
-    hideMessage(authMessage);
-
-    updateAuthUI();
-  }
-);
-
-
-/* =========================
-   READ PERSONAL FORM
-========================= */
+/* =========================================================
+   PERSONAL FORM
+========================================================= */
 
 function getPersonalFormData() {
 
@@ -1636,62 +2251,80 @@ function getPersonalFormData() {
 
     first_name:
       document
-        .getElementById("firstNameInput")
+        .getElementById(
+          "firstNameInput"
+        )
         .value
         .trim(),
 
     last_name:
       document
-        .getElementById("lastNameInput")
+        .getElementById(
+          "lastNameInput"
+        )
         .value
         .trim(),
 
     phone_number:
       document
-        .getElementById("phoneInput")
+        .getElementById(
+          "phoneInput"
+        )
         .value
         .trim(),
 
     date_of_birth:
       document
-        .getElementById("dateOfBirthInput")
+        .getElementById(
+          "dateOfBirthInput"
+        )
         .value,
 
     country:
       document
-        .getElementById("countryInput")
+        .getElementById(
+          "countryInput"
+        )
         .value,
 
     state_region:
       document
-        .getElementById("stateRegionInput")
+        .getElementById(
+          "stateRegionInput"
+        )
         .value
         .trim(),
 
     city:
       document
-        .getElementById("cityInput")
+        .getElementById(
+          "cityInput"
+        )
         .value
         .trim(),
 
     home_address:
       document
-        .getElementById("homeAddressInput")
+        .getElementById(
+          "homeAddressInput"
+        )
         .value
         .trim(),
 
     postal_code:
       document
-        .getElementById("postalCodeInput")
+        .getElementById(
+          "postalCodeInput"
+        )
         .value
         .trim()
   };
 }
 
 
-/* =========================
-   READ BUSINESS FORM
-========================= */
+/* =========================================================
+   BUSINESS FORM
+========================================================= */
 
 function getBusinessFormData() {
 
@@ -1699,69 +2332,91 @@ function getBusinessFormData() {
 
     business_name:
       document
-        .getElementById("businessNameInput")
+        .getElementById(
+          "businessNameInput"
+        )
         .value
         .trim(),
 
     business_type:
       document
-        .getElementById("businessTypeInput")
+        .getElementById(
+          "businessTypeInput"
+        )
         .value
         .trim(),
 
     business_email:
       document
-        .getElementById("businessEmailInput")
+        .getElementById(
+          "businessEmailInput"
+        )
         .value
         .trim(),
 
     business_phone:
       document
-        .getElementById("businessPhoneInput")
+        .getElementById(
+          "businessPhoneInput"
+        )
         .value
         .trim(),
 
     business_address:
       document
-        .getElementById("businessAddressInput")
+        .getElementById(
+          "businessAddressInput"
+        )
         .value
         .trim(),
 
     business_city:
       document
-        .getElementById("businessCityInput")
+        .getElementById(
+          "businessCityInput"
+        )
         .value
         .trim(),
 
     business_state:
       document
-        .getElementById("businessStateInput")
+        .getElementById(
+          "businessStateInput"
+        )
         .value
         .trim(),
 
     business_country:
       document
-        .getElementById("businessCountryInput")
+        .getElementById(
+          "businessCountryInput"
+        )
         .value,
 
     business_postal_code:
       document
-        .getElementById("businessPostalCodeInput")
+        .getElementById(
+          "businessPostalCodeInput"
+        )
         .value
         .trim(),
 
     registration_number:
       document
-        .getElementById("registrationNumberInput")
+        .getElementById(
+          "registrationNumberInput"
+        )
         .value
         .trim()
   };
 }
 
 
-/* =========================
+/* =========================================================
    SAVE PROFILE
-========================= */
+   IMPORTANT:
+   Existing profiles are NOT overwritten on login.
+========================================================= */
 
 async function saveUserProfile(
   user,
@@ -1774,6 +2429,35 @@ async function saveUserProfile(
     );
   }
 
+  const {
+    data: existingProfile,
+    error: existingError
+  } =
+    await supabaseClient
+      .from("user_profiles")
+      .select("*")
+      .eq(
+        "id",
+        user.id
+      )
+      .maybeSingle();
+
+  if (existingError) {
+    throw existingError;
+  }
+
+  /*
+    When logging in, keep the existing profile.
+  */
+
+  if (
+    existingProfile &&
+    !metadata
+  ) {
+
+    return existingProfile;
+  }
+
   const meta =
     metadata ||
     user.user_metadata ||
@@ -1781,9 +2465,13 @@ async function saveUserProfile(
 
   const accountType =
     meta.account_type ||
+    existingProfile?.account_type ||
     "personal";
 
-  if (accountType === "business") {
+
+  if (
+    accountType === "business"
+  ) {
 
     const businessPayload = {
 
@@ -1795,28 +2483,35 @@ async function saveUserProfile(
 
       first_name:
         meta.first_name ||
+        existingProfile?.first_name ||
         "",
 
       last_name:
         meta.last_name ||
+        existingProfile?.last_name ||
         "",
 
       phone_number:
         meta.phone_number ||
+        existingProfile?.phone_number ||
         "",
 
       profile_completed:
         true,
 
       kyc_status:
+        existingProfile?.kyc_status ||
         "not_started",
 
       nin_verified:
+        existingProfile?.nin_verified ||
         false,
 
       bvn_verified:
+        existingProfile?.bvn_verified ||
         false
     };
+
 
     const {
       error: profileError
@@ -1833,6 +2528,7 @@ async function saveUserProfile(
     if (profileError) {
       throw profileError;
     }
+
 
     const businessPayloadForTable = {
 
@@ -1882,6 +2578,7 @@ async function saveUserProfile(
       verification_status:
         "not_started"
     };
+
 
     const {
       error: businessError
@@ -1948,17 +2645,25 @@ async function saveUserProfile(
         "",
 
       nin_verified:
+        existingProfile?.nin_verified ||
         false,
 
       bvn_verified:
+        existingProfile?.bvn_verified ||
+        false,
+
+      utility_bill_verified:
+        existingProfile?.utility_bill_verified ||
         false,
 
       kyc_status:
+        existingProfile?.kyc_status ||
         "not_started",
 
       profile_completed:
         true
     };
+
 
     const {
       error
@@ -1976,12 +2681,14 @@ async function saveUserProfile(
       throw error;
     }
   }
+
+  return true;
 }
 
 
-/* =========================
+/* =========================================================
    AUTH
-========================= */
+========================================================= */
 
 authBtn.addEventListener(
   "click",
@@ -1993,9 +2700,15 @@ authBtn.addEventListener(
     const password =
       passwordInput.value;
 
-    hideMessage(authMessage);
+    hideMessage(
+      authMessage
+    );
 
-    if (!email || !password) {
+
+    if (
+      !email ||
+      !password
+    ) {
 
       showMessage(
         authMessage,
@@ -2006,7 +2719,10 @@ authBtn.addEventListener(
       return;
     }
 
-    if (password.length < 6) {
+
+    if (
+      password.length < 6
+    ) {
 
       showMessage(
         authMessage,
@@ -2017,25 +2733,32 @@ authBtn.addEventListener(
       return;
     }
 
+
     authBtn.disabled = true;
+
 
     try {
 
-      if (authMode === "signup") {
+      if (
+        authMode === "signup"
+      ) {
 
         const accountType =
           getAccountType();
 
         let metadata = {
-
           account_type:
             accountType
         };
 
-        if (accountType === "personal") {
+
+        if (
+          accountType === "personal"
+        ) {
 
           const personal =
             getPersonalFormData();
+
 
           if (
             !personal.first_name ||
@@ -2053,6 +2776,7 @@ authBtn.addEventListener(
               "Please complete all required personal information."
             );
           }
+
 
           metadata = {
 
@@ -2072,6 +2796,7 @@ authBtn.addEventListener(
           const business =
             getBusinessFormData();
 
+
           if (
             !business.business_name ||
             !business.business_type ||
@@ -2088,6 +2813,7 @@ authBtn.addEventListener(
               "Please complete all required business information."
             );
           }
+
 
           metadata = {
 
@@ -2110,29 +2836,36 @@ authBtn.addEventListener(
           };
         }
 
+
         const {
           data,
           error
         } =
-          await supabaseClient.auth.signUp({
+          await supabaseClient
+            .auth
+            .signUp({
 
-            email,
+              email,
 
-            password,
+              password,
 
-            options: {
+              options: {
 
-              data:
-                metadata
-            }
+                data:
+                  metadata
+              }
 
-          });
+            });
+
 
         if (error) {
           throw error;
         }
 
-        if (data.session) {
+
+        if (
+          data.session
+        ) {
 
           currentUser =
             data.user;
@@ -2142,11 +2875,13 @@ authBtn.addEventListener(
             metadata
           );
 
+
           showMessage(
             authMessage,
             "Account created successfully.",
             "success"
           );
+
 
           await showDashboard();
 
@@ -2159,6 +2894,7 @@ authBtn.addEventListener(
             "Account created. Please confirm your email, then log in. Your onboarding information has been saved with your account.",
             "success"
           );
+
 
           authMode =
             "login";
@@ -2176,7 +2912,8 @@ authBtn.addEventListener(
           data,
           error
         } =
-          await supabaseClient.auth
+          await supabaseClient
+            .auth
             .signInWithPassword({
 
               email,
@@ -2185,34 +2922,27 @@ authBtn.addEventListener(
 
             });
 
+
         if (error) {
           throw error;
         }
 
+
         currentUser =
           data.user;
 
-        try {
 
-          await saveUserProfile(
-            data.user
-          );
+        await saveUserProfile(
+          data.user
+        );
 
-        }
-
-        catch (profileError) {
-
-          console.warn(
-            "Profile creation/update warning:",
-            profileError.message
-          );
-        }
 
         showMessage(
           authMessage,
           "Logged in successfully.",
           "success"
         );
+
 
         await showDashboard();
       }
@@ -2241,9 +2971,9 @@ authBtn.addEventListener(
 );
 
 
-/* =========================
+/* =========================================================
    SESSION
-========================= */
+========================================================= */
 
 async function loadSession() {
 
@@ -2252,7 +2982,10 @@ async function loadSession() {
       session
     }
   } =
-    await supabaseClient.auth.getSession();
+    await supabaseClient
+      .auth
+      .getSession();
+
 
   if (session) {
 
@@ -2276,7 +3009,9 @@ supabaseClient.auth.onAuthStateChange(
     session
   ) => {
 
-    if (session) {
+    if (
+      session
+    ) {
 
       currentUser =
         session.user;
@@ -2296,15 +3031,16 @@ supabaseClient.auth.onAuthStateChange(
 );
 
 
-/* =========================
+/* =========================================================
    LOAD PROFILE
-========================= */
+========================================================= */
 
 async function loadProfile() {
 
   if (!currentUser) {
     return;
   }
+
 
   const {
     data,
@@ -2319,6 +3055,7 @@ async function loadProfile() {
       )
       .maybeSingle();
 
+
   if (error) {
 
     console.warn(
@@ -2329,12 +3066,15 @@ async function loadProfile() {
     return;
   }
 
+
   currentProfile =
     data;
+
 
   if (!data) {
     return;
   }
+
 
   const firstName =
     data.first_name ||
@@ -2344,6 +3084,7 @@ async function loadProfile() {
     data.last_name ||
     "";
 
+
   const fullName =
     (
       firstName +
@@ -2351,18 +3092,22 @@ async function loadProfile() {
       lastName
     ).trim();
 
+
   const displayName =
     fullName ||
     currentUser.email ||
     "NexaWallet User";
 
+
   profileName.textContent =
     displayName;
+
 
   profileType.textContent =
     data.account_type === "business"
       ? "Business Account"
       : "Personal Account";
+
 
   const initial =
     (
@@ -2373,15 +3118,21 @@ async function loadProfile() {
       .charAt(0)
       .toUpperCase();
 
+
   profileAvatar.textContent =
     initial;
 
-  if (data.avatar_url) {
+
+  if (
+    data.avatar_url
+  ) {
 
     profileAvatar.innerHTML =
       `
         <img
-          src="${escapeHtml(data.avatar_url)}"
+          src="${escapeHtml(
+            data.avatar_url
+          )}"
           alt="Profile picture"
         >
       `;
@@ -2389,21 +3140,475 @@ async function loadProfile() {
 }
 
 
-/* =========================
+/* =========================================================
+   ACCOUNT LEVEL
+========================================================= */
+
+function getFallbackLevel(
+  profile
+) {
+
+  if (!profile) {
+    return 1;
+  }
+
+  if (
+    profile.nin_verified === true &&
+    profile.bvn_verified === true &&
+    profile.utility_bill_verified === true
+  ) {
+    return 3;
+  }
+
+  if (
+    profile.nin_verified === true &&
+    profile.bvn_verified === true
+  ) {
+    return 2;
+  }
+
+  return 1;
+}
+
+
+function updateLimitDisplay() {
+
+  const level =
+    Number(
+      currentAccountLimits.level || 1
+    );
+
+
+  const balanceLimit =
+    currentAccountLimits.balanceLimit;
+
+
+  const transferLimit =
+    currentAccountLimits.transferLimit;
+
+
+  const sent =
+    Number(
+      currentAccountLimits.sentLast24h || 0
+    );
+
+
+  const remaining =
+    Number(
+      currentAccountLimits.remainingTransfer || 0
+    );
+
+
+  accountLevelDisplay.textContent =
+    "Level " + level;
+
+
+  if (
+    level === 3
+  ) {
+
+    accountLevelDisplay.style.background =
+      "#dcfce7";
+
+    accountLevelDisplay.style.color =
+      "#166534";
+
+  }
+
+  else if (
+    level === 2
+  ) {
+
+    accountLevelDisplay.style.background =
+      "#dbeafe";
+
+    accountLevelDisplay.style.color =
+      "#1d4ed8";
+
+  }
+
+  else {
+
+    accountLevelDisplay.style.background =
+      "#fef3c7";
+
+    accountLevelDisplay.style.color =
+      "#92400e";
+  }
+
+
+  if (
+    balanceLimit === null ||
+    balanceLimit === undefined
+  ) {
+
+    balanceLimitDisplay.textContent =
+      "No balance limit";
+
+  }
+
+  else {
+
+    balanceLimitDisplay.textContent =
+      formatMoney(
+        balanceLimit,
+        "NGN"
+      );
+  }
+
+
+  if (
+    transferLimit === null ||
+    transferLimit === undefined
+  ) {
+
+    transferLimitDisplay.textContent =
+      "No transfer limit";
+
+  }
+
+  else {
+
+    transferLimitDisplay.textContent =
+      formatMoney(
+        transferLimit,
+        "NGN"
+      );
+  }
+
+
+  remainingTransferDisplay.textContent =
+    formatMoney(
+      remaining,
+      "NGN"
+    );
+
+
+  if (
+    transferLimit &&
+    transferLimit > 0
+  ) {
+
+    const percentage =
+      Math.min(
+        100,
+        Math.max(
+          0,
+          (
+            sent /
+            Number(
+              transferLimit
+            )
+          ) *
+          100
+        )
+      );
+
+    transferProgressBar.style.width =
+      percentage + "%";
+
+  }
+
+  else {
+
+    transferProgressBar.style.width =
+      "0%";
+  }
+
+
+  limitNote.textContent =
+    "You have sent " +
+    formatMoney(
+      sent,
+      "NGN"
+    ) +
+    " in the last 24 hours. " +
+    "The remaining limit is " +
+    formatMoney(
+      remaining,
+      "NGN"
+    ) +
+    ".";
+}
+
+
+async function loadAccountLimits() {
+
+  if (!currentUser) {
+    return;
+  }
+
+
+  let profile =
+    currentProfile;
+
+
+  if (!profile) {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("user_profiles")
+        .select(
+          "account_level,balance_limit,daily_transfer_limit,nin_verified,bvn_verified,utility_bill_verified"
+        )
+        .eq(
+          "id",
+          currentUser.id
+        )
+        .maybeSingle();
+
+
+    if (error) {
+
+      console.error(
+        "Unable to load account limits:",
+        error
+      );
+
+      return;
+    }
+
+    profile =
+      data;
+  }
+
+
+  if (!profile) {
+    return;
+  }
+
+
+  let level =
+    Number(
+      profile.account_level
+    );
+
+
+  if (
+    !level ||
+    level < 1
+  ) {
+
+    level =
+      getFallbackLevel(
+        profile
+      );
+  }
+
+
+  let balanceLimit =
+    profile.balance_limit;
+
+
+  let transferLimit =
+    profile.daily_transfer_limit;
+
+
+  /*
+    These are the current NexaWallet levels.
+    Database trigger remains the authoritative source.
+    Fallback values keep the display working if an old
+    profile has not yet been recalculated.
+  */
+
+  if (
+    balanceLimit === undefined ||
+    balanceLimit === null
+  ) {
+
+    if (
+      level === 1
+    ) {
+
+      balanceLimit =
+        300000;
+
+    }
+
+    else if (
+      level === 2
+    ) {
+
+      balanceLimit =
+        500000;
+
+    }
+
+    else {
+
+      balanceLimit =
+        null;
+    }
+  }
+
+
+  if (
+    transferLimit === undefined ||
+    transferLimit === null
+  ) {
+
+    if (
+      level === 1
+    ) {
+
+      transferLimit =
+        50000;
+
+    }
+
+    else if (
+      level === 2
+    ) {
+
+      transferLimit =
+        100000;
+
+    }
+
+    else {
+
+      transferLimit =
+        10000000;
+    }
+  }
+
+
+  /*
+    Calculate actual rolling 24-hour sent amount
+    directly from transaction history.
+  */
+
+  const since =
+    new Date(
+      Date.now() -
+      24 * 60 * 60 * 1000
+    ).toISOString();
+
+
+  const {
+    data: sentTransactions,
+    error: sentError
+  } =
+    await supabaseClient
+      .from("transactions")
+      .select(
+        "amount,currency,description,status,created_at"
+      )
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .eq(
+        "type",
+        "transfer"
+      )
+      .eq(
+        "status",
+        "completed"
+      )
+      .eq(
+        "currency",
+        "NGN"
+      )
+      .ilike(
+        "description",
+        "NexaWallet transfer sent%"
+      )
+      .gte(
+        "created_at",
+        since
+      );
+
+
+  if (sentError) {
+
+    console.error(
+      "Unable to calculate transfer usage:",
+      sentError
+    );
+
+    return;
+  }
+
+
+  const sentLast24h =
+    (
+      sentTransactions || []
+    ).reduce(
+      (
+        total,
+        transaction
+      ) => {
+
+        return (
+          total +
+          Number(
+            transaction.amount || 0
+          )
+        );
+
+      },
+      0
+    );
+
+
+  const remainingTransfer =
+    Math.max(
+      Number(
+        transferLimit || 0
+      ) -
+      sentLast24h,
+      0
+    );
+
+
+  currentAccountLimits = {
+
+    level,
+
+    balanceLimit,
+
+    transferLimit,
+
+    sentLast24h,
+
+    remainingTransfer
+  };
+
+
+  updateLimitDisplay();
+}
+
+
+/* =========================================================
    DASHBOARD
-========================= */
+========================================================= */
 
 async function showDashboard() {
 
-  authSection.classList.add("hidden");
+  authSection
+    .classList
+    .add("hidden");
 
-  landingSection.classList.add("hidden");
+  landingSection
+    .classList
+    .add("hidden");
 
-  dashboardSection.classList.remove("hidden");
+  dashboardSection
+    .classList
+    .remove("hidden");
 
-  logoutBtn.classList.remove("hidden");
+  logoutBtn
+    .classList
+    .remove("hidden");
+
 
   await loadProfile();
+
+  await loadAccountLimits();
 
   await loadWallet();
 
@@ -2427,33 +3632,58 @@ function showLoggedOut() {
 
   currentProfile = null;
 
-  authSection.classList.remove("hidden");
 
-  landingSection.classList.remove("hidden");
+  currentAccountLimits = {
 
-  dashboardSection.classList.add("hidden");
+    level: 1,
 
-  logoutBtn.classList.add("hidden");
+    balanceLimit: 300000,
+
+    transferLimit: 50000,
+
+    sentLast24h: 0,
+
+    remainingTransfer: 50000
+  };
+
+
+  authSection
+    .classList
+    .remove("hidden");
+
+  landingSection
+    .classList
+    .remove("hidden");
+
+  dashboardSection
+    .classList
+    .add("hidden");
+
+  logoutBtn
+    .classList
+    .add("hidden");
 }
 
 
-/* =========================
+/* =========================================================
    LOGOUT
-========================= */
+========================================================= */
 
 logoutBtn.addEventListener(
   "click",
   async () => {
 
-    await supabaseClient.auth.signOut();
+    await supabaseClient
+      .auth
+      .signOut();
 
   }
 );
 
 
-/* =========================
+/* =========================================================
    PROFILE PICTURE
-========================= */
+========================================================= */
 
 document
   .getElementById(
@@ -2476,7 +3706,11 @@ document
       const file =
         input.files[0];
 
-      hideMessage(message);
+
+      hideMessage(
+        message
+      );
+
 
       if (!file) {
 
@@ -2489,6 +3723,7 @@ document
         return;
       }
 
+
       if (!currentUser) {
 
         showMessage(
@@ -2500,6 +3735,7 @@ document
         return;
       }
 
+
       const button =
         document.getElementById(
           "saveProfilePictureBtn"
@@ -2507,10 +3743,12 @@ document
 
       button.disabled = true;
 
+
       try {
 
         const reader =
           new FileReader();
+
 
         const imageData =
           await new Promise(
@@ -2520,9 +3758,10 @@ document
             ) => {
 
               reader.onload =
-                () => resolve(
-                  reader.result
-                );
+                () =>
+                  resolve(
+                    reader.result
+                  );
 
               reader.onerror =
                 reject;
@@ -2532,6 +3771,7 @@ document
               );
             }
           );
+
 
         const {
           error
@@ -2547,9 +3787,11 @@ document
               currentUser.id
             );
 
+
         if (error) {
           throw error;
         }
+
 
         profileAvatar.innerHTML =
           `
@@ -2559,7 +3801,9 @@ document
             >
           `;
 
+
         input.value = "";
+
 
         showMessage(
           message,
@@ -2586,19 +3830,21 @@ document
 
         button.disabled = false;
       }
+
     }
   );
 
 
-/* =========================
+/* =========================================================
    LOAD WALLET
-========================= */
+========================================================= */
 
 async function loadWallet() {
 
   if (!currentUser) {
     return;
   }
+
 
   const {
     data,
@@ -2621,6 +3867,7 @@ async function loadWallet() {
       )
       .maybeSingle();
 
+
   if (error) {
 
     console.error(error);
@@ -2634,7 +3881,10 @@ async function loadWallet() {
     return;
   }
 
-  currentWallet = data;
+
+  currentWallet =
+    data;
+
 
   if (!data) {
 
@@ -2647,22 +3897,31 @@ async function loadWallet() {
     return;
   }
 
+
   balanceDisplay.textContent =
     formatMoney(
       data.balance,
       data.currency
     );
 
+
   currencyDisplay.textContent =
     data.currency === "NGN"
       ? "Nigerian Naira"
       : data.currency;
+
+
+  /*
+    Refresh limit display after wallet loading.
+  */
+
+  await loadAccountLimits();
 }
 
 
-/* =========================
+/* =========================================================
    ACCOUNT NUMBER
-========================= */
+========================================================= */
 
 async function loadAccountNumber() {
 
@@ -2671,6 +3930,7 @@ async function loadAccountNumber() {
 
   receiveAccountNumber.textContent =
     "Loading...";
+
 
   if (!currentUser) {
 
@@ -2683,24 +3943,29 @@ async function loadAccountNumber() {
     return;
   }
 
+
   try {
 
     const {
       data,
       error
     } =
-      await supabaseClient.rpc(
-        "get_my_account_number"
-      );
+      await supabaseClient
+        .rpc(
+          "get_my_account_number"
+        );
+
 
     if (error) {
       throw error;
     }
 
+
     const accountNumber =
       String(
         data || ""
       ).trim();
+
 
     if (!accountNumber) {
 
@@ -2712,6 +3977,7 @@ async function loadAccountNumber() {
 
       return;
     }
+
 
     accountNumberDisplay.textContent =
       accountNumber;
@@ -2728,6 +3994,7 @@ async function loadAccountNumber() {
       error
     );
 
+
     accountNumberDisplay.textContent =
       "Not available";
 
@@ -2737,9 +4004,9 @@ async function loadAccountNumber() {
 }
 
 
-/* =========================
+/* =========================================================
    COPY ACCOUNT NUMBER
-========================= */
+========================================================= */
 
 async function copyAccountNumber() {
 
@@ -2748,19 +4015,26 @@ async function copyAccountNumber() {
       .textContent
       .trim();
 
+
   if (
     !accountNumber ||
     accountNumber === "Loading..." ||
     accountNumber === "Not available" ||
     accountNumber === "Not set"
   ) {
+
     return;
   }
 
+
   try {
 
-    await navigator.clipboard
-      .writeText(accountNumber);
+    await navigator
+      .clipboard
+      .writeText(
+        accountNumber
+      );
+
 
     alert(
       "Account number copied."
@@ -2797,9 +4071,9 @@ document
   );
 
 
-/* =========================
+/* =========================================================
    PANELS
-========================= */
+========================================================= */
 
 function hideAllPanels() {
 
@@ -2807,31 +4081,38 @@ function hideAllPanels() {
     .getElementById(
       "addMoneyPanel"
     )
-    .classList.add("hidden");
+    .classList
+    .add("hidden");
+
 
   document
     .getElementById(
       "withdrawPanel"
     )
-    .classList.add("hidden");
+    .classList
+    .add("hidden");
+
 
   document
     .getElementById(
       "sendMoneyPanel"
     )
-    .classList.add("hidden");
+    .classList
+    .add("hidden");
+
 
   document
     .getElementById(
       "receiveMoneyPanel"
     )
-    .classList.add("hidden");
+    .classList
+    .add("hidden");
 }
 
 
-/* =========================
+/* =========================================================
    ADD MONEY
-========================= */
+========================================================= */
 
 document
   .getElementById(
@@ -2843,6 +4124,7 @@ document
 
       hideAllPanels();
 
+
       document
         .getElementById(
           "addMoneyPanel"
@@ -2850,11 +4132,13 @@ document
         .classList
         .remove("hidden");
 
+
       document
         .getElementById(
           "addAmountInput"
         )
         .focus();
+
     }
   );
 
@@ -2874,11 +4158,13 @@ document
         .classList
         .add("hidden");
 
+
       hideMessage(
         document.getElementById(
           "addMessage"
         )
       );
+
     }
   );
 
@@ -2902,11 +4188,20 @@ document
         );
 
       const amount =
-        Number(input.value);
+        Number(
+          input.value
+        );
 
-      hideMessage(message);
 
-      if (!amount || amount <= 0) {
+      hideMessage(
+        message
+      );
+
+
+      if (
+        !amount ||
+        amount <= 0
+      ) {
 
         showMessage(
           message,
@@ -2917,12 +4212,56 @@ document
         return;
       }
 
+
       if (!currentUser) {
         return;
       }
 
+
+      /*
+        Client-side balance-limit warning.
+        The database should remain authoritative.
+      */
+
+      const balanceLimit =
+        currentAccountLimits.balanceLimit;
+
+
+      const currentBalance =
+        Number(
+          currentWallet?.balance || 0
+        );
+
+
+      if (
+        balanceLimit !== null &&
+        balanceLimit !== undefined &&
+        currentBalance + amount >
+          Number(balanceLimit)
+      ) {
+
+        showMessage(
+          message,
+          "This deposit would exceed your Level " +
+          currentAccountLimits.level +
+          " balance limit of " +
+          formatMoney(
+            balanceLimit,
+            "NGN"
+          ) +
+          ".",
+          "error"
+        );
+
+        return;
+      }
+
+
       const reference =
-        generateReference("DEP");
+        generateReference(
+          "DEP"
+        );
+
 
       const button =
         document.getElementById(
@@ -2931,37 +4270,43 @@ document
 
       button.disabled = true;
 
+
       try {
 
         const {
           error
         } =
-          await supabaseClient.rpc(
-            "process_wallet_transaction",
-            {
-              p_user_id:
-                currentUser.id,
+          await supabaseClient
+            .rpc(
+              "process_wallet_transaction",
+              {
 
-              p_type:
-                "deposit",
+                p_user_id:
+                  currentUser.id,
 
-              p_amount:
-                amount,
+                p_type:
+                  "deposit",
 
-              p_currency:
-                "NGN",
+                p_amount:
+                  amount,
 
-              p_reference:
-                reference,
+                p_currency:
+                  "NGN",
 
-              p_description:
-                "NexaWallet deposit"
-            }
-          );
+                p_reference:
+                  reference,
+
+                p_description:
+                  "NexaWallet deposit"
+
+              }
+            );
+
 
         if (error) {
           throw error;
         }
+
 
         showMessage(
           message,
@@ -2969,7 +4314,9 @@ document
           "success"
         );
 
+
         input.value = "";
+
 
         await loadWallet();
 
@@ -2992,13 +4339,14 @@ document
 
         button.disabled = false;
       }
+
     }
   );
 
 
-/* =========================
+/* =========================================================
    WITHDRAW
-========================= */
+========================================================= */
 
 document
   .getElementById(
@@ -3010,6 +4358,7 @@ document
 
       hideAllPanels();
 
+
       document
         .getElementById(
           "withdrawPanel"
@@ -3017,11 +4366,13 @@ document
         .classList
         .remove("hidden");
 
+
       document
         .getElementById(
           "withdrawAmountInput"
         )
         .focus();
+
     }
   );
 
@@ -3041,11 +4392,13 @@ document
         .classList
         .add("hidden");
 
+
       hideMessage(
         document.getElementById(
           "withdrawMessage"
         )
       );
+
     }
   );
 
@@ -3069,11 +4422,20 @@ document
         );
 
       const amount =
-        Number(input.value);
+        Number(
+          input.value
+        );
 
-      hideMessage(message);
 
-      if (!amount || amount <= 0) {
+      hideMessage(
+        message
+      );
+
+
+      if (
+        !amount ||
+        amount <= 0
+      ) {
 
         showMessage(
           message,
@@ -3084,12 +4446,38 @@ document
         return;
       }
 
+
       if (!currentUser) {
         return;
       }
 
+
+      const currentBalance =
+        Number(
+          currentWallet?.balance || 0
+        );
+
+
+      if (
+        amount >
+        currentBalance
+      ) {
+
+        showMessage(
+          message,
+          "Insufficient wallet balance.",
+          "error"
+        );
+
+        return;
+      }
+
+
       const reference =
-        generateReference("WTH");
+        generateReference(
+          "WTH"
+        );
+
 
       const button =
         document.getElementById(
@@ -3098,37 +4486,43 @@ document
 
       button.disabled = true;
 
+
       try {
 
         const {
           error
         } =
-          await supabaseClient.rpc(
-            "process_wallet_transaction",
-            {
-              p_user_id:
-                currentUser.id,
+          await supabaseClient
+            .rpc(
+              "process_wallet_transaction",
+              {
 
-              p_type:
-                "withdrawal",
+                p_user_id:
+                  currentUser.id,
 
-              p_amount:
-                amount,
+                p_type:
+                  "withdrawal",
 
-              p_currency:
-                "NGN",
+                p_amount:
+                  amount,
 
-              p_reference:
-                reference,
+                p_currency:
+                  "NGN",
 
-              p_description:
-                "NexaWallet withdrawal"
-            }
-          );
+                p_reference:
+                  reference,
+
+                p_description:
+                  "NexaWallet withdrawal"
+
+              }
+            );
+
 
         if (error) {
           throw error;
         }
+
 
         showMessage(
           message,
@@ -3136,7 +4530,9 @@ document
           "success"
         );
 
+
         input.value = "";
+
 
         await loadWallet();
 
@@ -3159,13 +4555,15 @@ document
 
         button.disabled = false;
       }
+
     }
   );
 
 
-/* =========================
+/* =========================================================
    SEND MONEY
-========================= */
+   ACCOUNT NUMBER ONLY
+========================================================= */
 
 document
   .getElementById(
@@ -3177,6 +4575,7 @@ document
 
       hideAllPanels();
 
+
       document
         .getElementById(
           "sendMoneyPanel"
@@ -3184,11 +4583,13 @@ document
         .classList
         .remove("hidden");
 
+
       document
         .getElementById(
           "recipientInput"
         )
         .focus();
+
     }
   );
 
@@ -3208,11 +4609,13 @@ document
         .classList
         .add("hidden");
 
+
       hideMessage(
         document.getElementById(
           "sendMessage"
         )
       );
+
     }
   );
 
@@ -3233,6 +4636,7 @@ document
           .value
           .trim();
 
+
       const amount =
         Number(
           document
@@ -3242,25 +4646,55 @@ document
             .value
         );
 
+
       const message =
         document.getElementById(
           "sendMessage"
         );
 
-      hideMessage(message);
+
+      hideMessage(
+        message
+      );
+
 
       if (!recipient) {
 
         showMessage(
           message,
-          "Enter the recipient's email or account number.",
+          "Enter the recipient's NexaWallet account number.",
           "error"
         );
 
         return;
       }
 
-      if (!amount || amount <= 0) {
+
+      /*
+        Account number only.
+        No email or phone number is accepted here.
+      */
+
+      if (
+        !/^\d{6,20}$/.test(
+          recipient
+        )
+      ) {
+
+        showMessage(
+          message,
+          "Enter a valid NexaWallet account number.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      if (
+        !amount ||
+        amount <= 0
+      ) {
 
         showMessage(
           message,
@@ -3271,12 +4705,71 @@ document
         return;
       }
 
+
       if (!currentUser) {
         return;
       }
 
+
+      /*
+        Check the user's current rolling 24-hour
+        remaining limit before calling the backend.
+      */
+
+      await loadAccountLimits();
+
+
+      const remaining =
+        Number(
+          currentAccountLimits.remainingTransfer || 0
+        );
+
+
+      if (
+        amount >
+        remaining
+      ) {
+
+        showMessage(
+          message,
+          "This transfer exceeds your remaining 24-hour transfer limit. Remaining: " +
+          formatMoney(
+            remaining,
+            "NGN"
+          ),
+          "error"
+        );
+
+        return;
+      }
+
+
+      const currentBalance =
+        Number(
+          currentWallet?.balance || 0
+        );
+
+
+      if (
+        amount >
+        currentBalance
+      ) {
+
+        showMessage(
+          message,
+          "Insufficient wallet balance.",
+          "error"
+        );
+
+        return;
+      }
+
+
       const reference =
-        generateReference("TRF");
+        generateReference(
+          "TRF"
+        );
+
 
       const button =
         document.getElementById(
@@ -3285,34 +4778,51 @@ document
 
       button.disabled = true;
 
+
       try {
+
+        /*
+          IMPORTANT:
+          The existing database function still has the
+          parameter name p_recipient_email.
+
+          Its actual lookup was changed in Supabase to
+          use account_number.
+
+          Therefore DO NOT rename this RPC parameter.
+        */
 
         const {
           error
         } =
-          await supabaseClient.rpc(
-            "send_wallet_money",
-            {
-              p_sender_id:
-                currentUser.id,
+          await supabaseClient
+            .rpc(
+              "send_wallet_money",
+              {
 
-              p_recipient_email:
-                recipient,
+                p_sender_id:
+                  currentUser.id,
 
-              p_amount:
-                amount,
+                p_recipient_email:
+                  recipient,
 
-              p_currency:
-                "NGN",
+                p_amount:
+                  amount,
 
-              p_reference:
-                reference
-            }
-          );
+                p_currency:
+                  "NGN",
+
+                p_reference:
+                  reference
+
+              }
+            );
+
 
         if (error) {
           throw error;
         }
+
 
         showMessage(
           message,
@@ -3320,11 +4830,13 @@ document
           "success"
         );
 
+
         document
           .getElementById(
             "recipientInput"
           )
           .value = "";
+
 
         document
           .getElementById(
@@ -3332,9 +4844,12 @@ document
           )
           .value = "";
 
+
         await loadWallet();
 
         await loadTransactions();
+
+        await loadAccountLimits();
 
       }
 
@@ -3353,13 +4868,14 @@ document
 
         button.disabled = false;
       }
+
     }
   );
 
 
-/* =========================
+/* =========================================================
    RECEIVE MONEY
-========================= */
+========================================================= */
 
 document
   .getElementById(
@@ -3371,6 +4887,7 @@ document
 
       hideAllPanels();
 
+
       document
         .getElementById(
           "receiveMoneyPanel"
@@ -3378,7 +4895,9 @@ document
         .classList
         .remove("hidden");
 
+
       await loadAccountNumber();
+
 
       document
         .getElementById(
@@ -3388,6 +4907,7 @@ document
           behavior: "smooth",
           block: "center"
         });
+
     }
   );
 
@@ -3406,19 +4926,21 @@ document
         )
         .classList
         .add("hidden");
+
     }
   );
 
 
-/* =========================
+/* =========================================================
    KYC
-========================= */
+========================================================= */
 
 async function loadKyc() {
 
   if (!currentUser) {
     return;
   }
+
 
   const {
     data,
@@ -3432,6 +4954,7 @@ async function loadKyc() {
         currentUser.id
       )
       .maybeSingle();
+
 
   if (error) {
 
@@ -3449,7 +4972,10 @@ async function loadKyc() {
     return;
   }
 
-  currentKyc = data;
+
+  currentKyc =
+    data;
+
 
   if (!data) {
 
@@ -3460,25 +4986,32 @@ async function loadKyc() {
     return;
   }
 
+
   updateKycStatus(
     data.status
   );
 }
 
 
-function updateKycStatus(status) {
+function updateKycStatus(
+  status
+) {
 
   const normalized =
     String(
       status || "unverified"
     ).toLowerCase();
 
+
   const button =
     document.getElementById(
       "openKycBtn"
     );
 
-  if (normalized === "verified") {
+
+  if (
+    normalized === "verified"
+  ) {
 
     kycStatusBadge.innerHTML =
       `
@@ -3495,7 +5028,10 @@ function updateKycStatus(status) {
     return;
   }
 
-  if (normalized === "pending") {
+
+  if (
+    normalized === "pending"
+  ) {
 
     kycStatusBadge.innerHTML =
       `
@@ -3512,7 +5048,10 @@ function updateKycStatus(status) {
     return;
   }
 
-  if (normalized === "rejected") {
+
+  if (
+    normalized === "rejected"
+  ) {
 
     kycStatusBadge.innerHTML =
       `
@@ -3529,12 +5068,14 @@ function updateKycStatus(status) {
     return;
   }
 
+
   kycStatusBadge.innerHTML =
     `
       <span class="status-badge status-unverified">
         Not Verified
       </span>
     `;
+
 
   button.textContent =
     "Verify Identity";
@@ -3543,9 +5084,9 @@ function updateKycStatus(status) {
 }
 
 
-/* =========================
+/* =========================================================
    OPEN KYC
-========================= */
+========================================================= */
 
 document
   .getElementById(
@@ -3559,14 +5100,17 @@ document
         currentKyc &&
         currentKyc.status === "verified"
       ) {
+
         return;
       }
+
 
       hideMessage(
         document.getElementById(
           "kycMessage"
         )
       );
+
 
       if (currentKyc) {
 
@@ -3578,6 +5122,7 @@ document
           currentKyc.full_name ||
           "";
 
+
         document
           .getElementById(
             "kycDateOfBirth"
@@ -3585,6 +5130,7 @@ document
           .value =
           currentKyc.date_of_birth ||
           "";
+
 
         document
           .getElementById(
@@ -3594,6 +5140,7 @@ document
           currentKyc.country ||
           "";
 
+
         document
           .getElementById(
             "kycIdType"
@@ -3601,6 +5148,7 @@ document
           .value =
           currentKyc.id_type ||
           "";
+
 
         document
           .getElementById(
@@ -3611,14 +5159,18 @@ document
           "";
       }
 
-      kycModal.classList.add("show");
+
+      kycModal
+        .classList
+        .add("show");
+
     }
   );
 
 
-/* =========================
+/* =========================================================
    CLOSE KYC
-========================= */
+========================================================= */
 
 document
   .getElementById(
@@ -3628,34 +5180,37 @@ document
     "click",
     () => {
 
-      kycModal.classList.remove(
-        "show"
-      );
+      kycModal
+        .classList
+        .remove("show");
+
     }
   );
 
 
 kycModal.addEventListener(
   "click",
-  (event) => {
+  (
+    event
+  ) => {
 
     if (
       event.target ===
       kycModal
     ) {
 
-      kycModal.classList.remove(
-        "show"
-      );
+      kycModal
+        .classList
+        .remove("show");
     }
 
   }
 );
 
 
-/* =========================
+/* =========================================================
    SUBMIT KYC
-========================= */
+========================================================= */
 
 document
   .getElementById(
@@ -3673,12 +5228,14 @@ document
           .value
           .trim();
 
+
       const dateOfBirth =
         document
           .getElementById(
             "kycDateOfBirth"
           )
           .value;
+
 
       const country =
         document
@@ -3687,12 +5244,14 @@ document
           )
           .value;
 
+
       const idType =
         document
           .getElementById(
             "kycIdType"
           )
           .value;
+
 
       const idNumber =
         document
@@ -3702,12 +5261,14 @@ document
           .value
           .trim();
 
+
       const documentFile =
         document
           .getElementById(
             "kycIdDocument"
           )
           .files[0];
+
 
       const consent =
         document
@@ -3716,12 +5277,17 @@ document
           )
           .checked;
 
+
       const message =
         document.getElementById(
           "kycMessage"
         );
 
-      hideMessage(message);
+
+      hideMessage(
+        message
+      );
+
 
       if (
         !fullName ||
@@ -3740,6 +5306,7 @@ document
         return;
       }
 
+
       if (!documentFile) {
 
         showMessage(
@@ -3750,6 +5317,7 @@ document
 
         return;
       }
+
 
       if (!consent) {
 
@@ -3762,6 +5330,7 @@ document
         return;
       }
 
+
       if (!currentUser) {
 
         showMessage(
@@ -3773,12 +5342,14 @@ document
         return;
       }
 
+
       const button =
         document.getElementById(
           "submitKycBtn"
         );
 
       button.disabled = true;
+
 
       try {
 
@@ -3818,6 +5389,7 @@ document
             new Date().toISOString()
         };
 
+
         const {
           error
         } =
@@ -3833,16 +5405,20 @@ document
               }
             );
 
+
         if (error) {
           throw error;
         }
 
+
         currentKyc =
           payload;
+
 
         updateKycStatus(
           "pending"
         );
+
 
         showMessage(
           message,
@@ -3850,12 +5426,13 @@ document
           "success"
         );
 
+
         setTimeout(
           () => {
 
-            kycModal.classList.remove(
-              "show"
-            );
+            kycModal
+              .classList
+              .remove("show");
 
           },
           1800
@@ -3885,9 +5462,9 @@ document
   );
 
 
-/* =========================
+/* =========================================================
    TRANSACTIONS
-========================= */
+========================================================= */
 
 async function loadTransactions() {
 
@@ -3895,8 +5472,14 @@ async function loadTransactions() {
     return;
   }
 
+
   transactionsList.innerHTML =
-    '<p style="color:#667085;">Loading transactions...</p>';
+    `
+      <p style="color:#667085;">
+        Loading transactions...
+      </p>
+    `;
+
 
   const {
     data,
@@ -3916,9 +5499,11 @@ async function loadTransactions() {
         }
       );
 
+
   if (error) {
 
     console.error(error);
+
 
     transactionsList.innerHTML =
       `
@@ -3930,10 +5515,14 @@ async function loadTransactions() {
     return;
   }
 
+
   currentTransactions =
     data || [];
 
-  if (!currentTransactions.length) {
+
+  if (
+    !currentTransactions.length
+  ) {
 
     transactionsList.innerHTML =
       `
@@ -3945,8 +5534,10 @@ async function loadTransactions() {
     return;
   }
 
+
   transactionsList.innerHTML =
     "";
+
 
   currentTransactions.forEach(
     (
@@ -3959,19 +5550,24 @@ async function loadTransactions() {
           "div"
         );
 
+
       row.className =
         "transaction";
+
 
       const amount =
         Number(
           transaction.amount || 0
         );
 
+
       let amountClass =
         "amount-positive";
 
+
       let amountPrefix =
         "+";
+
 
       if (
         transaction.type ===
@@ -3996,6 +5592,7 @@ async function loadTransactions() {
           "-";
       }
 
+
       row.innerHTML =
         `
           <div class="transaction-top">
@@ -4003,30 +5600,37 @@ async function loadTransactions() {
             <div>
 
               <div class="transaction-type">
+
                 ${escapeHtml(
                   transaction.description ||
                   transaction.type ||
                   "Transaction"
                 )}
+
               </div>
 
               <div class="transaction-date">
+
                 ${formatDate(
                   transaction.created_at
                 )}
+
               </div>
 
             </div>
 
             <div class="${amountClass}">
+
               ${amountPrefix}${formatMoney(
                 amount,
                 transaction.currency
               )}
+
             </div>
 
           </div>
         `;
+
 
       row.addEventListener(
         "click",
@@ -4039,34 +5643,42 @@ async function loadTransactions() {
         }
       );
 
+
       transactionsList.appendChild(
         row
       );
+
     }
   );
 }
 
 
-/* =========================
+/* =========================================================
    TRANSACTION DETAILS
-========================= */
+========================================================= */
 
-function openTransactionDetails(index) {
+function openTransactionDetails(
+  index
+) {
 
   const transaction =
     currentTransactions[index];
 
+
   if (!transaction) {
     return;
   }
+
 
   const amount =
     Number(
       transaction.amount || 0
     );
 
+
   let amountPrefix =
     "";
+
 
   if (
     transaction.type ===
@@ -4112,6 +5724,7 @@ function openTransactionDetails(index) {
     }
   }
 
+
   transactionDetails.innerHTML =
     `
 
@@ -4131,6 +5744,7 @@ function openTransactionDetails(index) {
 
       </div>
 
+
       <div class="detail-row">
 
         <div class="detail-label">
@@ -4138,13 +5752,16 @@ function openTransactionDetails(index) {
         </div>
 
         <div class="detail-value">
+
           ${amountPrefix}${formatMoney(
             amount,
             transaction.currency
           )}
+
         </div>
 
       </div>
+
 
       <div class="detail-row">
 
@@ -4153,13 +5770,16 @@ function openTransactionDetails(index) {
         </div>
 
         <div class="detail-value">
+
           ${escapeHtml(
             transaction.type ||
             "N/A"
           )}
+
         </div>
 
       </div>
+
 
       <div class="detail-row">
 
@@ -4168,13 +5788,16 @@ function openTransactionDetails(index) {
         </div>
 
         <div class="detail-value">
+
           ${escapeHtml(
             transaction.currency ||
             "N/A"
           )}
+
         </div>
 
       </div>
+
 
       <div class="detail-row">
 
@@ -4183,13 +5806,16 @@ function openTransactionDetails(index) {
         </div>
 
         <div class="detail-value">
+
           ${escapeHtml(
             transaction.status ||
             "N/A"
           )}
+
         </div>
 
       </div>
+
 
       <div class="detail-row">
 
@@ -4198,13 +5824,16 @@ function openTransactionDetails(index) {
         </div>
 
         <div class="detail-value">
+
           ${escapeHtml(
             transaction.reference ||
             "N/A"
           )}
+
         </div>
 
       </div>
+
 
       <div class="detail-row">
 
@@ -4213,14 +5842,17 @@ function openTransactionDetails(index) {
         </div>
 
         <div class="detail-value">
+
           ${escapeHtml(
             formatDate(
               transaction.created_at
             )
           )}
+
         </div>
 
       </div>
+
 
       <div class="detail-row">
 
@@ -4229,24 +5861,28 @@ function openTransactionDetails(index) {
         </div>
 
         <div class="detail-value">
+
           ${escapeHtml(
             transaction.description ||
             "N/A"
           )}
+
         </div>
 
       </div>
+
     `;
 
-  transactionModal.classList.add(
-    "show"
-  );
+
+  transactionModal
+    .classList
+    .add("show");
 }
 
 
-/* =========================
+/* =========================================================
    CLOSE TRANSACTION
-========================= */
+========================================================= */
 
 document
   .getElementById(
@@ -4256,9 +5892,9 @@ document
     "click",
     () => {
 
-      transactionModal.classList.remove(
-        "show"
-      );
+      transactionModal
+        .classList
+        .remove("show");
 
     }
   );
@@ -4266,26 +5902,27 @@ document
 
 transactionModal.addEventListener(
   "click",
-  (event) => {
+  (
+    event
+  ) => {
 
     if (
       event.target ===
       transactionModal
     ) {
 
-      transactionModal.classList.remove(
-        "show"
-      );
-
+      transactionModal
+        .classList
+        .remove("show");
     }
 
   }
 );
 
 
-/* =========================
+/* =========================================================
    INITIAL LOAD
-========================= */
+========================================================= */
 
 updateAuthUI();
 
