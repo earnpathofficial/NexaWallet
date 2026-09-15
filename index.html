@@ -2,536 +2,513 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="description" content="NexaWallet — a digital wallet prototype for managing balances, transfers, identity verification and transaction history.">
 
-<title>NexaWallet — Your Money. Simplified.</title>
-
-<meta
-  name="description"
-  content="NexaWallet — a digital wallet prototype for managing balances, transfers, identity verification and transaction history."
->
+<title>NexaWallet</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-* {
-  box-sizing: border-box;
+*{
+  box-sizing:border-box;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f7fb;
-  color: #172033;
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f7fb;
+  color:#172033;
 }
 
-header {
-  background: #111827;
-  color: white;
-  padding: 18px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+header{
+  background:#111827;
+  color:white;
+  padding:16px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:20;
 }
 
-.logo {
-  font-size: 22px;
-  font-weight: 700;
+.logo{
+  font-size:22px;
+  font-weight:800;
 }
 
-.container {
-  width: 100%;
-  max-width: 900px;
-  margin: auto;
-  padding: 20px;
+main{
+  max-width:1000px;
+  margin:auto;
+  padding:20px;
 }
 
-.card {
-  background: white;
-  border-radius: 18px;
-  padding: 20px;
-  margin-bottom: 18px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+section{
+  background:white;
+  border-radius:18px;
+  padding:24px;
+  margin-bottom:20px;
+  box-shadow:0 5px 20px rgba(0,0,0,.05);
 }
 
-h1,
-h2,
-h3 {
-  margin-top: 0;
+.hero{
+  text-align:center;
+  padding:50px 25px;
 }
 
-.hero {
-  text-align: center;
-  padding: 35px 20px;
+.hero h1{
+  font-size:42px;
+  margin:0 0 15px;
 }
 
-.hero h1 {
-  font-size: 38px;
-  margin-bottom: 10px;
+.hero p{
+  color:#667085;
+  font-size:17px;
+  line-height:1.6;
 }
 
-.hero p {
-  color: #667085;
-  font-size: 17px;
+h2{
+  margin-top:0;
 }
 
-.section-label {
-  display: block;
-  font-size: 13px;
-  font-weight: 700;
-  color: #344054;
-  margin-bottom: 6px;
-}
-
-.input-help {
-  font-size: 12px;
-  color: #667085;
-  margin-top: -5px;
-  margin-bottom: 12px;
-}
-
-.info-box {
-  background: #eff6ff;
-  color: #1e40af;
-  border-radius: 12px;
-  padding: 13px;
-  font-size: 13px;
-  line-height: 1.5;
-  margin-bottom: 15px;
-}
-
-.account-type-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.account-type-option {
-  border: 2px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 14px;
-  cursor: pointer;
-  background: white;
-}
-
-.account-type-option.active {
-  border-color: #111827;
-  background: #f9fafb;
-}
-
-.account-type-option input {
-  width: auto;
-  margin: 0 7px 0 0;
-}
-
-.account-type-title {
-  font-weight: 700;
-}
-
-.account-type-description {
-  font-size: 12px;
-  color: #667085;
-  margin-top: 5px;
-  line-height: 1.4;
-}
-
-.form-section {
-  border-top: 1px solid #eaecf0;
-  padding-top: 18px;
-  margin-top: 18px;
+h3{
+  margin-top:25px;
 }
 
 input,
-select,
-button {
-  width: 100%;
-  padding: 13px 14px;
-  border-radius: 10px;
-  font-size: 15px;
+select{
+  width:100%;
+  padding:13px 14px;
+  margin:7px 0;
+  border:1px solid #d0d5dd;
+  border-radius:10px;
+  font-size:15px;
+  background:white;
 }
 
-input,
-select {
-  border: 1px solid #d0d5dd;
-  margin-bottom: 12px;
-  background: white;
+button{
+  width:100%;
+  padding:13px 16px;
+  border:0;
+  border-radius:10px;
+  background:#111827;
+  color:white;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  margin-top:8px;
 }
 
-input[type="file"] {
-  padding: 10px;
+button:hover{
+  opacity:.92;
 }
 
-button {
-  border: none;
-  background: #111827;
-  color: white;
-  cursor: pointer;
-  font-weight: 600;
+button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
 }
 
-button:hover {
-  opacity: 0.92;
+button.secondary{
+  background:#eef2f6;
+  color:#172033;
 }
 
-button:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
+button.success{
+  background:#16803c;
 }
 
-.secondary {
-  background: #e5e7eb;
-  color: #111827;
+.hidden{
+  display:none !important;
 }
 
-.danger {
-  background: #dc2626;
+.message{
+  padding:12px;
+  border-radius:10px;
+  margin-top:10px;
+  display:none;
+  line-height:1.5;
 }
 
-.success {
-  background: #16a34a;
+.message.show{
+  display:block;
 }
 
-.warning {
-  background: #d97706;
+.message.error{
+  background:#fee4e2;
+  color:#b42318;
 }
 
-.auth-switch {
-  text-align: center;
-  margin-top: 14px;
-  color: #667085;
+.message.success{
+  background:#dcfae6;
+  color:#067647;
 }
 
-.auth-switch button {
-  width: auto;
-  background: none;
-  color: #111827;
-  padding: 0;
+.message.info{
+  background:#eaf2ff;
+  color:#175cd3;
 }
 
-.message {
-  margin-top: 12px;
-  padding: 12px;
-  border-radius: 10px;
-  display: none;
+.account-type-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:20px;
 }
 
-.message.show {
-  display: block;
+.account-type-option{
+  border:1px solid #d0d5dd;
+  border-radius:14px;
+  padding:16px;
+  cursor:pointer;
 }
 
-.message.error {
-  background: #fee2e2;
-  color: #991b1b;
+.account-type-option.active{
+  border:2px solid #111827;
+  background:#f8fafc;
 }
 
-.message.success {
-  background: #dcfce7;
-  color: #166534;
+.account-type-option input{
+  width:auto;
+  margin-right:7px;
 }
 
-.message.info {
-  background: #e0f2fe;
-  color: #075985;
+.account-type-title{
+  font-weight:700;
 }
 
-.balance-card {
-  background: #111827;
-  color: white;
+.account-type-description{
+  color:#667085;
+  font-size:13px;
+  margin-top:8px;
+  line-height:1.5;
 }
 
-.balance-label {
-  color: #cbd5e1;
-  font-size: 14px;
+.form-section{
+  margin-top:15px;
 }
 
-.balance {
-  font-size: 38px;
-  font-weight: 700;
-  margin: 8px 0;
+.section-label{
+  display:block;
+  font-size:13px;
+  color:#667085;
+  margin:10px 0 5px;
 }
 
-.account-box {
-  margin-top: 18px;
-  padding: 15px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 12px;
+.input-help,
+.file-help,
+.kyc-note,
+.limit-note{
+  color:#667085;
+  font-size:13px;
+  line-height:1.5;
+  margin:8px 0;
 }
 
-.account-number {
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin: 7px 0 12px;
+.info-box{
+  background:#f3f6fa;
+  padding:13px;
+  border-radius:10px;
+  color:#475467;
+  font-size:13px;
+  line-height:1.5;
+  margin:10px 0;
 }
 
-.limit-card {
-  background: white;
+.otp-box{
+  background:#f8fafc;
+  border:1px solid #e4e7ec;
+  padding:16px;
+  border-radius:14px;
+  margin-top:12px;
 }
 
-.limit-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
+.otp-box h3{
+  margin-top:0;
 }
 
-.limit-item {
-  background: #f8fafc;
-  border: 1px solid #eaecf0;
-  border-radius: 14px;
-  padding: 15px;
+.profile-summary{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:20px;
 }
 
-.limit-label {
-  color: #667085;
-  font-size: 12px;
-  margin-bottom: 6px;
+.profile-avatar{
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  background:#111827;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  font-weight:700;
+  overflow:hidden;
 }
 
-.limit-value {
-  font-size: 19px;
-  font-weight: 700;
-  color: #111827;
+.profile-avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
-.level-badge {
-  display: inline-block;
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 700;
-  background: #dcfce7;
-  color: #166534;
+.profile-name{
+  font-size:19px;
+  font-weight:700;
 }
 
-.limit-progress {
-  height: 10px;
-  background: #e5e7eb;
-  border-radius: 999px;
-  overflow: hidden;
-  margin-top: 10px;
+.profile-type{
+  color:#667085;
+  font-size:13px;
+  margin-top:4px;
 }
 
-.limit-progress-bar {
-  height: 100%;
-  width: 0%;
-  background: #111827;
-  transition: width 0.3s ease;
+.balance-card{
+  background:#111827;
+  color:white;
+  padding:25px;
+  border-radius:18px;
+  margin:20px 0;
 }
 
-.limit-note {
-  font-size: 12px;
-  color: #667085;
-  margin-top: 8px;
-  line-height: 1.4;
+.balance-label{
+  font-size:13px;
+  opacity:.75;
 }
 
-.action-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+.balance{
+  font-size:38px;
+  font-weight:800;
+  margin:7px 0;
 }
 
-.transaction {
-  padding: 15px 0;
-  border-bottom: 1px solid #eaecf0;
-  cursor: pointer;
+.account-box{
+  background:#1f2937;
+  padding:16px;
+  border-radius:12px;
+  margin-top:20px;
 }
 
-.transaction:last-child {
-  border-bottom: none;
+.account-number{
+  font-size:25px;
+  font-weight:800;
+  letter-spacing:2px;
+  margin:8px 0;
 }
 
-.transaction:hover {
-  background: #f9fafb;
+.action-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
 }
 
-.transaction-top {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
+.limit-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
 }
 
-.transaction-type {
-  font-weight: 700;
+.limit-item{
+  background:#f8fafc;
+  border:1px solid #eaecf0;
+  padding:14px;
+  border-radius:12px;
 }
 
-.transaction-date {
-  color: #667085;
-  font-size: 12px;
-  margin-top: 5px;
+.limit-label{
+  color:#667085;
+  font-size:12px;
+  margin-bottom:7px;
 }
 
-.amount-positive {
-  color: #16a34a;
-  font-weight: 700;
+.limit-value{
+  font-weight:700;
 }
 
-.amount-negative {
-  color: #dc2626;
-  font-weight: 700;
+.level-badge{
+  display:inline-block;
+  padding:5px 9px;
+  background:#eaf2ff;
+  color:#175cd3;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:700;
 }
 
-.status-badge {
-  display: inline-block;
-  padding: 5px 9px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 700;
-  margin-top: 6px;
+.limit-progress{
+  height:10px;
+  background:#eaecf0;
+  border-radius:10px;
+  margin-top:15px;
+  overflow:hidden;
 }
 
-.status-pending {
-  background: #fef3c7;
-  color: #92400e;
+.limit-progress-bar{
+  height:100%;
+  width:0;
+  background:#111827;
 }
 
-.status-verified {
-  background: #dcfce7;
-  color: #166534;
+.transaction{
+  border:1px solid #eaecf0;
+  padding:15px;
+  border-radius:12px;
+  margin:9px 0;
+  cursor:pointer;
 }
 
-.status-rejected {
-  background: #fee2e2;
-  color: #991b1b;
+.transaction-top{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
 }
 
-.status-unverified {
-  background: #e5e7eb;
-  color: #374151;
+.transaction-type{
+  font-weight:700;
 }
 
-.kyc-status-box {
-  padding: 15px;
-  border-radius: 12px;
-  background: #f9fafb;
-  margin-bottom: 15px;
+.transaction-date{
+  color:#667085;
+  font-size:12px;
+  margin-top:5px;
 }
 
-.kyc-note {
-  font-size: 13px;
-  line-height: 1.5;
-  color: #667085;
+.amount-positive{
+  color:#067647;
+  font-weight:800;
 }
 
-.profile-summary {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 18px;
+.amount-negative{
+  color:#b42318;
+  font-weight:800;
 }
 
-.profile-avatar {
-  width: 65px;
-  height: 65px;
-  border-radius: 50%;
-  background: #e5e7eb;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  flex-shrink: 0;
-  font-size: 25px;
-  font-weight: 700;
-  color: #374151;
+.status-badge{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:700;
 }
 
-.profile-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.status-verified{
+  background:#dcfae6;
+  color:#067647;
 }
 
-.profile-name {
-  font-size: 20px;
-  font-weight: 700;
+.status-pending{
+  background:#fff4cc;
+  color:#9a6700;
 }
 
-.profile-type {
-  font-size: 13px;
-  color: #667085;
-  margin-top: 4px;
+.status-rejected{
+  background:#fee4e2;
+  color:#b42318;
 }
 
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  z-index: 1000;
+.status-unverified{
+  background:#eef2f6;
+  color:#475467;
 }
 
-.modal.show {
-  display: flex;
+.kyc-status-box{
+  background:#f8fafc;
+  padding:15px;
+  border-radius:12px;
 }
 
-.modal-card {
-  background: white;
-  width: 100%;
-  max-width: 500px;
-  border-radius: 20px;
-  padding: 22px;
-  max-height: 90vh;
-  overflow-y: auto;
+.panel{
+  border:1px solid #e4e7ec;
+  padding:18px;
+  border-radius:14px;
+  margin-top:18px;
 }
 
-.detail-row {
-  padding: 13px 0;
-  border-bottom: 1px solid #eaecf0;
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:50;
 }
 
-.detail-label {
-  font-size: 12px;
-  color: #667085;
-  margin-bottom: 4px;
+.modal.show{
+  display:flex;
 }
 
-.detail-value {
-  font-weight: 600;
-  word-break: break-word;
+.modal-content{
+  width:100%;
+  max-width:600px;
+  max-height:90vh;
+  overflow:auto;
+  background:white;
+  border-radius:18px;
+  padding:22px;
 }
 
-.file-help {
-  font-size: 12px;
-  color: #667085;
-  margin-top: -5px;
-  margin-bottom: 12px;
+.detail-row{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  border-bottom:1px solid #eaecf0;
+  padding:12px 0;
 }
 
-.hidden {
-  display: none !important;
+.detail-label{
+  color:#667085;
+  font-size:13px;
 }
 
-footer {
-  text-align: center;
-  color: #667085;
-  padding: 30px 20px;
-  font-size: 13px;
+.detail-value{
+  text-align:right;
+  font-weight:600;
+  word-break:break-word;
 }
 
-@media (max-width: 600px) {
+footer{
+  text-align:center;
+  color:#667085;
+  font-size:12px;
+  padding:25px;
+}
 
-  .hero h1 {
-    font-size: 30px;
+@media(max-width:700px){
+  main{
+    padding:12px;
   }
 
-  .action-grid {
-    grid-template-columns: 1fr 1fr;
+  section{
+    padding:18px;
   }
 
-  .account-type-grid {
-    grid-template-columns: 1fr;
+  .hero h1{
+    font-size:32px;
   }
 
-  .limit-grid {
-    grid-template-columns: 1fr;
+  .account-type-grid,
+  .limit-grid{
+    grid-template-columns:1fr;
   }
 
-  .balance {
-    font-size: 32px;
+  .action-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .transaction-top{
+    flex-direction:column;
+  }
+
+  .detail-row{
+    flex-direction:column;
+  }
+
+  .detail-value{
+    text-align:left;
   }
 }
 </style>
@@ -540,10 +517,7 @@ footer {
 <body>
 
 <header>
-
-  <div class="logo">
-    NexaWallet
-  </div>
+  <div class="logo">NexaWallet</div>
 
   <button
     id="logoutBtn"
@@ -552,10 +526,13 @@ footer {
   >
     Log Out
   </button>
-
 </header>
 
-<main class="container">
+<main>
+
+<!-- ======================================================
+     LANDING
+====================================================== -->
 
 <section id="landingSection" class="hero">
 
@@ -566,18 +543,25 @@ footer {
     transactions from one place.
   </p>
 
+  <button id="startBtn">
+    Create / Access Account
+  </button>
+
 </section>
 
 
-<!-- =========================
+<!-- ======================================================
      AUTH
-========================= -->
+====================================================== -->
 
-<section id="authSection" class="card">
+<section id="authSection" class="hidden">
 
   <h2 id="authTitle">
     Create your account
   </h2>
+
+
+  <!-- SIGNUP INFORMATION -->
 
   <div id="signupOnlySection">
 
@@ -636,6 +620,8 @@ footer {
     </div>
 
 
+    <!-- PERSONAL -->
+
     <div id="personalSignupFields">
 
       <div class="form-section">
@@ -661,7 +647,7 @@ footer {
         <input
           type="tel"
           id="phoneInput"
-          placeholder="Phone number"
+          placeholder="+2348012345678"
           autocomplete="tel"
         >
 
@@ -675,39 +661,17 @@ footer {
         >
 
         <select id="countryInput">
-
           <option value="">
             Select country
           </option>
 
-          <option value="Nigeria">
-            Nigeria
-          </option>
-
-          <option value="United Kingdom">
-            United Kingdom
-          </option>
-
-          <option value="United States">
-            United States
-          </option>
-
-          <option value="Ghana">
-            Ghana
-          </option>
-
-          <option value="Kenya">
-            Kenya
-          </option>
-
-          <option value="South Africa">
-            South Africa
-          </option>
-
-          <option value="Other">
-            Other
-          </option>
-
+          <option value="Nigeria">Nigeria</option>
+          <option value="United Kingdom">United Kingdom</option>
+          <option value="United States">United States</option>
+          <option value="Ghana">Ghana</option>
+          <option value="Kenya">Kenya</option>
+          <option value="South Africa">South Africa</option>
+          <option value="Other">Other</option>
         </select>
 
         <input
@@ -740,6 +704,8 @@ footer {
 
     </div>
 
+
+    <!-- BUSINESS -->
 
     <div
       id="businessSignupFields"
@@ -775,7 +741,7 @@ footer {
         <input
           type="tel"
           id="businessPhoneInput"
-          placeholder="Business phone"
+          placeholder="+2348012345678"
           autocomplete="tel"
         >
 
@@ -798,39 +764,17 @@ footer {
         >
 
         <select id="businessCountryInput">
-
           <option value="">
             Select country
           </option>
 
-          <option value="Nigeria">
-            Nigeria
-          </option>
-
-          <option value="United Kingdom">
-            United Kingdom
-          </option>
-
-          <option value="United States">
-            United States
-          </option>
-
-          <option value="Ghana">
-            Ghana
-          </option>
-
-          <option value="Kenya">
-            Kenya
-          </option>
-
-          <option value="South Africa">
-            South Africa
-          </option>
-
-          <option value="Other">
-            Other
-          </option>
-
+          <option value="Nigeria">Nigeria</option>
+          <option value="United Kingdom">United Kingdom</option>
+          <option value="United States">United States</option>
+          <option value="Ghana">Ghana</option>
+          <option value="Kenya">Kenya</option>
+          <option value="South Africa">South Africa</option>
+          <option value="Other">Other</option>
         </select>
 
         <input
@@ -856,41 +800,73 @@ footer {
   </div>
 
 
-  <div
-    id="loginInfo"
-    class="info-box hidden"
-  >
-    Enter your email and password to access your NexaWallet account.
+  <!-- AUTH PHONE -->
+
+  <div id="loginInfo">
+
+    <h3 id="loginDetailsTitle">
+      Phone Login
+    </h3>
+
+    <div class="info-box">
+      Enter your phone number and receive a one-time verification code.
+      You do not need an email address or password to log in.
+    </div>
+
   </div>
 
 
-  <div class="form-section">
+  <input
+    type="tel"
+    id="phoneAuthInput"
+    placeholder="+2348012345678"
+    autocomplete="tel"
+  >
 
-    <h3 id="loginDetailsTitle">
-      Login Details
+
+  <div
+    id="profileSecurityNote"
+    class="input-help"
+  >
+    Your NIN and BVN are not collected in this signup form.
+    Identity verification is handled separately.
+  </div>
+
+
+  <!-- OTP -->
+
+  <div
+    id="otpSection"
+    class="otp-box hidden"
+  >
+
+    <h3>
+      Enter OTP
     </h3>
 
-    <input
-      type="email"
-      id="emailInput"
-      placeholder="Email address"
-      autocomplete="email"
-    >
+    <p class="input-help">
+      Enter the verification code sent to your phone.
+    </p>
 
     <input
-      type="password"
-      id="passwordInput"
-      placeholder="Password"
-      autocomplete="new-password"
+      type="text"
+      id="otpInput"
+      placeholder="Enter OTP"
+      inputmode="numeric"
+      autocomplete="one-time-code"
+      maxlength="8"
     >
 
-    <div
-      id="profileSecurityNote"
-      class="input-help"
+    <button id="verifyOtpBtn">
+      Verify OTP
+    </button>
+
+    <button
+      id="resendOtpBtn"
+      class="secondary"
     >
-      Your NIN and BVN are not collected in this signup form.
-      Identity verification is handled separately.
-    </div>
+      Resend OTP
+    </button>
 
   </div>
 
@@ -899,16 +875,23 @@ footer {
     Create Account
   </button>
 
-  <div id="authMessage" class="message"></div>
+
+  <div
+    id="authMessage"
+    class="message"
+  ></div>
 
 
-  <div class="auth-switch">
+  <div style="margin-top:15px;text-align:center;">
 
     <span id="authSwitchText">
       Already have an account?
     </span>
 
-    <button id="authSwitchBtn">
+    <button
+      id="authSwitchBtn"
+      class="secondary"
+    >
       Log In
     </button>
 
@@ -917,250 +900,220 @@ footer {
 </section>
 
 
-<!-- =========================
+<!-- ======================================================
      DASHBOARD
-========================= -->
+====================================================== -->
 
 <section
   id="dashboardSection"
   class="hidden"
 >
 
+  <div class="profile-summary">
 
-  <div class="card">
+    <div
+      id="profileAvatar"
+      class="profile-avatar"
+    >
+      N
+    </div>
 
-    <div class="profile-summary">
+    <div>
 
       <div
-        id="profileAvatar"
-        class="profile-avatar"
+        id="profileName"
+        class="profile-name"
       >
-        N
+        NexaWallet User
+      </div>
+
+      <div
+        id="profileType"
+        class="profile-type"
+      >
+        Personal Account
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <h2>
+    Your Money Dashboard
+  </h2>
+
+  <p style="color:#667085;">
+    Manage your wallet, transfers, identity verification
+    and transaction history from one place.
+  </p>
+
+
+  <!-- LIMITS -->
+
+  <h3>
+    Account Level & Limits
+  </h3>
+
+  <div class="limit-grid">
+
+    <div class="limit-item">
+
+      <div class="limit-label">
+        Account Level
       </div>
 
       <div>
-
-        <div
-          id="profileName"
-          class="profile-name"
+        <span
+          id="accountLevelDisplay"
+          class="level-badge"
         >
-          NexaWallet User
-        </div>
-
-        <div
-          id="profileType"
-          class="profile-type"
-        >
-          Personal Account
-        </div>
-
-      </div>
-
-    </div>
-
-    <h2>
-      Your Money Dashboard
-    </h2>
-
-    <p style="color:#667085;">
-      Manage your wallet, transfers, identity verification
-      and transaction history from one place.
-    </p>
-
-  </div>
-
-
-  <!-- =========================
-       ACCOUNT LEVEL / LIMITS
-  ========================= -->
-
-  <div class="card limit-card">
-
-    <h3>
-      Account Level & Limits
-    </h3>
-
-    <div class="limit-grid">
-
-      <div class="limit-item">
-
-        <div class="limit-label">
-          Account Level
-        </div>
-
-        <div>
-          <span
-            id="accountLevelDisplay"
-            class="level-badge"
-          >
-            Level 1
-          </span>
-        </div>
-
-      </div>
-
-
-      <div class="limit-item">
-
-        <div class="limit-label">
-          Balance Limit
-        </div>
-
-        <div
-          id="balanceLimitDisplay"
-          class="limit-value"
-        >
-          ₦300,000.00
-        </div>
-
-      </div>
-
-
-      <div class="limit-item">
-
-        <div class="limit-label">
-          24-Hour Transfer Limit
-        </div>
-
-        <div
-          id="transferLimitDisplay"
-          class="limit-value"
-        >
-          ₦50,000.00
-        </div>
-
-      </div>
-
-
-      <div class="limit-item">
-
-        <div class="limit-label">
-          Remaining Transfer Limit
-        </div>
-
-        <div
-          id="remainingTransferDisplay"
-          class="limit-value"
-        >
-          ₦50,000.00
-        </div>
-
+          Level 1
+        </span>
       </div>
 
     </div>
 
 
-    <div
-      class="limit-progress"
-      title="24-hour transfer usage"
-    >
+    <div class="limit-item">
+
+      <div class="limit-label">
+        Balance Limit
+      </div>
 
       <div
-        id="transferProgressBar"
-        class="limit-progress-bar"
-      ></div>
+        id="balanceLimitDisplay"
+        class="limit-value"
+      >
+        ₦300,000.00
+      </div>
 
     </div>
 
 
-    <div
-      id="limitNote"
-      class="limit-note"
-    >
-      Your transfer limit is calculated over a rolling 24-hour period.
+    <div class="limit-item">
+
+      <div class="limit-label">
+        24-Hour Transfer Limit
+      </div>
+
+      <div
+        id="transferLimitDisplay"
+        class="limit-value"
+      >
+        ₦50,000.00
+      </div>
+
+    </div>
+
+
+    <div class="limit-item">
+
+      <div class="limit-label">
+        Remaining Transfer Limit
+      </div>
+
+      <div
+        id="remainingTransferDisplay"
+        class="limit-value"
+      >
+        ₦50,000.00
+      </div>
+
     </div>
 
   </div>
 
 
-  <!-- =========================
-       PROFILE
-  ========================= -->
-
-  <div class="card">
-
-    <h3>
-      Your Profile
-    </h3>
-
-    <label class="section-label">
-      Profile picture (optional)
-    </label>
-
-    <input
-      type="file"
-      id="profilePictureInput"
-      accept="image/*"
-    >
-
-    <div class="file-help">
-      Optional. Your profile picture is not required to use NexaWallet.
-    </div>
-
-    <button
-      id="saveProfilePictureBtn"
-      class="secondary"
-    >
-      Save Profile Picture
-    </button>
+  <div
+    class="limit-progress"
+    title="24-hour transfer usage"
+  >
 
     <div
-      id="profileMessage"
-      class="message"
+      id="transferProgressBar"
+      class="limit-progress-bar"
     ></div>
 
   </div>
 
 
-  <!-- =========================
-       KYC
-  ========================= -->
-
-  <div class="card">
-
-    <h3>
-      Identity Verification
-    </h3>
-
-    <div class="kyc-status-box">
-
-      <div
-        style="
-          font-size:13px;
-          color:#667085;
-          margin-bottom:5px;
-        "
-      >
-        Verification Status
-      </div>
-
-      <div id="kycStatusBadge">
-
-        <span class="status-badge status-unverified">
-          Not Verified
-        </span>
-
-      </div>
-
-    </div>
-
-    <p class="kyc-note">
-      Verify your identity to help protect your account and
-      prepare NexaWallet for regulated financial services.
-    </p>
-
-    <button id="openKycBtn">
-      Verify Identity
-    </button>
-
+  <div
+    id="limitNote"
+    class="limit-note"
+  >
+    Your transfer limit is calculated over a rolling 24-hour period.
   </div>
 
 
-  <!-- =========================
-       WALLET BALANCE
-  ========================= -->
+  <!-- PROFILE -->
 
-  <div class="card balance-card">
+  <h3>
+    Your Profile
+  </h3>
+
+  <label class="section-label">
+    Profile picture (optional)
+  </label>
+
+  <input
+    type="file"
+    id="profilePictureInput"
+    accept="image/*"
+  >
+
+  <div class="file-help">
+    Optional. Your profile picture is not required to use NexaWallet.
+  </div>
+
+  <button
+    id="saveProfilePictureBtn"
+    class="secondary"
+  >
+    Save Profile Picture
+  </button>
+
+  <div
+    id="profileMessage"
+    class="message"
+  ></div>
+
+
+  <!-- KYC -->
+
+  <h3>
+    Identity Verification
+  </h3>
+
+  <div class="kyc-status-box">
+
+    <div style="font-size:13px;color:#667085;margin-bottom:5px;">
+      Verification Status
+    </div>
+
+    <div id="kycStatusBadge">
+
+      <span class="status-badge status-unverified">
+        Not Verified
+      </span>
+
+    </div>
+
+  </div>
+
+  <p class="kyc-note">
+    Verify your identity to help protect your account and
+    prepare NexaWallet for regulated financial services.
+  </p>
+
+  <button id="openKycBtn">
+    Verify Identity
+  </button>
+
+
+  <!-- WALLET -->
+
+  <div class="balance-card">
 
     <div class="balance-label">
       Wallet Balance
@@ -1206,52 +1159,44 @@ footer {
   </div>
 
 
-  <!-- =========================
-       WALLET ACTIONS
-  ========================= -->
+  <!-- ACTIONS -->
 
-  <div class="card">
+  <h3>
+    Wallet Actions
+  </h3>
 
-    <h3>
-      Wallet Actions
-    </h3>
+  <div class="action-grid">
 
-    <div class="action-grid">
+    <button
+      id="addMoneyBtn"
+      class="success"
+    >
+      + Add Money
+    </button>
 
-      <button
-        id="addMoneyBtn"
-        class="success"
-      >
-        + Add Money
-      </button>
+    <button id="withdrawBtn">
+      Withdraw
+    </button>
 
-      <button id="withdrawBtn">
-        Withdraw
-      </button>
+    <button id="sendMoneyBtn">
+      Send Money
+    </button>
 
-      <button id="sendMoneyBtn">
-        Send Money
-      </button>
-
-      <button
-        id="receiveMoneyBtn"
-        class="secondary"
-      >
-        Receive Money
-      </button>
-
-    </div>
+    <button
+      id="receiveMoneyBtn"
+      class="secondary"
+    >
+      Receive Money
+    </button>
 
   </div>
 
 
-  <!-- =========================
-       ADD MONEY
-  ========================= -->
+  <!-- ADD -->
 
   <div
     id="addMoneyPanel"
-    class="card hidden"
+    class="panel hidden"
   >
 
     <h3>
@@ -1276,7 +1221,6 @@ footer {
     <button
       id="cancelAddBtn"
       class="secondary"
-      style="margin-top:8px;"
     >
       Cancel
     </button>
@@ -1289,13 +1233,11 @@ footer {
   </div>
 
 
-  <!-- =========================
-       WITHDRAW
-  ========================= -->
+  <!-- WITHDRAW -->
 
   <div
     id="withdrawPanel"
-    class="card hidden"
+    class="panel hidden"
   >
 
     <h3>
@@ -1317,7 +1259,6 @@ footer {
     <button
       id="cancelWithdrawBtn"
       class="secondary"
-      style="margin-top:8px;"
     >
       Cancel
     </button>
@@ -1330,13 +1271,11 @@ footer {
   </div>
 
 
-  <!-- =========================
-       SEND MONEY
-  ========================= -->
+  <!-- SEND -->
 
   <div
     id="sendMoneyPanel"
-    class="card hidden"
+    class="panel hidden"
   >
 
     <h3>
@@ -1371,7 +1310,6 @@ footer {
     <button
       id="cancelSendBtn"
       class="secondary"
-      style="margin-top:8px;"
     >
       Cancel
     </button>
@@ -1384,13 +1322,11 @@ footer {
   </div>
 
 
-  <!-- =========================
-       RECEIVE MONEY
-  ========================= -->
+  <!-- RECEIVE -->
 
   <div
     id="receiveMoneyPanel"
-    class="card hidden"
+    class="panel hidden"
   >
 
     <h3>
@@ -1412,12 +1348,7 @@ footer {
       "
     >
 
-      <div
-        style="
-          font-size:13px;
-          color:#667085;
-        "
-      >
+      <div style="font-size:13px;color:#667085;">
         Your Account Number
       </div>
 
@@ -1442,7 +1373,6 @@ footer {
     <button
       id="closeReceiveBtn"
       class="secondary"
-      style="margin-top:8px;"
     >
       Close
     </button>
@@ -1455,41 +1385,31 @@ footer {
   </div>
 
 
-  <!-- =========================
-       TRANSACTIONS
-  ========================= -->
+  <!-- TRANSACTIONS -->
 
-  <div class="card">
+  <h3>
+    Transaction History
+  </h3>
 
-    <h3>
-      Transaction History
-    </h3>
-
-    <div id="transactionsList">
-
-      <p style="color:#667085;">
-        Loading transactions...
-      </p>
-
-    </div>
-
+  <div id="transactionsList">
+    <p style="color:#667085;">
+      Loading transactions...
+    </p>
   </div>
 
 </section>
 
-</main>
 
-
-<!-- =========================
+<!-- ======================================================
      KYC MODAL
-========================= -->
+====================================================== -->
 
 <div
   id="kycModal"
   class="modal"
 >
 
-  <div class="modal-card">
+  <div class="modal-content">
 
     <h2>
       Verify Your Identity
@@ -1507,14 +1427,7 @@ footer {
       autocomplete="name"
     >
 
-    <label
-      style="
-        display:block;
-        font-size:13px;
-        color:#667085;
-        margin-bottom:5px;
-      "
-    >
+    <label class="section-label">
       Date of birth
     </label>
 
@@ -1524,63 +1437,22 @@ footer {
     >
 
     <select id="kycCountry">
-
-      <option value="">
-        Select country
-      </option>
-
-      <option value="Nigeria">
-        Nigeria
-      </option>
-
-      <option value="United Kingdom">
-        United Kingdom
-      </option>
-
-      <option value="United States">
-        United States
-      </option>
-
-      <option value="Ghana">
-        Ghana
-      </option>
-
-      <option value="Kenya">
-        Kenya
-      </option>
-
-      <option value="South Africa">
-        South Africa
-      </option>
-
-      <option value="Other">
-        Other
-      </option>
-
+      <option value="">Select country</option>
+      <option value="Nigeria">Nigeria</option>
+      <option value="United Kingdom">United Kingdom</option>
+      <option value="United States">United States</option>
+      <option value="Ghana">Ghana</option>
+      <option value="Kenya">Kenya</option>
+      <option value="South Africa">South Africa</option>
+      <option value="Other">Other</option>
     </select>
 
     <select id="kycIdType">
-
-      <option value="">
-        Select ID type
-      </option>
-
-      <option value="National ID">
-        National ID
-      </option>
-
-      <option value="Passport">
-        Passport
-      </option>
-
-      <option value="Driver's License">
-        Driver's License
-      </option>
-
-      <option value="Residence Permit">
-        Residence Permit
-      </option>
-
+      <option value="">Select ID type</option>
+      <option value="National ID">National ID</option>
+      <option value="Passport">Passport</option>
+      <option value="Driver's License">Driver's License</option>
+      <option value="Residence Permit">Residence Permit</option>
     </select>
 
     <input
@@ -1590,14 +1462,7 @@ footer {
       autocomplete="off"
     >
 
-    <label
-      style="
-        display:block;
-        font-size:13px;
-        color:#667085;
-        margin-bottom:5px;
-      "
-    >
+    <label class="section-label">
       ID document
     </label>
 
@@ -1609,8 +1474,7 @@ footer {
 
     <div class="file-help">
       Accepted for this prototype: image or PDF.
-      Actual identity verification requires a compliant
-      KYC provider.
+      Actual identity verification requires a compliant KYC provider.
     </div>
 
     <label
@@ -1627,10 +1491,7 @@ footer {
       <input
         type="checkbox"
         id="kycConsent"
-        style="
-          width:auto;
-          margin:2px 0 0 0;
-        "
+        style="width:auto;margin:2px 0 0 0;"
       >
 
       <span>
@@ -1650,7 +1511,6 @@ footer {
     <button
       id="closeKycBtn"
       class="secondary"
-      style="margin-top:8px;"
     >
       Close
     </button>
@@ -1665,16 +1525,16 @@ footer {
 </div>
 
 
-<!-- =========================
+<!-- ======================================================
      TRANSACTION MODAL
-========================= -->
+====================================================== -->
 
 <div
   id="transactionModal"
   class="modal"
 >
 
-  <div class="modal-card">
+  <div class="modal-content">
 
     <h2>
       Transaction Details
@@ -1685,7 +1545,6 @@ footer {
     <button
       id="closeTransactionBtn"
       class="secondary"
-      style="margin-top:18px;"
     >
       Close
     </button>
@@ -1696,12 +1555,9 @@ footer {
 
 
 <footer>
-
-  NexaWallet © 2026<br>
-
-  Prototype only — not a bank and not currently
-  a licensed financial institution.
-
+  NexaWallet © 2026
+  <br><br>
+  Prototype only — not a bank and not currently a licensed financial institution.
 </footer>
 
 
@@ -1731,22 +1587,17 @@ const supabaseClient =
 ========================================================= */
 
 let currentUser = null;
-
 let authMode = "signup";
 
 let currentWallet = null;
-
 let currentTransactions = [];
-
 let currentKyc = null;
-
 let currentProfile = null;
 
 let currentAccountLimits = {
   level: 1,
   balanceLimit: 300000,
   transferLimit: 50000,
-  sentLast24h: 0,
   remainingTransfer: 50000
 };
 
@@ -1754,6 +1605,11 @@ let currentAccountLimits = {
 /* =========================================================
    ELEMENTS
 ========================================================= */
+
+const landingSection =
+  document.getElementById(
+    "landingSection"
+  );
 
 const authSection =
   document.getElementById(
@@ -1763,11 +1619,6 @@ const authSection =
 const dashboardSection =
   document.getElementById(
     "dashboardSection"
-  );
-
-const landingSection =
-  document.getElementById(
-    "landingSection"
   );
 
 const authTitle =
@@ -1795,79 +1646,9 @@ const authMessage =
     "authMessage"
   );
 
-const emailInput =
-  document.getElementById(
-    "emailInput"
-  );
-
-const passwordInput =
-  document.getElementById(
-    "passwordInput"
-  );
-
-const logoutBtn =
-  document.getElementById(
-    "logoutBtn"
-  );
-
-const balanceDisplay =
-  document.getElementById(
-    "balanceDisplay"
-  );
-
-const currencyDisplay =
-  document.getElementById(
-    "currencyDisplay"
-  );
-
-const accountNumberDisplay =
-  document.getElementById(
-    "accountNumberDisplay"
-  );
-
-const receiveAccountNumber =
-  document.getElementById(
-    "receiveAccountNumber"
-  );
-
-const transactionsList =
-  document.getElementById(
-    "transactionsList"
-  );
-
-const transactionModal =
-  document.getElementById(
-    "transactionModal"
-  );
-
-const transactionDetails =
-  document.getElementById(
-    "transactionDetails"
-  );
-
-const kycModal =
-  document.getElementById(
-    "kycModal"
-  );
-
-const kycStatusBadge =
-  document.getElementById(
-    "kycStatusBadge"
-  );
-
 const signupOnlySection =
   document.getElementById(
     "signupOnlySection"
-  );
-
-const personalSignupFields =
-  document.getElementById(
-    "personalSignupFields"
-  );
-
-const businessSignupFields =
-  document.getElementById(
-    "businessSignupFields"
   );
 
 const loginInfo =
@@ -1880,69 +1661,54 @@ const profileSecurityNote =
     "profileSecurityNote"
   );
 
-const personalAccountType =
+const phoneAuthInput =
   document.getElementById(
-    "personalAccountType"
+    "phoneAuthInput"
   );
 
-const businessAccountType =
+const otpSection =
   document.getElementById(
-    "businessAccountType"
+    "otpSection"
   );
 
-const personalTypeCard =
+const otpInput =
   document.getElementById(
-    "personalTypeCard"
+    "otpInput"
   );
 
-const businessTypeCard =
+const logoutBtn =
   document.getElementById(
-    "businessTypeCard"
+    "logoutBtn"
   );
 
-const profileAvatar =
+const kycModal =
   document.getElementById(
-    "profileAvatar"
+    "kycModal"
   );
 
-const profileName =
+const transactionModal =
   document.getElementById(
-    "profileName"
+    "transactionModal"
   );
 
-const profileType =
+const transactionsList =
   document.getElementById(
-    "profileType"
+    "transactionsList"
   );
 
-const accountLevelDisplay =
+const transactionDetails =
   document.getElementById(
-    "accountLevelDisplay"
+    "transactionDetails"
   );
 
-const balanceLimitDisplay =
+const accountNumberDisplay =
   document.getElementById(
-    "balanceLimitDisplay"
+    "accountNumberDisplay"
   );
 
-const transferLimitDisplay =
+const kycStatusBadge =
   document.getElementById(
-    "transferLimitDisplay"
-  );
-
-const remainingTransferDisplay =
-  document.getElementById(
-    "remainingTransferDisplay"
-  );
-
-const transferProgressBar =
-  document.getElementById(
-    "transferProgressBar"
-  );
-
-const limitNote =
-  document.getElementById(
-    "limitNote"
+    "kycStatusBadge"
   );
 
 
@@ -1952,11 +1718,16 @@ const limitNote =
 
 function showMessage(
   element,
-  text,
-  type
+  message,
+  type = "info"
 ) {
 
-  element.textContent = text;
+  if (!element) {
+    return;
+  }
+
+  element.textContent =
+    message;
 
   element.className =
     "message show " + type;
@@ -1967,6 +1738,10 @@ function hideMessage(
   element
 ) {
 
+  if (!element) {
+    return;
+  }
+
   element.textContent = "";
 
   element.className =
@@ -1976,52 +1751,59 @@ function hideMessage(
 
 function formatMoney(
   amount,
-  currency
+  currency = "NGN"
 ) {
 
-  const value =
+  const numericAmount =
     Number(amount || 0);
 
-  let symbol = "₦";
+  if (currency === "NGN") {
 
-  if (currency === "USD") {
-    symbol = "$";
-  }
-
-  else if (currency === "GBP") {
-    symbol = "£";
-  }
-
-  else if (currency === "EUR") {
-    symbol = "€";
-  }
-
-  else if (currency === "DZD") {
-    symbol = "دج ";
-  }
-
-  return symbol +
-    value.toLocaleString(
-      undefined,
+    return new Intl.NumberFormat(
+      "en-NG",
       {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2
+        style:"currency",
+        currency:"NGN"
       }
+    ).format(
+      numericAmount
     );
+
+  }
+
+  return new Intl.NumberFormat(
+    "en-US",
+    {
+      style:"currency",
+      currency:currency || "NGN"
+    }
+  ).format(
+    numericAmount
+  );
 }
 
 
 function formatDate(
-  dateValue
+  value
 ) {
 
-  if (!dateValue) {
+  if (!value) {
     return "N/A";
   }
 
-  return new Date(
-    dateValue
-  ).toLocaleString();
+  try {
+
+    return new Date(
+      value
+    ).toLocaleString();
+
+  }
+
+  catch {
+
+    return String(value);
+
+  }
 }
 
 
@@ -2036,7 +1818,7 @@ function generateReference(
     "-" +
     Math.random()
       .toString(36)
-      .substring(2, 8)
+      .substring(2,8)
       .toUpperCase()
   );
 }
@@ -2046,14 +1828,9 @@ function escapeHtml(
   value
 ) {
 
-  if (
-    value === null ||
-    value === undefined
-  ) {
-    return "";
-  }
-
-  return String(value)
+  return String(
+    value ?? ""
+  )
     .replace(
       /&/g,
       "&amp;"
@@ -2079,106 +1856,180 @@ function escapeHtml(
 
 function getAccountType() {
 
-  if (
-    businessAccountType.checked
-  ) {
-    return "business";
-  }
-
-  return "personal";
+  return document
+    .querySelector(
+      'input[name="accountType"]:checked'
+    )
+    ?.value || "personal";
 }
 
 
-function updateAccountTypeUI() {
+/* =========================================================
+   PHONE NORMALIZATION
+========================================================= */
 
-  const type =
-    getAccountType();
+function normalizePhone(
+  value
+) {
+
+  let phone =
+    String(
+      value || ""
+    ).trim();
+
+  phone =
+    phone.replace(
+      /[\s()-]/g,
+      ""
+    );
 
   if (
-    type === "business"
+    phone.startsWith("+")
   ) {
 
-    personalSignupFields
-      .classList
-      .add("hidden");
+    return phone;
 
-    businessSignupFields
-      .classList
-      .remove("hidden");
+  }
 
-    personalTypeCard
-      .classList
-      .remove("active");
+  /*
+    Nigeria convenience format:
+    08012345678 -> +2348012345678
+  */
 
-    businessTypeCard
-      .classList
-      .add("active");
+  if (
+    phone.startsWith("0") &&
+    phone.length >= 10
+  ) {
+
+    return (
+      "+234" +
+      phone.substring(1)
+    );
+
+  }
+
+  return phone;
+}
+
+
+function isValidPhone(
+  phone
+) {
+
+  return /^\+[1-9]\d{7,14}$/.test(
+    phone
+  );
+}
+
+
+/* =========================================================
+   ACCOUNT TYPE UI
+========================================================= */
+
+function updateAccountTypeUI() {
+
+  const personal =
+    document.getElementById(
+      "personalAccountType"
+    ).checked;
+
+  const personalCard =
+    document.getElementById(
+      "personalTypeCard"
+    );
+
+  const businessCard =
+    document.getElementById(
+      "businessTypeCard"
+    );
+
+  const personalFields =
+    document.getElementById(
+      "personalSignupFields"
+    );
+
+  const businessFields =
+    document.getElementById(
+      "businessSignupFields"
+    );
+
+  if (personal) {
+
+    personalCard.classList.add(
+      "active"
+    );
+
+    businessCard.classList.remove(
+      "active"
+    );
+
+    personalFields.classList.remove(
+      "hidden"
+    );
+
+    businessFields.classList.add(
+      "hidden"
+    );
 
   }
 
   else {
 
-    personalSignupFields
-      .classList
-      .remove("hidden");
+    personalCard.classList.remove(
+      "active"
+    );
 
-    businessSignupFields
-      .classList
-      .add("hidden");
+    businessCard.classList.add(
+      "active"
+    );
 
-    personalTypeCard
-      .classList
-      .add("active");
+    personalFields.classList.add(
+      "hidden"
+    );
 
-    businessTypeCard
-      .classList
-      .remove("active");
+    businessFields.classList.remove(
+      "hidden"
+    );
+
   }
 }
 
 
+document
+  .getElementById(
+    "personalAccountType"
+  )
+  .addEventListener(
+    "change",
+    updateAccountTypeUI
+  );
+
+
+document
+  .getElementById(
+    "businessAccountType"
+  )
+  .addEventListener(
+    "change",
+    updateAccountTypeUI
+  );
+
+
 /* =========================================================
-   AUTH MODE
+   AUTH UI
 ========================================================= */
 
-personalAccountType.addEventListener(
-  "change",
-  updateAccountTypeUI
-);
-
-businessAccountType.addEventListener(
-  "change",
-  updateAccountTypeUI
-);
-
-
-authSwitchBtn.addEventListener(
-  "click",
-  () => {
-
-    if (
-      authMode === "signup"
-    ) {
-
-      authMode = "login";
-
-    }
-
-    else {
-
-      authMode = "signup";
-    }
-
-    hideMessage(
-      authMessage
-    );
-
-    updateAuthUI();
-  }
-);
-
-
 function updateAuthUI() {
+
+  hideMessage(
+    authMessage
+  );
+
+  otpSection.classList.add(
+    "hidden"
+  );
+
+  otpInput.value = "";
 
   if (
     authMode === "signup"
@@ -2186,6 +2037,18 @@ function updateAuthUI() {
 
     authTitle.textContent =
       "Create your account";
+
+    signupOnlySection.classList.remove(
+      "hidden"
+    );
+
+    loginInfo.classList.add(
+      "hidden"
+    );
+
+    profileSecurityNote.classList.remove(
+      "hidden"
+    );
 
     authBtn.textContent =
       "Create Account";
@@ -2196,19 +2059,7 @@ function updateAuthUI() {
     authSwitchBtn.textContent =
       "Log In";
 
-    signupOnlySection
-      .classList
-      .remove("hidden");
-
-    loginInfo
-      .classList
-      .add("hidden");
-
-    profileSecurityNote
-      .classList
-      .remove("hidden");
-
-    updateAccountTypeUI();
+    phoneAuthInput.value = "";
 
   }
 
@@ -2217,8 +2068,20 @@ function updateAuthUI() {
     authTitle.textContent =
       "Log in to NexaWallet";
 
+    signupOnlySection.classList.add(
+      "hidden"
+    );
+
+    loginInfo.classList.remove(
+      "hidden"
+    );
+
+    profileSecurityNote.classList.add(
+      "hidden"
+    );
+
     authBtn.textContent =
-      "Log In";
+      "Send OTP";
 
     authSwitchText.textContent =
       "Don't have an account?";
@@ -2226,28 +2089,69 @@ function updateAuthUI() {
     authSwitchBtn.textContent =
       "Create Account";
 
-    signupOnlySection
-      .classList
-      .add("hidden");
-
-    loginInfo
-      .classList
-      .remove("hidden");
-
-    profileSecurityNote
-      .classList
-      .add("hidden");
   }
+
 }
 
 
+authSwitchBtn.addEventListener(
+  "click",
+  () => {
+
+    authMode =
+      authMode === "signup"
+        ? "login"
+        : "signup";
+
+    updateAuthUI();
+
+  }
+);
+
+
 /* =========================================================
-   PERSONAL FORM
+   START
+========================================================= */
+
+document
+  .getElementById(
+    "startBtn"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      landingSection.classList.add(
+        "hidden"
+      );
+
+      authSection.classList.remove(
+        "hidden"
+      );
+
+      authMode = "signup";
+
+      updateAuthUI();
+
+      window.scrollTo(
+        0,
+        0
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   SIGNUP DATA
 ========================================================= */
 
 function getPersonalFormData() {
 
   return {
+
+    account_type:
+      "personal",
 
     first_name:
       document
@@ -2266,12 +2170,13 @@ function getPersonalFormData() {
         .trim(),
 
     phone_number:
-      document
-        .getElementById(
-          "phoneInput"
-        )
-        .value
-        .trim(),
+      normalizePhone(
+        document
+          .getElementById(
+            "phoneInput"
+          )
+          .value
+      ),
 
     date_of_birth:
       document
@@ -2318,17 +2223,18 @@ function getPersonalFormData() {
         )
         .value
         .trim()
+
   };
+
 }
 
-
-/* =========================================================
-   BUSINESS FORM
-========================================================= */
 
 function getBusinessFormData() {
 
   return {
+
+    account_type:
+      "business",
 
     business_name:
       document
@@ -2355,12 +2261,13 @@ function getBusinessFormData() {
         .trim(),
 
     business_phone:
-      document
-        .getElementById(
-          "businessPhoneInput"
-        )
-        .value
-        .trim(),
+      normalizePhone(
+        document
+          .getElementById(
+            "businessPhoneInput"
+          )
+          .value
+      ),
 
     business_address:
       document
@@ -2408,14 +2315,14 @@ function getBusinessFormData() {
         )
         .value
         .trim()
+
   };
+
 }
 
 
 /* =========================================================
    SAVE PROFILE
-   IMPORTANT:
-   Existing profiles are NOT overwritten on login.
 ========================================================= */
 
 async function saveUserProfile(
@@ -2424,17 +2331,17 @@ async function saveUserProfile(
 ) {
 
   if (!user) {
-    throw new Error(
-      "No authenticated user found."
-    );
+    return null;
   }
 
   const {
-    data: existingProfile,
+    data: existing,
     error: existingError
   } =
     await supabaseClient
-      .from("user_profiles")
+      .from(
+        "user_profiles"
+      )
       .select("*")
       .eq(
         "id",
@@ -2442,30 +2349,35 @@ async function saveUserProfile(
       )
       .maybeSingle();
 
-  if (existingError) {
-    throw existingError;
+  if (
+    existingError &&
+    existingError.code !== "PGRST116"
+  ) {
+
+    console.warn(
+      "Profile lookup:",
+      existingError.message
+    );
+
   }
 
-  /*
-    When logging in, keep the existing profile.
-  */
-
   if (
-    existingProfile &&
+    existing &&
     !metadata
   ) {
 
-    return existingProfile;
+    return existing;
+
   }
 
-  const meta =
+  const data =
     metadata ||
     user.user_metadata ||
     {};
 
   const accountType =
-    meta.account_type ||
-    existingProfile?.account_type ||
+    data.account_type ||
+    existing?.account_type ||
     "personal";
 
 
@@ -2473,7 +2385,7 @@ async function saveUserProfile(
     accountType === "business"
   ) {
 
-    const businessPayload = {
+    const profilePayload = {
 
       id:
         user.id,
@@ -2481,187 +2393,11 @@ async function saveUserProfile(
       account_type:
         "business",
 
-      first_name:
-        meta.first_name ||
-        existingProfile?.first_name ||
-        "",
-
-      last_name:
-        meta.last_name ||
-        existingProfile?.last_name ||
-        "",
-
       phone_number:
-        meta.phone_number ||
-        existingProfile?.phone_number ||
-        "",
+        data.business_phone ||
+        existing?.phone_number ||
+        null
 
-      profile_completed:
-        true,
-
-      kyc_status:
-        existingProfile?.kyc_status ||
-        "not_started",
-
-      nin_verified:
-        existingProfile?.nin_verified ||
-        false,
-
-      bvn_verified:
-        existingProfile?.bvn_verified ||
-        false
-    };
-
-
-    const {
-      error: profileError
-    } =
-      await supabaseClient
-        .from("user_profiles")
-        .upsert(
-          businessPayload,
-          {
-            onConflict: "id"
-          }
-        );
-
-    if (profileError) {
-      throw profileError;
-    }
-
-
-    const businessPayloadForTable = {
-
-      user_id:
-        user.id,
-
-      business_name:
-        meta.business_name ||
-        "",
-
-      business_type:
-        meta.business_type ||
-        "",
-
-      business_email:
-        meta.business_email ||
-        "",
-
-      business_phone:
-        meta.business_phone ||
-        "",
-
-      country:
-        meta.business_country ||
-        "",
-
-      state_region:
-        meta.business_state ||
-        "",
-
-      city:
-        meta.business_city ||
-        "",
-
-      business_address:
-        meta.business_address ||
-        "",
-
-      postal_code:
-        meta.business_postal_code ||
-        "",
-
-      registration_number:
-        meta.registration_number ||
-        "",
-
-      verification_status:
-        "not_started"
-    };
-
-
-    const {
-      error: businessError
-    } =
-      await supabaseClient
-        .from("business_profiles")
-        .upsert(
-          businessPayloadForTable,
-          {
-            onConflict: "user_id"
-          }
-        );
-
-    if (businessError) {
-      throw businessError;
-    }
-
-  }
-
-  else {
-
-    const personalPayload = {
-
-      id:
-        user.id,
-
-      account_type:
-        "personal",
-
-      first_name:
-        meta.first_name ||
-        "",
-
-      last_name:
-        meta.last_name ||
-        "",
-
-      phone_number:
-        meta.phone_number ||
-        "",
-
-      date_of_birth:
-        meta.date_of_birth ||
-        null,
-
-      country:
-        meta.country ||
-        "",
-
-      state_region:
-        meta.state_region ||
-        "",
-
-      city:
-        meta.city ||
-        "",
-
-      home_address:
-        meta.home_address ||
-        "",
-
-      postal_code:
-        meta.postal_code ||
-        "",
-
-      nin_verified:
-        existingProfile?.nin_verified ||
-        false,
-
-      bvn_verified:
-        existingProfile?.bvn_verified ||
-        false,
-
-      utility_bill_verified:
-        existingProfile?.utility_bill_verified ||
-        false,
-
-      kyc_status:
-        existingProfile?.kyc_status ||
-        "not_started",
-
-      profile_completed:
-        true
     };
 
 
@@ -2669,370 +2405,605 @@ async function saveUserProfile(
       error
     } =
       await supabaseClient
-        .from("user_profiles")
+        .from(
+          "user_profiles"
+        )
         .upsert(
-          personalPayload,
+          profilePayload,
           {
-            onConflict: "id"
+            onConflict:"id"
           }
         );
 
     if (error) {
-      throw error;
+      console.warn(
+        "User profile save:",
+        error.message
+      );
     }
+
+
+    const businessPayload = {
+
+      user_id:
+        user.id,
+
+      business_name:
+        data.business_name ||
+        null,
+
+      business_type:
+        data.business_type ||
+        null,
+
+      business_email:
+        data.business_email ||
+        null,
+
+      business_phone:
+        data.business_phone ||
+        null,
+
+      business_address:
+        data.business_address ||
+        null,
+
+      business_city:
+        data.business_city ||
+        null,
+
+      business_state:
+        data.business_state ||
+        null,
+
+      business_country:
+        data.business_country ||
+        null,
+
+      business_postal_code:
+        data.business_postal_code ||
+        null,
+
+      registration_number:
+        data.registration_number ||
+        null
+
+    };
+
+
+    const {
+      error:
+        businessError
+    } =
+      await supabaseClient
+        .from(
+          "business_profiles"
+        )
+        .upsert(
+          businessPayload,
+          {
+            onConflict:"user_id"
+          }
+        );
+
+    if (
+      businessError
+    ) {
+
+      console.warn(
+        "Business profile save:",
+        businessError.message
+      );
+
+    }
+
+
+    return profilePayload;
+
   }
 
-  return true;
+
+  const profilePayload = {
+
+    id:
+      user.id,
+
+    account_type:
+      "personal",
+
+    first_name:
+      data.first_name ||
+      existing?.first_name ||
+      null,
+
+    last_name:
+      data.last_name ||
+      existing?.last_name ||
+      null,
+
+    phone_number:
+      data.phone_number ||
+      existing?.phone_number ||
+      user.phone ||
+      null,
+
+    date_of_birth:
+      data.date_of_birth ||
+      existing?.date_of_birth ||
+      null,
+
+    country:
+      data.country ||
+      existing?.country ||
+      null,
+
+    state_region:
+      data.state_region ||
+      existing?.state_region ||
+      null,
+
+    city:
+      data.city ||
+      existing?.city ||
+      null,
+
+    home_address:
+      data.home_address ||
+      existing?.home_address ||
+      null,
+
+    postal_code:
+      data.postal_code ||
+      existing?.postal_code ||
+      null,
+
+    verification_status:
+      existing?.verification_status ||
+      "unverified",
+
+    verification_level:
+      existing?.verification_level ||
+      1
+
+  };
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from(
+        "user_profiles"
+      )
+      .upsert(
+        profilePayload,
+        {
+          onConflict:"id"
+        }
+      );
+
+
+  if (error) {
+
+    console.warn(
+      "User profile save:",
+      error.message
+    );
+
+  }
+
+
+  return profilePayload;
 }
 
 
 /* =========================================================
-   AUTH
+   SEND OTP
 ========================================================= */
 
-authBtn.addEventListener(
-  "click",
-  async () => {
+async function sendOtp() {
 
-    const email =
-      emailInput.value.trim();
+  let rawPhone;
 
-    const password =
-      passwordInput.value;
+  if (
+    authMode === "signup"
+  ) {
 
-    hideMessage(
-      authMessage
-    );
-
+    const accountType =
+      getAccountType();
 
     if (
-      !email ||
-      !password
+      accountType === "personal"
     ) {
 
-      showMessage(
-        authMessage,
-        "Please enter your email and password.",
-        "error"
-      );
+      const data =
+        getPersonalFormData();
 
-      return;
-    }
+      rawPhone =
+        data.phone_number;
 
-
-    if (
-      password.length < 6
-    ) {
-
-      showMessage(
-        authMessage,
-        "Password must contain at least 6 characters.",
-        "error"
-      );
-
-      return;
-    }
-
-
-    authBtn.disabled = true;
-
-
-    try {
 
       if (
-        authMode === "signup"
+        !data.first_name ||
+        !data.last_name ||
+        !data.date_of_birth ||
+        !data.country ||
+        !data.state_region ||
+        !data.city ||
+        !data.home_address ||
+        !data.postal_code
       ) {
-
-        const accountType =
-          getAccountType();
-
-        let metadata = {
-          account_type:
-            accountType
-        };
-
-
-        if (
-          accountType === "personal"
-        ) {
-
-          const personal =
-            getPersonalFormData();
-
-
-          if (
-            !personal.first_name ||
-            !personal.last_name ||
-            !personal.phone_number ||
-            !personal.date_of_birth ||
-            !personal.country ||
-            !personal.state_region ||
-            !personal.city ||
-            !personal.home_address ||
-            !personal.postal_code
-          ) {
-
-            throw new Error(
-              "Please complete all required personal information."
-            );
-          }
-
-
-          metadata = {
-
-            account_type:
-              "personal",
-
-            ...personal,
-
-            email:
-              email
-          };
-
-        }
-
-        else {
-
-          const business =
-            getBusinessFormData();
-
-
-          if (
-            !business.business_name ||
-            !business.business_type ||
-            !business.business_email ||
-            !business.business_phone ||
-            !business.business_address ||
-            !business.business_city ||
-            !business.business_state ||
-            !business.business_country ||
-            !business.business_postal_code
-          ) {
-
-            throw new Error(
-              "Please complete all required business information."
-            );
-          }
-
-
-          metadata = {
-
-            account_type:
-              "business",
-
-            first_name:
-              "",
-
-            last_name:
-              "",
-
-            phone_number:
-              business.business_phone,
-
-            ...business,
-
-            email:
-              email
-          };
-        }
-
-
-        const {
-          data,
-          error
-        } =
-          await supabaseClient
-            .auth
-            .signUp({
-
-              email,
-
-              password,
-
-              options: {
-
-                data:
-                  metadata
-              }
-
-            });
-
-
-        if (error) {
-          throw error;
-        }
-
-
-        if (
-          data.session
-        ) {
-
-          currentUser =
-            data.user;
-
-          await saveUserProfile(
-            data.user,
-            metadata
-          );
-
-
-          showMessage(
-            authMessage,
-            "Account created successfully.",
-            "success"
-          );
-
-
-          await showDashboard();
-
-        }
-
-        else {
-
-          showMessage(
-            authMessage,
-            "Account created. Please confirm your email, then log in. Your onboarding information has been saved with your account.",
-            "success"
-          );
-
-
-          authMode =
-            "login";
-
-          updateAuthUI();
-
-          passwordInput.value = "";
-        }
-
-      }
-
-      else {
-
-        const {
-          data,
-          error
-        } =
-          await supabaseClient
-            .auth
-            .signInWithPassword({
-
-              email,
-
-              password
-
-            });
-
-
-        if (error) {
-          throw error;
-        }
-
-
-        currentUser =
-          data.user;
-
-
-        await saveUserProfile(
-          data.user
-        );
-
 
         showMessage(
           authMessage,
-          "Logged in successfully.",
-          "success"
+          "Please complete all personal account fields.",
+          "error"
         );
 
-
-        await showDashboard();
+        return;
       }
-
-    }
-
-    catch (error) {
-
-      console.error(error);
-
-      showMessage(
-        authMessage,
-        error.message ||
-        "Authentication failed.",
-        "error"
-      );
-
-    }
-
-    finally {
-
-      authBtn.disabled = false;
-    }
-
-  }
-);
-
-
-/* =========================================================
-   SESSION
-========================================================= */
-
-async function loadSession() {
-
-  const {
-    data: {
-      session
-    }
-  } =
-    await supabaseClient
-      .auth
-      .getSession();
-
-
-  if (session) {
-
-    currentUser =
-      session.user;
-
-    await showDashboard();
-
-  }
-
-  else {
-
-    showLoggedOut();
-  }
-}
-
-
-supabaseClient.auth.onAuthStateChange(
-  async (
-    event,
-    session
-  ) => {
-
-    if (
-      session
-    ) {
-
-      currentUser =
-        session.user;
-
-      await showDashboard();
 
     }
 
     else {
 
-      currentUser = null;
+      const data =
+        getBusinessFormData();
 
-      showLoggedOut();
+      rawPhone =
+        data.business_phone;
+
+
+      if (
+        !data.business_name ||
+        !data.business_type ||
+        !data.business_email ||
+        !data.business_phone ||
+        !data.business_address ||
+        !data.business_city ||
+        !data.business_state ||
+        !data.business_country ||
+        !data.business_postal_code
+      ) {
+
+        showMessage(
+          authMessage,
+          "Please complete all required business account fields.",
+          "error"
+        );
+
+        return;
+      }
+
     }
 
   }
+
+  else {
+
+    rawPhone =
+      phoneAuthInput.value;
+
+  }
+
+
+  const phone =
+    normalizePhone(
+      rawPhone
+    );
+
+
+  if (
+    !isValidPhone(phone)
+  ) {
+
+    showMessage(
+      authMessage,
+      "Enter a valid phone number in international format, for example +2348012345678.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  phoneAuthInput.value =
+    phone;
+
+
+  const button =
+    document.getElementById(
+      "authBtn"
+    );
+
+  button.disabled = true;
+
+
+  try {
+
+    let options = {};
+
+    if (
+      authMode === "signup"
+    ) {
+
+      const accountType =
+        getAccountType();
+
+      const metadata =
+        accountType === "personal"
+          ? getPersonalFormData()
+          : getBusinessFormData();
+
+      options.data =
+        metadata;
+
+    }
+
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .auth
+        .signInWithOtp({
+
+          phone:
+
+            phone,
+
+          options:
+
+            options
+
+        });
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    otpSection.classList.remove(
+      "hidden"
+    );
+
+
+    showMessage(
+      authMessage,
+      "OTP sent successfully. Check your phone and enter the code.",
+      "success"
+    );
+
+
+    otpInput.focus();
+
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    showMessage(
+      authMessage,
+      error.message ||
+      "Unable to send OTP.",
+      "error"
+    );
+
+  }
+
+  finally {
+
+    button.disabled = false;
+
+  }
+
+}
+
+
+/* =========================================================
+   AUTH BUTTON
+========================================================= */
+
+authBtn.addEventListener(
+  "click",
+  sendOtp
 );
 
 
 /* =========================================================
-   LOAD PROFILE
+   VERIFY OTP
+========================================================= */
+
+async function verifyOtp() {
+
+  const rawPhone =
+    phoneAuthInput.value.trim();
+
+  const phone =
+    normalizePhone(
+      rawPhone
+    );
+
+  const token =
+    otpInput.value.trim();
+
+
+  if (
+    !isValidPhone(phone)
+  ) {
+
+    showMessage(
+      authMessage,
+      "Enter a valid phone number.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if (
+    !token ||
+    token.length < 4
+  ) {
+
+    showMessage(
+      authMessage,
+      "Enter the OTP sent to your phone.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const button =
+    document.getElementById(
+      "verifyOtpBtn"
+    );
+
+  button.disabled = true;
+
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .auth
+        .verifyOtp({
+
+          phone:
+            phone,
+
+          token:
+            token,
+
+          type:
+            "sms"
+
+        });
+
+
+    if (error) {
+      throw error;
+    }
+
+
+    if (
+      !data.session ||
+      !data.user
+    ) {
+
+      throw new Error(
+        "OTP verified, but no login session was created."
+      );
+
+    }
+
+
+    currentUser =
+      data.user;
+
+
+    /*
+      For signup, save the onboarding information.
+      For login, existing profile information is loaded.
+    */
+
+    if (
+      authMode === "signup"
+    ) {
+
+      const metadata =
+        getAccountType() === "personal"
+          ? getPersonalFormData()
+          : getBusinessFormData();
+
+      await saveUserProfile(
+        currentUser,
+        metadata
+      );
+
+    }
+
+    else {
+
+      await saveUserProfile(
+        currentUser
+      );
+
+    }
+
+
+    showMessage(
+      authMessage,
+      "Verification successful.",
+      "success"
+    );
+
+
+    await showDashboard();
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    showMessage(
+      authMessage,
+      error.message ||
+      "Invalid or expired OTP.",
+      "error"
+    );
+
+  }
+
+  finally {
+
+    button.disabled = false;
+
+  }
+
+}
+
+
+document
+  .getElementById(
+    "verifyOtpBtn"
+  )
+  .addEventListener(
+    "click",
+    verifyOtp
+  );
+
+
+/* =========================================================
+   RESEND OTP
+========================================================= */
+
+document
+  .getElementById(
+    "resendOtpBtn"
+  )
+  .addEventListener(
+    "click",
+    async () => {
+
+      await sendOtp();
+
+    }
+  );
+
+
+/* =========================================================
+   PROFILE
 ========================================================= */
 
 async function loadProfile() {
@@ -3047,7 +3018,9 @@ async function loadProfile() {
     error
   } =
     await supabaseClient
-      .from("user_profiles")
+      .from(
+        "user_profiles"
+      )
       .select("*")
       .eq(
         "id",
@@ -3059,11 +3032,12 @@ async function loadProfile() {
   if (error) {
 
     console.warn(
-      "Profile load error:",
+      "Profile load:",
       error.message
     );
 
     return;
+
   }
 
 
@@ -3076,261 +3050,94 @@ async function loadProfile() {
   }
 
 
-  const firstName =
-    data.first_name ||
-    "";
-
-  const lastName =
-    data.last_name ||
-    "";
-
-
-  const fullName =
-    (
-      firstName +
-      " " +
-      lastName
-    ).trim();
-
-
-  const displayName =
-    fullName ||
-    currentUser.email ||
+  let name =
     "NexaWallet User";
 
 
-  profileName.textContent =
-    displayName;
+  if (
+    data.account_type ===
+    "business"
+  ) {
+
+    name =
+      data.business_name ||
+      "Business Account";
+
+  }
+
+  else {
+
+    name =
+      (
+        (
+          data.first_name || ""
+        ) +
+        " " +
+        (
+          data.last_name || ""
+        )
+      ).trim() ||
+      "NexaWallet User";
+
+  }
 
 
-  profileType.textContent =
-    data.account_type === "business"
+  document
+    .getElementById(
+      "profileName"
+    )
+    .textContent =
+    name;
+
+
+  document
+    .getElementById(
+      "profileType"
+    )
+    .textContent =
+    data.account_type ===
+    "business"
       ? "Business Account"
       : "Personal Account";
 
 
-  const initial =
-    (
-      firstName ||
-      currentUser.email ||
-      "N"
-    )
-      .charAt(0)
-      .toUpperCase();
-
-
-  profileAvatar.textContent =
-    initial;
+  const avatar =
+    document.getElementById(
+      "profileAvatar"
+    );
 
 
   if (
     data.avatar_url
   ) {
 
-    profileAvatar.innerHTML =
+    avatar.innerHTML =
       `
         <img
           src="${escapeHtml(
             data.avatar_url
           )}"
-          alt="Profile picture"
+          alt="Profile"
         >
       `;
+
   }
+
+  else {
+
+    avatar.textContent =
+      name
+        .charAt(0)
+        .toUpperCase();
+
+  }
+
 }
 
 
 /* =========================================================
-   ACCOUNT LEVEL
+   ACCOUNT LIMITS
 ========================================================= */
-
-function getFallbackLevel(
-  profile
-) {
-
-  if (!profile) {
-    return 1;
-  }
-
-  if (
-    profile.nin_verified === true &&
-    profile.bvn_verified === true &&
-    profile.utility_bill_verified === true
-  ) {
-    return 3;
-  }
-
-  if (
-    profile.nin_verified === true &&
-    profile.bvn_verified === true
-  ) {
-    return 2;
-  }
-
-  return 1;
-}
-
-
-function updateLimitDisplay() {
-
-  const level =
-    Number(
-      currentAccountLimits.level || 1
-    );
-
-
-  const balanceLimit =
-    currentAccountLimits.balanceLimit;
-
-
-  const transferLimit =
-    currentAccountLimits.transferLimit;
-
-
-  const sent =
-    Number(
-      currentAccountLimits.sentLast24h || 0
-    );
-
-
-  const remaining =
-    Number(
-      currentAccountLimits.remainingTransfer || 0
-    );
-
-
-  accountLevelDisplay.textContent =
-    "Level " + level;
-
-
-  if (
-    level === 3
-  ) {
-
-    accountLevelDisplay.style.background =
-      "#dcfce7";
-
-    accountLevelDisplay.style.color =
-      "#166534";
-
-  }
-
-  else if (
-    level === 2
-  ) {
-
-    accountLevelDisplay.style.background =
-      "#dbeafe";
-
-    accountLevelDisplay.style.color =
-      "#1d4ed8";
-
-  }
-
-  else {
-
-    accountLevelDisplay.style.background =
-      "#fef3c7";
-
-    accountLevelDisplay.style.color =
-      "#92400e";
-  }
-
-
-  if (
-    balanceLimit === null ||
-    balanceLimit === undefined
-  ) {
-
-    balanceLimitDisplay.textContent =
-      "No balance limit";
-
-  }
-
-  else {
-
-    balanceLimitDisplay.textContent =
-      formatMoney(
-        balanceLimit,
-        "NGN"
-      );
-  }
-
-
-  if (
-    transferLimit === null ||
-    transferLimit === undefined
-  ) {
-
-    transferLimitDisplay.textContent =
-      "No transfer limit";
-
-  }
-
-  else {
-
-    transferLimitDisplay.textContent =
-      formatMoney(
-        transferLimit,
-        "NGN"
-      );
-  }
-
-
-  remainingTransferDisplay.textContent =
-    formatMoney(
-      remaining,
-      "NGN"
-    );
-
-
-  if (
-    transferLimit &&
-    transferLimit > 0
-  ) {
-
-    const percentage =
-      Math.min(
-        100,
-        Math.max(
-          0,
-          (
-            sent /
-            Number(
-              transferLimit
-            )
-          ) *
-          100
-        )
-      );
-
-    transferProgressBar.style.width =
-      percentage + "%";
-
-  }
-
-  else {
-
-    transferProgressBar.style.width =
-      "0%";
-  }
-
-
-  limitNote.textContent =
-    "You have sent " +
-    formatMoney(
-      sent,
-      "NGN"
-    ) +
-    " in the last 24 hours. " +
-    "The remaining limit is " +
-    formatMoney(
-      remaining,
-      "NGN"
-    ) +
-    ".";
-}
-
 
 async function loadAccountLimits() {
 
@@ -3339,504 +3146,243 @@ async function loadAccountLimits() {
   }
 
 
-  let profile =
-    currentProfile;
+  /*
+    Try the existing RPC first.
+  */
 
-
-  if (!profile) {
+  try {
 
     const {
       data,
       error
     } =
       await supabaseClient
-        .from("user_profiles")
-        .select(
-          "account_level,balance_limit,daily_transfer_limit,nin_verified,bvn_verified,utility_bill_verified"
-        )
-        .eq(
-          "id",
-          currentUser.id
-        )
-        .maybeSingle();
+        .rpc(
+          "get_my_account_limits"
+        );
 
 
-    if (error) {
+    if (
+      !error &&
+      data
+    ) {
 
-      console.error(
-        "Unable to load account limits:",
-        error
-      );
+      const result =
+        Array.isArray(data)
+          ? data[0]
+          : data;
 
-      return;
+
+      if (result) {
+
+        currentAccountLimits = {
+
+          level:
+            Number(
+              result.level ??
+              result.account_level ??
+              1
+            ),
+
+          balanceLimit:
+            result.balance_limit ===
+            null
+              ? null
+              : Number(
+                  result.balance_limit
+                ),
+
+          transferLimit:
+            result.transfer_limit ===
+            null
+              ? null
+              : Number(
+                  result.transfer_limit
+                ),
+
+          remainingTransfer:
+            result.remaining_transfer ===
+            null
+              ? null
+              : Number(
+                  result.remaining_transfer
+                )
+
+        };
+
+      }
+
     }
 
-    profile =
-      data;
+  }
+
+  catch (error) {
+
+    console.warn(
+      "Account limit RPC:",
+      error.message
+    );
+
   }
 
 
-  if (!profile) {
-    return;
+  /*
+    Safe fallback to the rules already used by NexaWallet.
+  */
+
+  if (
+    !currentAccountLimits.level
+  ) {
+
+    currentAccountLimits.level =
+      1;
+
   }
 
 
-  let level =
+  if (
+    currentAccountLimits.balanceLimit ===
+    undefined
+  ) {
+
+    currentAccountLimits.balanceLimit =
+      currentAccountLimits.level === 1
+        ? 300000
+        : currentAccountLimits.level === 2
+          ? 500000
+          : null;
+
+  }
+
+
+  if (
+    currentAccountLimits.transferLimit ===
+    undefined
+  ) {
+
+    currentAccountLimits.transferLimit =
+      currentAccountLimits.level === 1
+        ? 50000
+        : currentAccountLimits.level === 2
+          ? 100000
+          : 10000000;
+
+  }
+
+
+  if (
+    currentAccountLimits.remainingTransfer ===
+    undefined
+  ) {
+
+    currentAccountLimits.remainingTransfer =
+      currentAccountLimits.transferLimit;
+
+  }
+
+
+  document
+    .getElementById(
+      "accountLevelDisplay"
+    )
+    .textContent =
+    "Level " +
+    currentAccountLimits.level;
+
+
+  document
+    .getElementById(
+      "balanceLimitDisplay"
+    )
+    .textContent =
+    currentAccountLimits.balanceLimit ===
+    null
+      ? "No limit"
+      : formatMoney(
+          currentAccountLimits.balanceLimit,
+          "NGN"
+        );
+
+
+  document
+    .getElementById(
+      "transferLimitDisplay"
+    )
+    .textContent =
+    currentAccountLimits.transferLimit ===
+    null
+      ? "No limit"
+      : formatMoney(
+          currentAccountLimits.transferLimit,
+          "NGN"
+        );
+
+
+  document
+    .getElementById(
+      "remainingTransferDisplay"
+    )
+    .textContent =
+    currentAccountLimits.remainingTransfer ===
+    null
+      ? "No limit"
+      : formatMoney(
+          currentAccountLimits.remainingTransfer,
+          "NGN"
+        );
+
+
+  const limit =
     Number(
-      profile.account_level
+      currentAccountLimits.transferLimit ||
+      0
+    );
+
+  const remaining =
+    Number(
+      currentAccountLimits.remainingTransfer ||
+      0
     );
 
 
-  if (
-    !level ||
-    level < 1
-  ) {
-
-    level =
-      getFallbackLevel(
-        profile
-      );
-  }
-
-
-  let balanceLimit =
-    profile.balance_limit;
-
-
-  let transferLimit =
-    profile.daily_transfer_limit;
-
-
-  /*
-    These are the current NexaWallet levels.
-    Database trigger remains the authoritative source.
-    Fallback values keep the display working if an old
-    profile has not yet been recalculated.
-  */
-
-  if (
-    balanceLimit === undefined ||
-    balanceLimit === null
-  ) {
-
-    if (
-      level === 1
-    ) {
-
-      balanceLimit =
-        300000;
-
-    }
-
-    else if (
-      level === 2
-    ) {
-
-      balanceLimit =
-        500000;
-
-    }
-
-    else {
-
-      balanceLimit =
-        null;
-    }
-  }
+  let percentage = 0;
 
 
   if (
-    transferLimit === undefined ||
-    transferLimit === null
+    limit > 0
   ) {
 
-    if (
-      level === 1
-    ) {
-
-      transferLimit =
-        50000;
-
-    }
-
-    else if (
-      level === 2
-    ) {
-
-      transferLimit =
-        100000;
-
-    }
-
-    else {
-
-      transferLimit =
-        10000000;
-    }
-  }
-
-
-  /*
-    Calculate actual rolling 24-hour sent amount
-    directly from transaction history.
-  */
-
-  const since =
-    new Date(
-      Date.now() -
-      24 * 60 * 60 * 1000
-    ).toISOString();
-
-
-  const {
-    data: sentTransactions,
-    error: sentError
-  } =
-    await supabaseClient
-      .from("transactions")
-      .select(
-        "amount,currency,description,status,created_at"
-      )
-      .eq(
-        "user_id",
-        currentUser.id
-      )
-      .eq(
-        "type",
-        "transfer"
-      )
-      .eq(
-        "status",
-        "completed"
-      )
-      .eq(
-        "currency",
-        "NGN"
-      )
-      .ilike(
-        "description",
-        "NexaWallet transfer sent%"
-      )
-      .gte(
-        "created_at",
-        since
-      );
-
-
-  if (sentError) {
-
-    console.error(
-      "Unable to calculate transfer usage:",
-      sentError
-    );
-
-    return;
-  }
-
-
-  const sentLast24h =
-    (
-      sentTransactions || []
-    ).reduce(
+    percentage =
       (
-        total,
-        transaction
-      ) => {
-
-        return (
-          total +
-          Number(
-            transaction.amount || 0
-          )
-        );
-
-      },
-      0
-    );
-
-
-  const remainingTransfer =
-    Math.max(
-      Number(
-        transferLimit || 0
-      ) -
-      sentLast24h,
-      0
-    );
-
-
-  currentAccountLimits = {
-
-    level,
-
-    balanceLimit,
-
-    transferLimit,
-
-    sentLast24h,
-
-    remainingTransfer
-  };
-
-
-  updateLimitDisplay();
-}
-
-
-/* =========================================================
-   DASHBOARD
-========================================================= */
-
-async function showDashboard() {
-
-  authSection
-    .classList
-    .add("hidden");
-
-  landingSection
-    .classList
-    .add("hidden");
-
-  dashboardSection
-    .classList
-    .remove("hidden");
-
-  logoutBtn
-    .classList
-    .remove("hidden");
-
-
-  await loadProfile();
-
-  await loadAccountLimits();
-
-  await loadWallet();
-
-  await loadAccountNumber();
-
-  await loadKyc();
-
-  await loadTransactions();
-}
-
-
-function showLoggedOut() {
-
-  currentUser = null;
-
-  currentWallet = null;
-
-  currentTransactions = [];
-
-  currentKyc = null;
-
-  currentProfile = null;
-
-
-  currentAccountLimits = {
-
-    level: 1,
-
-    balanceLimit: 300000,
-
-    transferLimit: 50000,
-
-    sentLast24h: 0,
-
-    remainingTransfer: 50000
-  };
-
-
-  authSection
-    .classList
-    .remove("hidden");
-
-  landingSection
-    .classList
-    .remove("hidden");
-
-  dashboardSection
-    .classList
-    .add("hidden");
-
-  logoutBtn
-    .classList
-    .add("hidden");
-}
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-logoutBtn.addEventListener(
-  "click",
-  async () => {
-
-    await supabaseClient
-      .auth
-      .signOut();
+        (limit - remaining) /
+        limit
+      ) * 100;
 
   }
-);
+
+
+  percentage =
+    Math.max(
+      0,
+      Math.min(
+        100,
+        percentage
+      )
+    );
+
+
+  document
+    .getElementById(
+      "transferProgressBar"
+    )
+    .style.width =
+    percentage + "%";
+
+}
 
 
 /* =========================================================
-   PROFILE PICTURE
-========================================================= */
-
-document
-  .getElementById(
-    "saveProfilePictureBtn"
-  )
-  .addEventListener(
-    "click",
-    async () => {
-
-      const input =
-        document.getElementById(
-          "profilePictureInput"
-        );
-
-      const message =
-        document.getElementById(
-          "profileMessage"
-        );
-
-      const file =
-        input.files[0];
-
-
-      hideMessage(
-        message
-      );
-
-
-      if (!file) {
-
-        showMessage(
-          message,
-          "Please select a profile picture.",
-          "error"
-        );
-
-        return;
-      }
-
-
-      if (!currentUser) {
-
-        showMessage(
-          message,
-          "Please log in again.",
-          "error"
-        );
-
-        return;
-      }
-
-
-      const button =
-        document.getElementById(
-          "saveProfilePictureBtn"
-        );
-
-      button.disabled = true;
-
-
-      try {
-
-        const reader =
-          new FileReader();
-
-
-        const imageData =
-          await new Promise(
-            (
-              resolve,
-              reject
-            ) => {
-
-              reader.onload =
-                () =>
-                  resolve(
-                    reader.result
-                  );
-
-              reader.onerror =
-                reject;
-
-              reader.readAsDataURL(
-                file
-              );
-            }
-          );
-
-
-        const {
-          error
-        } =
-          await supabaseClient
-            .from("user_profiles")
-            .update({
-              avatar_url:
-                imageData
-            })
-            .eq(
-              "id",
-              currentUser.id
-            );
-
-
-        if (error) {
-          throw error;
-        }
-
-
-        profileAvatar.innerHTML =
-          `
-            <img
-              src="${imageData}"
-              alt="Profile picture"
-            >
-          `;
-
-
-        input.value = "";
-
-
-        showMessage(
-          message,
-          "Profile picture saved.",
-          "success"
-        );
-
-      }
-
-      catch (error) {
-
-        console.error(error);
-
-        showMessage(
-          message,
-          error.message ||
-          "Unable to save profile picture.",
-          "error"
-        );
-
-      }
-
-      finally {
-
-        button.disabled = false;
-      }
-
-    }
-  );
-
-
-/* =========================================================
-   LOAD WALLET
+   WALLET
 ========================================================= */
 
 async function loadWallet() {
@@ -3851,7 +3397,9 @@ async function loadWallet() {
     error
   } =
     await supabaseClient
-      .from("wallets")
+      .from(
+        "wallets"
+      )
       .select("*")
       .eq(
         "user_id",
@@ -3870,15 +3418,13 @@ async function loadWallet() {
 
   if (error) {
 
-    console.error(error);
-
-    balanceDisplay.textContent =
-      "₦0.00";
-
-    currencyDisplay.textContent =
-      "Wallet unavailable";
+    console.error(
+      "Wallet load:",
+      error.message
+    );
 
     return;
+
   }
 
 
@@ -3886,36 +3432,25 @@ async function loadWallet() {
     data;
 
 
-  if (!data) {
-
-    balanceDisplay.textContent =
-      "₦0.00";
-
-    currencyDisplay.textContent =
-      "Nigerian Naira";
-
-    return;
-  }
-
-
-  balanceDisplay.textContent =
-    formatMoney(
-      data.balance,
-      data.currency
+  const balance =
+    Number(
+      data?.balance || 0
     );
 
 
-  currencyDisplay.textContent =
-    data.currency === "NGN"
-      ? "Nigerian Naira"
-      : data.currency;
+  document
+    .getElementById(
+      "balanceDisplay"
+    )
+    .textContent =
+    formatMoney(
+      balance,
+      "NGN"
+    );
 
-
-  /*
-    Refresh limit display after wallet loading.
-  */
 
   await loadAccountLimits();
+
 }
 
 
@@ -3925,22 +3460,26 @@ async function loadWallet() {
 
 async function loadAccountNumber() {
 
+  if (!currentUser) {
+    return;
+  }
+
+
   accountNumberDisplay.textContent =
     "Loading...";
 
-  receiveAccountNumber.textContent =
-    "Loading...";
+
+  const receive =
+    document.getElementById(
+      "receiveAccountNumber"
+    );
 
 
-  if (!currentUser) {
+  if (receive) {
 
-    accountNumberDisplay.textContent =
-      "Not available";
+    receive.textContent =
+      "Loading...";
 
-    receiveAccountNumber.textContent =
-      "Not available";
-
-    return;
   }
 
 
@@ -3962,46 +3501,226 @@ async function loadAccountNumber() {
 
 
     const accountNumber =
-      String(
-        data || ""
-      ).trim();
+      Array.isArray(data)
+        ? data[0]
+        : data;
 
 
-    if (!accountNumber) {
+    const value =
+      accountNumber?.account_number ||
+      accountNumber?.accountNumber ||
+      accountNumber ||
+      null;
+
+
+    if (!value) {
 
       accountNumberDisplay.textContent =
         "Not set";
 
-      receiveAccountNumber.textContent =
-        "Not set";
+      if (receive) {
+
+        receive.textContent =
+          "Not set";
+
+      }
 
       return;
+
     }
 
 
     accountNumberDisplay.textContent =
-      accountNumber;
+      String(value);
 
-    receiveAccountNumber.textContent =
-      accountNumber;
+
+    if (receive) {
+
+      receive.textContent =
+        String(value);
+
+    }
 
   }
 
   catch (error) {
 
     console.error(
-      "Unable to load account number:",
+      "Account number:",
       error
     );
-
 
     accountNumberDisplay.textContent =
       "Not available";
 
-    receiveAccountNumber.textContent =
-      "Not available";
+    if (receive) {
+
+      receive.textContent =
+        "Not available";
+
+    }
+
   }
+
 }
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+async function showDashboard() {
+
+  landingSection.classList.add(
+    "hidden"
+  );
+
+  authSection.classList.add(
+    "hidden"
+  );
+
+  dashboardSection.classList.remove(
+    "hidden"
+  );
+
+  logoutBtn.classList.remove(
+    "hidden"
+  );
+
+
+  await loadProfile();
+
+  await loadAccountLimits();
+
+  await loadWallet();
+
+  await loadAccountNumber();
+
+  await loadKyc();
+
+  await loadTransactions();
+
+}
+
+
+/* =========================================================
+   LOGGED OUT
+========================================================= */
+
+function showLoggedOut() {
+
+  currentUser = null;
+  currentWallet = null;
+  currentTransactions = [];
+  currentKyc = null;
+  currentProfile = null;
+
+
+  dashboardSection.classList.add(
+    "hidden"
+  );
+
+  logoutBtn.classList.add(
+    "hidden"
+  );
+
+  authSection.classList.remove(
+    "hidden"
+  );
+
+  landingSection.classList.add(
+    "hidden"
+  );
+
+
+  authMode =
+    "login";
+
+  updateAuthUI();
+
+}
+
+
+/* =========================================================
+   SESSION
+========================================================= */
+
+async function loadSession() {
+
+  const {
+    data
+  } =
+    await supabaseClient
+      .auth
+      .getSession();
+
+
+  if (
+    data?.session?.user
+  ) {
+
+    currentUser =
+      data.session.user;
+
+    await showDashboard();
+
+  }
+
+  else {
+
+    showLoggedOut();
+
+  }
+
+}
+
+
+supabaseClient
+  .auth
+  .onAuthStateChange(
+    async (
+      event,
+      session
+    ) => {
+
+      if (
+        session?.user
+      ) {
+
+        currentUser =
+          session.user;
+
+        await showDashboard();
+
+      }
+
+      else if (
+        event ===
+        "SIGNED_OUT"
+      ) {
+
+        showLoggedOut();
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+logoutBtn.addEventListener(
+  "click",
+  async () => {
+
+    await supabaseClient
+      .auth
+      .signOut();
+
+  }
+);
 
 
 /* =========================================================
@@ -4024,6 +3743,7 @@ async function copyAccountNumber() {
   ) {
 
     return;
+
   }
 
 
@@ -4042,12 +3762,14 @@ async function copyAccountNumber() {
 
   }
 
-  catch (error) {
+  catch {
 
     alert(
       "Unable to copy account number."
     );
+
   }
+
 }
 
 
@@ -4077,36 +3799,23 @@ document
 
 function hideAllPanels() {
 
-  document
-    .getElementById(
-      "addMoneyPanel"
-    )
-    .classList
-    .add("hidden");
+  [
+    "addMoneyPanel",
+    "withdrawPanel",
+    "sendMoneyPanel",
+    "receiveMoneyPanel"
+  ]
+  .forEach(
+    id => {
 
+      document
+        .getElementById(id)
+        .classList
+        .add("hidden");
 
-  document
-    .getElementById(
-      "withdrawPanel"
-    )
-    .classList
-    .add("hidden");
+    }
+  );
 
-
-  document
-    .getElementById(
-      "sendMoneyPanel"
-    )
-    .classList
-    .add("hidden");
-
-
-  document
-    .getElementById(
-      "receiveMoneyPanel"
-    )
-    .classList
-    .add("hidden");
 }
 
 
@@ -4124,14 +3833,12 @@ document
 
       hideAllPanels();
 
-
       document
         .getElementById(
           "addMoneyPanel"
         )
         .classList
         .remove("hidden");
-
 
       document
         .getElementById(
@@ -4157,7 +3864,6 @@ document
         )
         .classList
         .add("hidden");
-
 
       hideMessage(
         document.getElementById(
@@ -4210,6 +3916,7 @@ document
         );
 
         return;
+
       }
 
 
@@ -4218,14 +3925,8 @@ document
       }
 
 
-      /*
-        Client-side balance-limit warning.
-        The database should remain authoritative.
-      */
-
       const balanceLimit =
         currentAccountLimits.balanceLimit;
-
 
       const currentBalance =
         Number(
@@ -4254,6 +3955,7 @@ document
         );
 
         return;
+
       }
 
 
@@ -4338,6 +4040,7 @@ document
       finally {
 
         button.disabled = false;
+
       }
 
     }
@@ -4358,14 +4061,12 @@ document
 
       hideAllPanels();
 
-
       document
         .getElementById(
           "withdrawPanel"
         )
         .classList
         .remove("hidden");
-
 
       document
         .getElementById(
@@ -4391,7 +4092,6 @@ document
         )
         .classList
         .add("hidden");
-
 
       hideMessage(
         document.getElementById(
@@ -4444,6 +4144,7 @@ document
         );
 
         return;
+
       }
 
 
@@ -4470,6 +4171,7 @@ document
         );
 
         return;
+
       }
 
 
@@ -4554,6 +4256,7 @@ document
       finally {
 
         button.disabled = false;
+
       }
 
     }
@@ -4562,7 +4265,6 @@ document
 
 /* =========================================================
    SEND MONEY
-   ACCOUNT NUMBER ONLY
 ========================================================= */
 
 document
@@ -4575,14 +4277,12 @@ document
 
       hideAllPanels();
 
-
       document
         .getElementById(
           "sendMoneyPanel"
         )
         .classList
         .remove("hidden");
-
 
       document
         .getElementById(
@@ -4608,7 +4308,6 @@ document
         )
         .classList
         .add("hidden");
-
 
       hideMessage(
         document.getElementById(
@@ -4636,7 +4335,6 @@ document
           .value
           .trim();
 
-
       const amount =
         Number(
           document
@@ -4645,7 +4343,6 @@ document
             )
             .value
         );
-
 
       const message =
         document.getElementById(
@@ -4667,13 +4364,9 @@ document
         );
 
         return;
+
       }
 
-
-      /*
-        Account number only.
-        No email or phone number is accepted here.
-      */
 
       if (
         !/^\d{6,20}$/.test(
@@ -4688,6 +4381,7 @@ document
         );
 
         return;
+
       }
 
 
@@ -4703,6 +4397,7 @@ document
         );
 
         return;
+
       }
 
 
@@ -4710,11 +4405,6 @@ document
         return;
       }
 
-
-      /*
-        Check the user's current rolling 24-hour
-        remaining limit before calling the backend.
-      */
 
       await loadAccountLimits();
 
@@ -4741,6 +4431,7 @@ document
         );
 
         return;
+
       }
 
 
@@ -4762,6 +4453,7 @@ document
         );
 
         return;
+
       }
 
 
@@ -4781,17 +4473,6 @@ document
 
       try {
 
-        /*
-          IMPORTANT:
-          The existing database function still has the
-          parameter name p_recipient_email.
-
-          Its actual lookup was changed in Supabase to
-          use account_number.
-
-          Therefore DO NOT rename this RPC parameter.
-        */
-
         const {
           error
         } =
@@ -4802,6 +4483,13 @@ document
 
                 p_sender_id:
                   currentUser.id,
+
+                /*
+                  Existing RPC parameter is intentionally
+                  kept as p_recipient_email because your
+                  current database function uses that name
+                  for the account-number lookup.
+                */
 
                 p_recipient_email:
                   recipient,
@@ -4837,7 +4525,6 @@ document
           )
           .value = "";
 
-
         document
           .getElementById(
             "sendAmountInput"
@@ -4867,6 +4554,7 @@ document
       finally {
 
         button.disabled = false;
+
       }
 
     }
@@ -4887,7 +4575,6 @@ document
 
       hideAllPanels();
 
-
       document
         .getElementById(
           "receiveMoneyPanel"
@@ -4895,17 +4582,15 @@ document
         .classList
         .remove("hidden");
 
-
       await loadAccountNumber();
-
 
       document
         .getElementById(
           "receiveMoneyPanel"
         )
         .scrollIntoView({
-          behavior: "smooth",
-          block: "center"
+          behavior:"smooth",
+          block:"center"
         });
 
     }
@@ -4947,7 +4632,9 @@ async function loadKyc() {
     error
   } =
     await supabaseClient
-      .from("kyc_verifications")
+      .from(
+        "kyc_verifications"
+      )
       .select("*")
       .eq(
         "user_id",
@@ -4970,6 +4657,7 @@ async function loadKyc() {
     );
 
     return;
+
   }
 
 
@@ -4984,12 +4672,14 @@ async function loadKyc() {
     );
 
     return;
+
   }
 
 
   updateKycStatus(
     data.status
   );
+
 }
 
 
@@ -5026,6 +4716,7 @@ function updateKycStatus(
     button.disabled = true;
 
     return;
+
   }
 
 
@@ -5046,6 +4737,7 @@ function updateKycStatus(
     button.disabled = false;
 
     return;
+
   }
 
 
@@ -5066,6 +4758,7 @@ function updateKycStatus(
     button.disabled = false;
 
     return;
+
   }
 
 
@@ -5076,11 +4769,11 @@ function updateKycStatus(
       </span>
     `;
 
-
   button.textContent =
     "Verify Identity";
 
   button.disabled = false;
+
 }
 
 
@@ -5098,10 +4791,12 @@ document
 
       if (
         currentKyc &&
-        currentKyc.status === "verified"
+        currentKyc.status ===
+        "verified"
       ) {
 
         return;
+
       }
 
 
@@ -5122,7 +4817,6 @@ document
           currentKyc.full_name ||
           "";
 
-
         document
           .getElementById(
             "kycDateOfBirth"
@@ -5130,7 +4824,6 @@ document
           .value =
           currentKyc.date_of_birth ||
           "";
-
 
         document
           .getElementById(
@@ -5140,7 +4833,6 @@ document
           currentKyc.country ||
           "";
 
-
         document
           .getElementById(
             "kycIdType"
@@ -5149,7 +4841,6 @@ document
           currentKyc.id_type ||
           "";
 
-
         document
           .getElementById(
             "kycIdNumber"
@@ -5157,6 +4848,7 @@ document
           .value =
           currentKyc.id_number ||
           "";
+
       }
 
 
@@ -5190,9 +4882,7 @@ document
 
 kycModal.addEventListener(
   "click",
-  (
-    event
-  ) => {
+  event => {
 
     if (
       event.target ===
@@ -5202,6 +4892,7 @@ kycModal.addEventListener(
       kycModal
         .classList
         .remove("show");
+
     }
 
   }
@@ -5228,14 +4919,12 @@ document
           .value
           .trim();
 
-
       const dateOfBirth =
         document
           .getElementById(
             "kycDateOfBirth"
           )
           .value;
-
 
       const country =
         document
@@ -5244,14 +4933,12 @@ document
           )
           .value;
 
-
       const idType =
         document
           .getElementById(
             "kycIdType"
           )
           .value;
-
 
       const idNumber =
         document
@@ -5261,7 +4948,6 @@ document
           .value
           .trim();
 
-
       const documentFile =
         document
           .getElementById(
@@ -5269,14 +4955,12 @@ document
           )
           .files[0];
 
-
       const consent =
         document
           .getElementById(
             "kycConsent"
           )
           .checked;
-
 
       const message =
         document.getElementById(
@@ -5304,6 +4988,7 @@ document
         );
 
         return;
+
       }
 
 
@@ -5316,6 +5001,7 @@ document
         );
 
         return;
+
       }
 
 
@@ -5328,6 +5014,7 @@ document
         );
 
         return;
+
       }
 
 
@@ -5340,6 +5027,7 @@ document
         );
 
         return;
+
       }
 
 
@@ -5387,6 +5075,7 @@ document
 
           updated_at:
             new Date().toISOString()
+
         };
 
 
@@ -5400,8 +5089,7 @@ document
             .upsert(
               payload,
               {
-                onConflict:
-                  "user_id"
+                onConflict:"user_id"
               }
             );
 
@@ -5456,6 +5144,7 @@ document
       finally {
 
         button.disabled = false;
+
       }
 
     }
@@ -5486,7 +5175,9 @@ async function loadTransactions() {
     error
   } =
     await supabaseClient
-      .from("transactions")
+      .from(
+        "transactions"
+      )
       .select("*")
       .eq(
         "user_id",
@@ -5495,7 +5186,7 @@ async function loadTransactions() {
       .order(
         "created_at",
         {
-          ascending: false
+          ascending:false
         }
       );
 
@@ -5503,7 +5194,6 @@ async function loadTransactions() {
   if (error) {
 
     console.error(error);
-
 
     transactionsList.innerHTML =
       `
@@ -5513,6 +5203,7 @@ async function loadTransactions() {
       `;
 
     return;
+
   }
 
 
@@ -5532,6 +5223,7 @@ async function loadTransactions() {
       `;
 
     return;
+
   }
 
 
@@ -5564,7 +5256,6 @@ async function loadTransactions() {
       let amountClass =
         "amount-positive";
 
-
       let amountPrefix =
         "+";
 
@@ -5590,6 +5281,7 @@ async function loadTransactions() {
 
         amountPrefix =
           "-";
+
       }
 
 
@@ -5650,6 +5342,7 @@ async function loadTransactions() {
 
     }
   );
+
 }
 
 
@@ -5721,7 +5414,9 @@ function openTransactionDetails(
 
       amountPrefix =
         "+";
+
     }
+
   }
 
 
@@ -5877,6 +5572,7 @@ function openTransactionDetails(
   transactionModal
     .classList
     .add("show");
+
 }
 
 
@@ -5902,9 +5598,7 @@ document
 
 transactionModal.addEventListener(
   "click",
-  (
-    event
-  ) => {
+  event => {
 
     if (
       event.target ===
@@ -5914,6 +5608,7 @@ transactionModal.addEventListener(
       transactionModal
         .classList
         .remove("show");
+
     }
 
   }
@@ -5921,8 +5616,144 @@ transactionModal.addEventListener(
 
 
 /* =========================================================
+   PROFILE PICTURE
+========================================================= */
+
+document
+  .getElementById(
+    "saveProfilePictureBtn"
+  )
+  .addEventListener(
+    "click",
+    async () => {
+
+      const file =
+        document
+          .getElementById(
+            "profilePictureInput"
+          )
+          .files[0];
+
+      const message =
+        document.getElementById(
+          "profileMessage"
+        );
+
+
+      hideMessage(
+        message
+      );
+
+
+      if (!file) {
+
+        showMessage(
+          message,
+          "Please select a profile picture.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (!currentUser) {
+
+        showMessage(
+          message,
+          "Please log in again.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        const reader =
+          new FileReader();
+
+
+        reader.onload = async () => {
+
+          const avatarUrl =
+            reader.result;
+
+
+          const {
+            error
+          } =
+            await supabaseClient
+              .from(
+                "user_profiles"
+              )
+              .update({
+
+                avatar_url:
+                  avatarUrl
+
+              })
+              .eq(
+                "id",
+                currentUser.id
+              );
+
+
+          if (error) {
+
+            showMessage(
+              message,
+              error.message ||
+              "Unable to save profile picture.",
+              "error"
+            );
+
+            return;
+
+          }
+
+
+          showMessage(
+            message,
+            "Profile picture saved successfully.",
+            "success"
+          );
+
+
+          await loadProfile();
+
+        };
+
+
+        reader.readAsDataURL(
+          file
+        );
+
+      }
+
+      catch (error) {
+
+        showMessage(
+          message,
+          error.message ||
+          "Unable to save profile picture.",
+          "error"
+        );
+
+      }
+
+    }
+  );
+
+
+/* =========================================================
    INITIAL LOAD
 ========================================================= */
+
+updateAccountTypeUI();
 
 updateAuthUI();
 
